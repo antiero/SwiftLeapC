@@ -9,10 +9,17 @@
 import Foundation
 import Dispatch
 
+extension UInt32 {
+    var boolValue: Bool {
+        return (self as NSNumber).boolValue
+    }
+}
+
 class LeapMotionManager: NSObject {
       
     static let sharedInstance = LeapMotionManager()
         
+        private let PINCH_THRESHOLD : Float = 0.8
         private var _rightHandPosition : LEAP_VECTOR? = nil
         private var _leftHandPosition : LEAP_VECTOR? = nil
 
@@ -46,6 +53,8 @@ class LeapMotionManager: NSObject {
                 lock.unlock()
             }
         }
+    
+        
     
     
         var rightHandPosition : LEAP_VECTOR?  {
@@ -117,6 +126,21 @@ class LeapMotionManager: NSObject {
                 }
             }
         }
+    
+    
+    func isFingerExtended(finger: LEAP_DIGIT) -> Bool {
+        return finger.is_extended.boolValue
+    }
+    
+    func isHandPointing(hand: LEAP_HAND) -> Bool {
+        let test = (hand.index.is_extended.boolValue &&
+            !hand.middle.is_extended.boolValue &&
+            !hand.ring.is_extended.boolValue &&
+            !hand.pinky.is_extended.boolValue)
+        
+        return test
+    }
+    
     func leftHandPresent() -> Bool {
         return (leftHand != nil)
     }
@@ -125,10 +149,14 @@ class LeapMotionManager: NSObject {
         return (rightHand != nil)
     }
     
+    
+    
     func leftIsPinching() -> Bool {
         var test = false
         if (leftHand != nil){
-            test = leftHand!.pinch_strength > 0.8
+            if let pinchStrength = leftHand?.pinch_strength, pinchStrength > PINCH_THRESHOLD {
+                test = true
+            }
         }
         return test
     }
@@ -136,7 +164,9 @@ class LeapMotionManager: NSObject {
     func rightIsPinching() -> Bool {
         var test = false
         if (rightHand != nil){
-            test = rightHand!.pinch_strength > 0.8
+            if let pinchStrength = rightHand?.pinch_strength, pinchStrength > PINCH_THRESHOLD {
+                test = true
+            }
         }
         return test
     }
