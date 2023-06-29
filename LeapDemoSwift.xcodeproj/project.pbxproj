@@ -13,8 +13,8 @@
 		DFBD9EBA1BE036F1005845D5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = DFBD9EB91BE036F1005845D5 /* GameScene.sks */; };
 		DFBD9EBC1BE03718005845D5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBD9EBB1BE03718005845D5 /* GameScene.swift */; };
 		DFBD9EBE1BE03742005845D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFBD9EBD1BE03742005845D5 /* MainMenu.xib */; };
-		EDAB61202A05403600B580C6 /* libLeapC.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EDAB611D2A053BEA00B580C6 /* libLeapC.5.dylib */; };
-		EDAB61212A05403600B580C6 /* libLeapC.5.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = EDAB611D2A053BEA00B580C6 /* libLeapC.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		ED6420652A4D64510017F7B7 /* libLeapC.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; };
+		ED6420662A4D64510017F7B7 /* libLeapC.5.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,7 +42,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EDAB61212A05403600B580C6 /* libLeapC.5.dylib in Embed Libraries */,
+				ED6420662A4D64510017F7B7 /* libLeapC.5.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,7 +59,7 @@
 		DFBD9EB91BE036F1005845D5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		DFBD9EBB1BE03718005845D5 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		DFBD9EBD1BE03742005845D5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		EDAB611D2A053BEA00B580C6 /* libLeapC.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libLeapC.5.dylib; sourceTree = "<group>"; };
+		ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.5.dylib; path = "../../../../../../../Library/Application Support/Ultraleap/LeapSDK/lib/libLeapC.5.dylib"; sourceTree = "<group>"; };
 		EDAB611E2A053BEA00B580C6 /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,7 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDAB61202A05403600B580C6 /* libLeapC.5.dylib in Frameworks */,
+				ED6420652A4D64510017F7B7 /* libLeapC.5.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +80,7 @@
 			children = (
 				DF56D1781BDB489600DC6990 /* LeapDemoSwift */,
 				DF56D1771BDB489600DC6990 /* Products */,
+				ED6420642A4D64510017F7B7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,10 +111,17 @@
 		DFBD9EAD1BE03513005845D5 /* LeapC */ = {
 			isa = PBXGroup;
 			children = (
+				ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */,
 				EDAB611E2A053BEA00B580C6 /* LeapC.h */,
-				EDAB611D2A053BEA00B580C6 /* libLeapC.5.dylib */,
 			);
 			path = LeapC;
+			sourceTree = "<group>";
+		};
+		ED6420642A4D64510017F7B7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,6 +331,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LeapDemoSwift",
 					"$(PROJECT_DIR)/LeapDemoSwift/LeapC",
+					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
+					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = "\"$(SRCROOT)/LeapDemoSwift/LeapC/libLeapC.5.dylib\"";
@@ -349,6 +359,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LeapDemoSwift",
 					"$(PROJECT_DIR)/LeapDemoSwift/LeapC",
+					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
+					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = "\"$(SRCROOT)/LeapDemoSwift/LeapC/libLeapC.5.dylib\"";

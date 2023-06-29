@@ -15,117 +15,113 @@ extension UInt32 {
     }
 }
 
-class LeapMotionManager: NSObject {
+class LeapMotionManager: NSObject, ObservableObject {
       
     static let sharedInstance = LeapMotionManager()
-        
-        private let PINCH_THRESHOLD : Float = 0.8
-        private var _rightHandPosition : LEAP_VECTOR? = nil
-        private var _leftHandPosition : LEAP_VECTOR? = nil
+    private let PINCH_THRESHOLD : Float = 0.8
+    @Published var leftPinching : Bool = false
+    @Published var rightPinching : Bool = false
+    private var _rightHandPosition : LEAP_VECTOR? = nil
+    private var _leftHandPosition : LEAP_VECTOR? = nil
+    private var _rightHand : LEAP_HAND? = nil
+    private var _leftHand : LEAP_HAND? = nil
+    
+    var leftHand : LEAP_HAND? {
+        get {
+            lock.lock()
+            let tmp = _leftHand
+            lock.unlock()
+            return tmp
+        }
+        set {
+            lock.lock()
+            _leftHand = newValue
+            lock.unlock()
+        }
+    }
 
-        private var _rightHand : LEAP_HAND? = nil
-        private var _leftHand : LEAP_HAND? = nil
-    
-        var leftHand : LEAP_HAND? {
-            get {
-                lock.lock()
-                let tmp = _leftHand
-                lock.unlock()
-                return tmp
-            }
-            set {
-                lock.lock()
-                _leftHand = newValue
-                lock.unlock()
-            }
+    var rightHand : LEAP_HAND? {
+        get {
+            lock.lock()
+            let tmp = _rightHand
+            lock.unlock()
+            return tmp
         }
-    
-        var rightHand : LEAP_HAND? {
-            get {
-                lock.lock()
-                let tmp = _rightHand
-                lock.unlock()
-                return tmp
-            }
-            set {
-                lock.lock()
-                _rightHand = newValue
-                lock.unlock()
-            }
+        set {
+            lock.lock()
+            _rightHand = newValue
+            lock.unlock()
         }
+    }
     
-        
-    
-    
-        var rightHandPosition : LEAP_VECTOR?  {
-            get {
-                lock.lock()
-                let tmp = _rightHandPosition
-                lock.unlock()
-                return tmp
-            }
-            set {
-                lock.lock()
-                _rightHandPosition = newValue
-                lock.unlock()
-            }
+    var rightHandPosition : LEAP_VECTOR?  {
+        get {
+            lock.lock()
+            let tmp = _rightHandPosition
+            lock.unlock()
+            return tmp
         }
-        var leftHandPosition : LEAP_VECTOR? {
-            get {
-                lock.lock()
-                let tmp = _leftHandPosition
-                lock.unlock()
-                return tmp
-            }
-            set {
-                lock.lock()
-                _leftHandPosition = newValue
-                lock.unlock()
-            }
+        set {
+            lock.lock()
+            _rightHandPosition = newValue
+            lock.unlock()
         }
-        
-        let lock = NSLock()
+    }
+    var leftHandPosition : LEAP_VECTOR? {
+        get {
+            lock.lock()
+            let tmp = _leftHandPosition
+            lock.unlock()
+            return tmp
+        }
+        set {
+            lock.lock()
+            _leftHandPosition = newValue
+            lock.unlock()
+        }
+    }
+    
+    let lock = NSLock()
 
-        override init() {
-            super.init()
-            var config = LEAP_CONNECTION_CONFIG()
-            var connection : LEAP_CONNECTION? = OpaquePointer(bitPattern: 0)
-            _ = withUnsafeMutablePointer(to: &connection, {
-                LeapCreateConnection(&config, $0)
-            })
-            
-            LeapOpenConnection(connection)
-            
-            let queue = DispatchQueue(label: "leapc", attributes: .concurrent)
-            queue.async {
-                while true {
-                    var msg = LEAP_CONNECTION_MESSAGE()
-                    var result = eLeapRS_Success
-                    withUnsafeMutablePointer(to: &msg, {
-                        result = LeapPollConnection(connection, 100, $0)
-                    })
-                    
-                    if result != eLeapRS_Success {
-                        //print("result:", result)
-                        continue
-                    }
-                    
-                    switch msg.type {
-                        case eLeapEventType_Tracking:
-                            self.onFrame(msg.tracking_event!.pointee)
-                        case eLeapEventType_Connection:
-                            self.onConnect(msg.connection_event!.pointee)
-                        case eLeapEventType_ConnectionLost:
-                            self.onDisconnect(msg.connection_lost_event!.pointee)
-                        case eLeapEventType_Device:
-                            self.onDevice(msg.device_event!.pointee)
-                        case eLeapEventType_DeviceLost:
-                            self.onDeviceLost(msg.device_event!.pointee)
-                        default: break
-                    }
+    override init() {
+        super.init()
+        var config = LEAP_CONNECTION_CONFIG()
+        var connection : LEAP_CONNECTION? = OpaquePointer(bitPattern: 0)
+        _ = withUnsafeMutablePointer(to: &connection, {
+            LeapCreateConnection(&config, $0)
+        })
+        
+        LeapOpenConnection(connection)
+        
+        let queue = DispatchQueue(label: "leapc", attributes: .concurrent)
+        queue.async {
+            while true {
+                var msg = LEAP_CONNECTION_MESSAGE()
+                var result = eLeapRS_Success
+                withUnsafeMutablePointer(to: &msg, {
+                    result = LeapPollConnection(connection, 100, $0)
+                })
+                
+                if result != eLeapRS_Success {
+                    continue
+                }
+                
+                switch msg.type {
+                    case eLeapEventType_Tracking:
+                        self.onFrame(msg.tracking_event!.pointee)
+                    case eLeapEventType_Connection:
+                        self.onConnect(msg.connection_event!.pointee)
+                    case eLeapEventType_ConnectionLost:
+                        self.onDisconnect(msg.connection_lost_event!.pointee)
+                    case eLeapEventType_Device:
+                        self.onDevice(msg.device_event!.pointee)
+                    case eLeapEventType_DeviceLost:
+                        self.onDeviceLost(msg.device_event!.pointee)
+                    default: break
                 }
             }
         }
+    }
     
     
     func isFingerExtended(finger: LEAP_DIGIT) -> Bool {
@@ -141,6 +137,22 @@ class LeapMotionManager: NSObject {
         return test
     }
     
+    func isLeftHandPointing() -> Bool {
+        var pointing = false
+        if (leftHandPresent() && leftHand != nil){
+            pointing = isHandPointing(hand: leftHand!)
+        }
+        return pointing
+    }
+    
+    func isRightHandPointing() -> Bool {
+        var pointing = false
+        if (rightHandPresent() && rightHand != nil){
+            pointing = isHandPointing(hand: rightHand!)
+        }
+        return pointing
+    }
+    
     func leftHandPresent() -> Bool {
         return (leftHand != nil)
     }
@@ -149,13 +161,15 @@ class LeapMotionManager: NSObject {
         return (rightHand != nil)
     }
     
-    
-    
     func leftIsPinching() -> Bool {
         var test = false
         if (leftHand != nil){
             if let pinchStrength = leftHand?.pinch_strength, pinchStrength > PINCH_THRESHOLD {
                 test = true
+                leftPinching = true
+            }
+            else{
+                leftPinching = false
             }
         }
         return test
@@ -166,6 +180,10 @@ class LeapMotionManager: NSObject {
         if (rightHand != nil){
             if let pinchStrength = rightHand?.pinch_strength, pinchStrength > PINCH_THRESHOLD {
                 test = true
+                rightPinching = true
+            }
+            else {
+                rightPinching = false
             }
         }
         return test

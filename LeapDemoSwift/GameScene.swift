@@ -10,8 +10,8 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    let rightHandSprite = SKSpriteNode(imageNamed: "righthand")
-    let leftHandSprite = SKSpriteNode(imageNamed: "lefthand")
+    let rightHandSprite = SKSpriteNode(imageNamed: "rightHand")
+    let leftHandSprite = SKSpriteNode(imageNamed: "leftHand")
     var leftHasPinched : Bool = false
     var rightHasPinched : Bool = false
     var initialPinchLeftPosX : Float = 0
@@ -23,24 +23,22 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         self.backgroundColor = SKColor.darkGray
-        rightHandSprite.xScale = 1
-        rightHandSprite.yScale = 1
         rightHandSprite.colorBlendFactor = 1
         rightHandSprite.zPosition = 2
-        rightHandSprite.color = .white
-        leftHandSprite.xScale = 1
-        leftHandSprite.yScale = 1
+        rightHandSprite.color = .systemRed
+        rightHandSprite.scale(to: CGSize(width: 128, height: 128))
         leftHandSprite.colorBlendFactor = 1
         leftHandSprite.zPosition = 1
-        leftHandSprite.color = .white
+        leftHandSprite.color = .systemBlue
+        leftHandSprite.scale(to: CGSize(width: 128, height: 128))
         
         scoreLabel = SKLabelNode()
         scoreLabel.text = "Score: 0"
         scoreLabel.horizontalAlignmentMode = .right
         scoreLabel.position = CGPoint(x: 980, y: 700)
         addChild(scoreLabel)
-        addChild(rightHandSprite)
         addChild(leftHandSprite)
+        addChild(rightHandSprite)
     }
         
     override func update(_ currentTime: TimeInterval) {
@@ -62,7 +60,10 @@ class GameScene: SKScene {
         
         let handManager = LeapMotionManager.sharedInstance
         
-        if (handManager.rightHandPresent()){
+        rightLoop: if (handManager.rightHandPresent()){
+            if (handManager.rightHand == nil){
+                break rightLoop
+            }
             rightHandSprite.color = .white
             if let newRightHandPosition = handManager.rightHandPosition {
                 let newRightHandX = newRightHandPosition.x
@@ -70,7 +71,6 @@ class GameScene: SKScene {
                 rightHandSprite.position = CGPoint(x: self.size.width/2 + CGFloat(newRightHandX), y: self.size.height/2 + CGFloat(newRightHandY/2))
                 
                 if (handManager.rightIsPinching()){
-                    //rightHandSprite.color = NSColor(red: 0.35, green: 0.13, blue: 0.82, alpha: 1.0)
                     rightHandSprite.texture = SKTexture(imageNamed: "pinchRight")
 
                         //set the initial pinch as the starting point
@@ -89,7 +89,7 @@ class GameScene: SKScene {
                         }
                 }
                 
-                else if handManager.isHandPointing(hand: handManager.rightHand!) {
+                else if (handManager.isRightHandPointing()) {
                     rightHasPinched = false
                     rightHandSprite.texture = SKTexture(imageNamed: "pointRight")
                 }
@@ -104,8 +104,12 @@ class GameScene: SKScene {
             rightHandSprite.color = .clear
         }
         
-        if (handManager.leftHandPresent()){
+        leftLoop: if (handManager.leftHandPresent()){
+            if (handManager.leftHand == nil){
+                break leftLoop
+            }
             leftHandSprite.color = .white
+
             if let newLeftHandPosition = handManager.leftHandPosition {
                 let newLeftHandX = newLeftHandPosition.x
                 let newLeftHandY = newLeftHandPosition.y
@@ -130,7 +134,7 @@ class GameScene: SKScene {
                         decrementSlider()
                     }
                 }
-                else if handManager.isHandPointing(hand: handManager.leftHand!) {
+                else if (handManager.isLeftHandPointing()) {
                     leftHandSprite.texture = SKTexture(imageNamed: "pointLeft")
                     leftHasPinched = false
                 }
