@@ -24,6 +24,7 @@
 		EDFE20982A4EFCEF00664D48 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDFE20972A4EFCEF00664D48 /* Preview Assets.xcassets */; };
 		EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */; };
 		EDFE20A12A4F05CC00664D48 /* LeapExtendedFingerDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */; };
+		EDFE20A32A4F075A00664D48 /* libLeapC.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -96,6 +97,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDFE208B2A4EFCEE00664D48 /* RealityKitContent in Frameworks */,
+				EDFE20A32A4F075A00664D48 /* libLeapC.5.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,18 +520,28 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/Frameworks",
+					"@executable_path/../Frameworks",
+					"\"$(SRCROOT)/LeapDemoSwift/LeapC\"",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LeapDemoSwift",
+					"$(PROJECT_DIR)/LeapDemoSwift/LeapC",
+					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
+					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "\"$(SRCROOT)/LeapDemoSwift/LeapC/libLeapC.5.dylib\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.antappi.test.LeapDemoVisionOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = xros;
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LeapDemoSwift/LeapDemoSwift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 1.0;
@@ -558,16 +570,26 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/Frameworks",
+					"@executable_path/../Frameworks",
+					"\"$(SRCROOT)/LeapDemoSwift/LeapC\"",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LeapDemoSwift",
+					"$(PROJECT_DIR)/LeapDemoSwift/LeapC",
+					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
+					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "\"$(SRCROOT)/LeapDemoSwift/LeapC/libLeapC.5.dylib\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.antappi.test.LeapDemoVisionOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = xros;
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LeapDemoSwift/LeapDemoSwift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				VALIDATE_PRODUCT = YES;
