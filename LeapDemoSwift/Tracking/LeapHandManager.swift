@@ -15,12 +15,9 @@ extension UInt32 {
     }
 }
 
-class LeapMotionManager: NSObject, ObservableObject {
+class LeapHandManager: NSObject, ObservableObject {
       
-    static let sharedInstance = LeapMotionManager()
-    private let PINCH_THRESHOLD : Float = 0.8
-    @Published var leftPinching : Bool = false
-    @Published var rightPinching : Bool = false
+    static let sharedInstance = LeapHandManager()
     private var _rightHandPosition : LEAP_VECTOR? = nil
     private var _leftHandPosition : LEAP_VECTOR? = nil
     private var _rightHand : LEAP_HAND? = nil
@@ -123,36 +120,6 @@ class LeapMotionManager: NSObject, ObservableObject {
         }
     }
     
-    
-    func isFingerExtended(finger: LEAP_DIGIT) -> Bool {
-        return finger.is_extended.boolValue
-    }
-    
-    func isHandPointing(hand: LEAP_HAND) -> Bool {
-        let test = (hand.index.is_extended.boolValue &&
-            !hand.middle.is_extended.boolValue &&
-            !hand.ring.is_extended.boolValue &&
-            !hand.pinky.is_extended.boolValue)
-        
-        return test
-    }
-    
-    func isLeftHandPointing() -> Bool {
-        var pointing = false
-        if (leftHandPresent() && leftHand != nil){
-            pointing = isHandPointing(hand: leftHand!)
-        }
-        return pointing
-    }
-    
-    func isRightHandPointing() -> Bool {
-        var pointing = false
-        if (rightHandPresent() && rightHand != nil){
-            pointing = isHandPointing(hand: rightHand!)
-        }
-        return pointing
-    }
-    
     func leftHandPresent() -> Bool {
         return (leftHand != nil)
     }
@@ -161,41 +128,8 @@ class LeapMotionManager: NSObject, ObservableObject {
         return (rightHand != nil)
     }
     
-    func leftIsPinching() -> Bool {
-        var test = false
-        if (leftHand != nil){
-            if let pinchStrength = leftHand?.pinch_strength, pinchStrength > PINCH_THRESHOLD {
-                test = true
-                leftPinching = true
-            }
-            else{
-                leftPinching = false
-            }
-        }
-        return test
-    }
-    
-    func rightIsPinching() -> Bool {
-        var test = false
-        if (rightHand != nil){
-            if let pinchStrength = rightHand?.pinch_strength, pinchStrength > PINCH_THRESHOLD {
-                test = true
-                rightPinching = true
-            }
-            else {
-                rightPinching = false
-            }
-        }
-        return test
-    }
-    
-    func run() {
-        print("running")
-    }
-    
     func onConnect(_ connection: _LEAP_CONNECTION_EVENT){
         print("Leap Connected")
-        
     }
     
     func onDisconnect(_ connection: _LEAP_CONNECTION_LOST_EVENT){
@@ -209,19 +143,6 @@ class LeapMotionManager: NSObject, ObservableObject {
     func onDeviceLost(_ device: _LEAP_DEVICE_EVENT){
         print("On Device Lost:", device.device.id)
     }
-
-//
-//    func onServiceConnect(_ controller: LeapController!) {
-//        print("service disconnected")
-//    }
-//
-//    func onDeviceChange(_ controller: LeapController!) {
-//        print("device changed")
-//    }
-//
-//    func onExit(_ controller: LeapController!) {
-//        print("exited")
-//    }
     
     func onFrame(_ frame: LEAP_TRACKING_EVENT) {
         leftHandPosition = nil
@@ -240,13 +161,4 @@ class LeapMotionManager: NSObject, ObservableObject {
             }
         }
     }
-    
-//    func onFocusGained(_ controller: LeapController!) {
-//        print("focus gained")
-//    }
-//
-//    func onFocusLost(_ controller: LeapController!) {
-//        print("focus lost")
-//    }
-    
 }

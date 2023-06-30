@@ -21,6 +21,11 @@ class GameScene: SKScene {
     var scoreValue: Int = 0
     var scoreLabel: SKLabelNode!
     
+    /// Leap Stuff
+    let handManager = LeapHandManager.sharedInstance
+    let pinchDetector = LeapPinchDetector.sharedInstance
+    let pointingDetector = LeapExtendedFingerDetector.sharedInstance
+    
     override func didMove(to view: SKView) {
         self.backgroundColor = SKColor.darkGray
         rightHandSprite.colorBlendFactor = 1
@@ -56,10 +61,7 @@ class GameScene: SKScene {
         scoreLabel.text = "Score: " + String(describing: scoreValue)
     }
     
-    func updateHandPositions() {
-        
-        let handManager = LeapMotionManager.sharedInstance
-        
+    func updateHandPositions() {        
         rightLoop: if (handManager.rightHandPresent()){
             if (handManager.rightHand == nil){
                 break rightLoop
@@ -70,7 +72,7 @@ class GameScene: SKScene {
                 let newRightHandY = newRightHandPosition.y
                 rightHandSprite.position = CGPoint(x: self.size.width/2 + CGFloat(newRightHandX), y: self.size.height/2 + CGFloat(newRightHandY/2))
                 
-                if (handManager.rightIsPinching()){
+                if (pinchDetector.rightIsPinching()){
                     rightHandSprite.texture = SKTexture(imageNamed: "pinchRight")
 
                         //set the initial pinch as the starting point
@@ -89,7 +91,7 @@ class GameScene: SKScene {
                         }
                 }
                 
-                else if (handManager.isRightHandPointing()) {
+                else if (pointingDetector.isRightHandPointing()) {
                     rightHasPinched = false
                     rightHandSprite.texture = SKTexture(imageNamed: "pointRight")
                 }
@@ -115,7 +117,7 @@ class GameScene: SKScene {
                 let newLeftHandY = newLeftHandPosition.y
                 leftHandSprite.position = CGPoint(x: self.size.width/2 + CGFloat(newLeftHandX), y: self.size.height/2 + CGFloat(newLeftHandY/2))
                 
-                if (handManager.leftIsPinching()){
+                if (pinchDetector.leftIsPinching()){
                     //leftHandSprite.color = NSColor(red: 0.05, green: 0.92, blue: 0.48, alpha: 1.0)
                     leftHandSprite.texture = SKTexture(imageNamed: "pinchLeft")
                     
@@ -134,7 +136,7 @@ class GameScene: SKScene {
                         decrementSlider()
                     }
                 }
-                else if (handManager.isLeftHandPointing()) {
+                else if (pointingDetector.isLeftHandPointing()) {
                     leftHandSprite.texture = SKTexture(imageNamed: "pointLeft")
                     leftHasPinched = false
                 }

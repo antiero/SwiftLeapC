@@ -27,9 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.skView!.ignoresSiblingOrder = true
             
             self.skView!.showsFPS = true
-            self.skView!.showsNodeCount = true
-            LeapMotionManager.sharedInstance.run()
-        }
+            self.skView!.showsNodeCount = true        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

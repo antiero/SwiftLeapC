@@ -3,18 +3,27 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		DF56D17A1BDB489600DC6990 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF56D1791BDB489600DC6990 /* AppDelegate.swift */; };
 		DF56D17E1BDB489600DC6990 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF56D17D1BDB489600DC6990 /* Assets.xcassets */; };
-		DF56D1941BDB490100DC6990 /* LeapMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF56D1931BDB490100DC6990 /* LeapMotionManager.swift */; };
+		DF56D1941BDB490100DC6990 /* LeapHandManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF56D1931BDB490100DC6990 /* LeapHandManager.swift */; };
 		DFBD9EBA1BE036F1005845D5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = DFBD9EB91BE036F1005845D5 /* GameScene.sks */; };
 		DFBD9EBC1BE03718005845D5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBD9EBB1BE03718005845D5 /* GameScene.swift */; };
 		DFBD9EBE1BE03742005845D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFBD9EBD1BE03742005845D5 /* MainMenu.xib */; };
 		ED6420652A4D64510017F7B7 /* libLeapC.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; };
 		ED6420662A4D64510017F7B7 /* libLeapC.5.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		EDFE208B2A4EFCEE00664D48 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = EDFE208A2A4EFCEE00664D48 /* RealityKitContent */; };
+		EDFE208D2A4EFCEE00664D48 /* LeapDemoVisionOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE208C2A4EFCEE00664D48 /* LeapDemoVisionOSApp.swift */; };
+		EDFE208F2A4EFCEE00664D48 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE208E2A4EFCEE00664D48 /* ContentView.swift */; };
+		EDFE20912A4EFCEE00664D48 /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE20902A4EFCEE00664D48 /* ImmersiveView.swift */; };
+		EDFE20932A4EFCEE00664D48 /* ImageBasedLight.exr in Resources */ = {isa = PBXBuildFile; fileRef = EDFE20922A4EFCEE00664D48 /* ImageBasedLight.exr */; };
+		EDFE20952A4EFCEF00664D48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDFE20942A4EFCEF00664D48 /* Assets.xcassets */; };
+		EDFE20982A4EFCEF00664D48 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDFE20972A4EFCEF00664D48 /* Preview Assets.xcassets */; };
+		EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */; };
+		EDFE20A12A4F05CC00664D48 /* LeapExtendedFingerDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -54,13 +63,23 @@
 		DF56D1791BDB489600DC6990 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF56D17D1BDB489600DC6990 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF56D1821BDB489600DC6990 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DF56D1931BDB490100DC6990 /* LeapMotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeapMotionManager.swift; sourceTree = "<group>"; };
+		DF56D1931BDB490100DC6990 /* LeapHandManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeapHandManager.swift; sourceTree = "<group>"; };
 		DFBD9EB61BE0363B005845D5 /* LeapDemoSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LeapDemoSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		DFBD9EB91BE036F1005845D5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		DFBD9EBB1BE03718005845D5 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		DFBD9EBD1BE03742005845D5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.5.dylib; path = "../../../../../../../Library/Application Support/Ultraleap/LeapSDK/lib/libLeapC.5.dylib"; sourceTree = "<group>"; };
 		EDAB611E2A053BEA00B580C6 /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
+		EDFE20862A4EFCEE00664D48 /* LeapDemoVisionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LeapDemoVisionOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDFE20892A4EFCEE00664D48 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
+		EDFE208C2A4EFCEE00664D48 /* LeapDemoVisionOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapDemoVisionOSApp.swift; sourceTree = "<group>"; };
+		EDFE208E2A4EFCEE00664D48 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		EDFE20902A4EFCEE00664D48 /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
+		EDFE20922A4EFCEE00664D48 /* ImageBasedLight.exr */ = {isa = PBXFileReference; lastKnownFileType = file; path = ImageBasedLight.exr; sourceTree = "<group>"; };
+		EDFE20942A4EFCEF00664D48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EDFE20972A4EFCEF00664D48 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapPinchDetector.swift; sourceTree = "<group>"; };
+		EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapExtendedFingerDetector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +91,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EDFE20832A4EFCEE00664D48 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDFE208B2A4EFCEE00664D48 /* RealityKitContent in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -79,6 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				DF56D1781BDB489600DC6990 /* LeapDemoSwift */,
+				EDFE20872A4EFCEE00664D48 /* LeapDemoVisionOS */,
+				EDFE20882A4EFCEE00664D48 /* Packages */,
 				DF56D1771BDB489600DC6990 /* Products */,
 				ED6420642A4D64510017F7B7 /* Frameworks */,
 			);
@@ -88,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				DF56D1761BDB489600DC6990 /* SwiftLeapC.app */,
+				EDFE20862A4EFCEE00664D48 /* LeapDemoVisionOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,13 +125,13 @@
 		DF56D1781BDB489600DC6990 /* LeapDemoSwift */ = {
 			isa = PBXGroup;
 			children = (
+				EDFE20A22A4F06B700664D48 /* Tracking */,
 				DF56D1791BDB489600DC6990 /* AppDelegate.swift */,
 				DFBD9EB91BE036F1005845D5 /* GameScene.sks */,
 				DFBD9EBB1BE03718005845D5 /* GameScene.swift */,
 				DF56D17D1BDB489600DC6990 /* Assets.xcassets */,
 				DFBD9EBD1BE03742005845D5 /* MainMenu.xib */,
 				DF56D1821BDB489600DC6990 /* Info.plist */,
-				DF56D1931BDB490100DC6990 /* LeapMotionManager.swift */,
 				DFBD9EAD1BE03513005845D5 /* LeapC */,
 				DFBD9EB61BE0363B005845D5 /* LeapDemoSwift-Bridging-Header.h */,
 			);
@@ -122,6 +152,45 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EDFE20872A4EFCEE00664D48 /* LeapDemoVisionOS */ = {
+			isa = PBXGroup;
+			children = (
+				EDFE208C2A4EFCEE00664D48 /* LeapDemoVisionOSApp.swift */,
+				EDFE208E2A4EFCEE00664D48 /* ContentView.swift */,
+				EDFE20902A4EFCEE00664D48 /* ImmersiveView.swift */,
+				EDFE20922A4EFCEE00664D48 /* ImageBasedLight.exr */,
+				EDFE20942A4EFCEF00664D48 /* Assets.xcassets */,
+				EDFE20962A4EFCEF00664D48 /* Preview Content */,
+			);
+			path = LeapDemoVisionOS;
+			sourceTree = "<group>";
+		};
+		EDFE20882A4EFCEE00664D48 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				EDFE20892A4EFCEE00664D48 /* RealityKitContent */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		EDFE20962A4EFCEF00664D48 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				EDFE20972A4EFCEF00664D48 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EDFE20A22A4F06B700664D48 /* Tracking */ = {
+			isa = PBXGroup;
+			children = (
+				DF56D1931BDB490100DC6990 /* LeapHandManager.swift */,
+				EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */,
+				EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */,
+			);
+			path = Tracking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,19 +216,42 @@
 			productReference = DF56D1761BDB489600DC6990 /* SwiftLeapC.app */;
 			productType = "com.apple.product-type.application";
 		};
+		EDFE20852A4EFCEE00664D48 /* LeapDemoVisionOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDFE209B2A4EFCEF00664D48 /* Build configuration list for PBXNativeTarget "LeapDemoVisionOS" */;
+			buildPhases = (
+				EDFE20822A4EFCEE00664D48 /* Sources */,
+				EDFE20832A4EFCEE00664D48 /* Frameworks */,
+				EDFE20842A4EFCEE00664D48 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LeapDemoVisionOS;
+			packageProductDependencies = (
+				EDFE208A2A4EFCEE00664D48 /* RealityKitContent */,
+			);
+			productName = LeapDemoVisionOS;
+			productReference = EDFE20862A4EFCEE00664D48 /* LeapDemoVisionOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		DF56D16E1BDB489600DC6990 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = "Kelly Innes";
 				TargetAttributes = {
 					DF56D1751BDB489600DC6990 = {
 						CreatedOnToolsVersion = 7.0.1;
 						LastSwiftMigration = 0830;
+					};
+					EDFE20852A4EFCEE00664D48 = {
+						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
@@ -177,6 +269,7 @@
 			projectRoot = "";
 			targets = (
 				DF56D1751BDB489600DC6990 /* SwiftLeapC */,
+				EDFE20852A4EFCEE00664D48 /* LeapDemoVisionOS */,
 			);
 		};
 /* End PBXProject section */
@@ -192,6 +285,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EDFE20842A4EFCEE00664D48 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDFE20952A4EFCEF00664D48 /* Assets.xcassets in Resources */,
+				EDFE20982A4EFCEF00664D48 /* Preview Assets.xcassets in Resources */,
+				EDFE20932A4EFCEE00664D48 /* ImageBasedLight.exr in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -200,8 +303,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFBD9EBC1BE03718005845D5 /* GameScene.swift in Sources */,
-				DF56D1941BDB490100DC6990 /* LeapMotionManager.swift in Sources */,
+				EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */,
+				EDFE20A12A4F05CC00664D48 /* LeapExtendedFingerDetector.swift in Sources */,
+				DF56D1941BDB490100DC6990 /* LeapHandManager.swift in Sources */,
 				DF56D17A1BDB489600DC6990 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDFE20822A4EFCEE00664D48 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDFE208F2A4EFCEE00664D48 /* ContentView.swift in Sources */,
+				EDFE208D2A4EFCEE00664D48 /* LeapDemoVisionOSApp.swift in Sources */,
+				EDFE20912A4EFCEE00664D48 /* ImmersiveView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,7 +427,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -326,7 +442,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = LeapDemoSwift/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Users/antony.nasce/Downloads/LeapDemoSwift/LeapDemoSwift/LeapC";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"\"$(SRCROOT)/LeapDemoSwift/LeapC\"",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LeapDemoSwift",
@@ -354,7 +474,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = LeapDemoSwift/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Users/antony.nasce/Downloads/LeapDemoSwift/LeapDemoSwift/LeapC";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"\"$(SRCROOT)/LeapDemoSwift/LeapC\"",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LeapDemoSwift",
@@ -369,6 +493,85 @@
 				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/LeapDemoSwift/LeapObjCSDK\"";
 				SWIFT_OBJC_BRIDGING_HEADER = "LeapDemoSwift/LeapDemoSwift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		EDFE20992A4EFCEF00664D48 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LeapDemoVisionOS/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.antappi.test.LeapDemoVisionOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Debug;
+		};
+		EDFE209A2A4EFCEF00664D48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LeapDemoVisionOS/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.antappi.test.LeapDemoVisionOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Release;
 		};
@@ -393,7 +596,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		EDFE209B2A4EFCEF00664D48 /* Build configuration list for PBXNativeTarget "LeapDemoVisionOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDFE20992A4EFCEF00664D48 /* Debug */,
+				EDFE209A2A4EFCEF00664D48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EDFE208A2A4EFCEE00664D48 /* RealityKitContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RealityKitContent;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DF56D16E1BDB489600DC6990 /* Project object */;
 }
