@@ -8,6 +8,7 @@
 
 import Foundation
 import Dispatch
+import SceneKit
 
 extension UInt32 {
     var boolValue: Bool {
@@ -118,6 +119,22 @@ class LeapHandManager: NSObject, ObservableObject {
                 }
             }
         }
+    }
+    
+    func leftPalmPosAsSCNVector3() -> SCNVector3 {
+        var leftPos = SCNVector3()
+        if (leftHandPresent() && leftHand != nil){
+            leftPos = SCNVector3((0.001*(leftHand?.palm.position.x)!), (0.001*(leftHand?.palm.position.y)!), (0.001*(leftHand?.palm.position.z)!))
+        }
+        return leftPos
+    }
+    
+    func rightPalmPosAsSCNVector3() -> SCNVector3 {
+        var rightPos = SCNVector3()
+        if (rightHandPresent() && rightHand != nil){
+            rightPos = SCNVector3((0.001*(rightHand?.palm.position.x)!), (0.001*(rightHand?.palm.position.y)!), (0.001*(rightHand?.palm.position.z)!))
+        }
+        return rightPos
     }
     
     func leftHandPresent() -> Bool {

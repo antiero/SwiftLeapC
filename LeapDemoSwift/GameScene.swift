@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import SceneKit
 
 class GameScene: SKScene {
     
@@ -25,6 +26,8 @@ class GameScene: SKScene {
     let handManager = LeapHandManager.sharedInstance
     let pinchDetector = LeapPinchDetector.sharedInstance
     let pointingDetector = LeapExtendedFingerDetector.sharedInstance
+    
+    let appDelegate = NSApplication.shared.delegate as! AppDelegate
     
     override func didMove(to view: SKView) {
         self.backgroundColor = SKColor.darkGray
@@ -66,8 +69,13 @@ class GameScene: SKScene {
             if (handManager.rightHand == nil){
                 break rightLoop
             }
+            
+            
+            
             rightHandSprite.color = .white
             if let newRightHandPosition = handManager.rightHandPosition {
+                appDelegate.rightHandSphere.position = handManager.rightPalmPosAsSCNVector3()
+                
                 let newRightHandX = newRightHandPosition.x
                 let newRightHandY = newRightHandPosition.y
                 rightHandSprite.position = CGPoint(x: self.size.width/2 + CGFloat(newRightHandX), y: self.size.height/2 + CGFloat(newRightHandY/2))
@@ -116,6 +124,8 @@ class GameScene: SKScene {
                 let newLeftHandX = newLeftHandPosition.x
                 let newLeftHandY = newLeftHandPosition.y
                 leftHandSprite.position = CGPoint(x: self.size.width/2 + CGFloat(newLeftHandX), y: self.size.height/2 + CGFloat(newLeftHandY/2))
+                
+                appDelegate.leftHandSphere.position = handManager.leftPalmPosAsSCNVector3()
                 
                 if (pinchDetector.leftIsPinching()){
                     //leftHandSprite.color = NSColor(red: 0.05, green: 0.92, blue: 0.48, alpha: 1.0)
