@@ -15,6 +15,7 @@
 		DFBD9EBE1BE03742005845D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFBD9EBD1BE03742005845D5 /* MainMenu.xib */; };
 		ED1145932A4F285E0067C5DE /* Hand3DScene.scn in Resources */ = {isa = PBXBuildFile; fileRef = ED1145922A4F285E0067C5DE /* Hand3DScene.scn */; };
 		ED1145952A4F29080067C5DE /* SceneKitCatalog.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = ED1145942A4F29080067C5DE /* SceneKitCatalog.scnassets */; };
+		ED573D6A2A50C9310028027D /* HandPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED573D692A50C9310028027D /* HandPreviewViewController.swift */; };
 		ED6420652A4D64510017F7B7 /* libLeapC.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; };
 		ED6420662A4D64510017F7B7 /* libLeapC.5.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */; };
@@ -65,6 +66,7 @@
 		DFBD9EBD1BE03742005845D5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		ED1145922A4F285E0067C5DE /* Hand3DScene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Hand3DScene.scn; sourceTree = "<group>"; };
 		ED1145942A4F29080067C5DE /* SceneKitCatalog.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = SceneKitCatalog.scnassets; sourceTree = "<group>"; };
+		ED573D692A50C9310028027D /* HandPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandPreviewViewController.swift; sourceTree = "<group>"; };
 		ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.5.dylib; path = "../../../../../../../Library/Application Support/Ultraleap/LeapSDK/lib/libLeapC.5.dylib"; sourceTree = "<group>"; };
 		EDAB611E2A053BEA00B580C6 /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
 		EDFE20892A4EFCEE00664D48 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			children = (
 				EDFE20A22A4F06B700664D48 /* Tracking */,
 				DF56D1791BDB489600DC6990 /* AppDelegate.swift */,
+				ED573D692A50C9310028027D /* HandPreviewViewController.swift */,
 				DFBD9EB91BE036F1005845D5 /* GameScene.sks */,
 				DFBD9EBB1BE03718005845D5 /* GameScene.swift */,
 				DF56D17D1BDB489600DC6990 /* Assets.xcassets */,
@@ -234,6 +237,7 @@
 			files = (
 				DFBD9EBC1BE03718005845D5 /* GameScene.swift in Sources */,
 				EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */,
+				ED573D6A2A50C9310028027D /* HandPreviewViewController.swift in Sources */,
 				EDFE20A12A4F05CC00664D48 /* LeapExtendedFingerDetector.swift in Sources */,
 				DF56D1941BDB490100DC6990 /* LeapHandManager.swift in Sources */,
 				DF56D17A1BDB489600DC6990 /* AppDelegate.swift in Sources */,

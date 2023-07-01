@@ -2,11 +2,9 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22113.3" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="22005"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22113.3"/>
         <plugIn identifier="com.apple.SceneKitIBPlugin" version="22113.3"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -110,7 +108,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="0.0" y="0.0" width="800" height="600"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="3008" height="1667"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
             <view key="contentView" id="372">
                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -136,29 +134,11 @@
         </window>
         <customObject id="494" customClass="AppDelegate" customModule="SwiftLeapC" customModuleProvider="target">
             <connections>
-                <outlet property="sceneKitView" destination="MwL-RN-hHp" id="n10-rt-Lco"/>
+                <outlet property="handPreview" destination="MwL-RN-hHp" id="7k5-0K-73t"/>
                 <outlet property="skView" destination="539" id="540"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>
-        <touchBar id="Qh1-pV-oGD">
-            <touchBarItems>
-                <sliderTouchBarItem id="UBA-pU-BiU">
-                    <sliderAccessory key="minimumValueAccessory" id="tkk-gJ-h1q">
-                        <sliderAccessoryBehavior key="behavior" id="OkT-Dw-DPB"/>
-                    </sliderAccessory>
-                    <sliderAccessory key="maximumValueAccessory" id="iEP-Vf-w2I">
-                        <sliderAccessoryBehavior key="behavior" id="FXN-S1-ja7"/>
-                    </sliderAccessory>
-                    <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wvV-V2-tjT">
-                        <rect key="frame" x="5" y="0.0" width="675" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <sliderCell key="cell" alignment="left" maxValue="100" doubleValue="21.475013720933084" tickMarkPosition="above" sliderType="linear" id="ibu-rc-Q5j"/>
-                    </slider>
-                </sliderTouchBarItem>
-            </touchBarItems>
-            <point key="canvasLocation" x="-308" y="142"/>
-        </touchBar>
     </objects>
 </document>

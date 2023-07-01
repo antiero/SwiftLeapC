@@ -70,11 +70,9 @@ class GameScene: SKScene {
                 break rightLoop
             }
             
-            
-            
             rightHandSprite.color = .white
             if let newRightHandPosition = handManager.rightHandPosition {
-                appDelegate.rightHandSphere.position = handManager.rightPalmPosAsSCNVector3()
+                //appDelegate.handPreview.rightHandSphere.position = handManager.rightPalmPosAsSCNVector3()
                 
                 let newRightHandX = newRightHandPosition.x
                 let newRightHandY = newRightHandPosition.y
@@ -124,8 +122,6 @@ class GameScene: SKScene {
                 let newLeftHandX = newLeftHandPosition.x
                 let newLeftHandY = newLeftHandPosition.y
                 leftHandSprite.position = CGPoint(x: self.size.width/2 + CGFloat(newLeftHandX), y: self.size.height/2 + CGFloat(newLeftHandY/2))
-                
-                appDelegate.leftHandSphere.position = handManager.leftPalmPosAsSCNVector3()
                 
                 if (pinchDetector.leftIsPinching()){
                     //leftHandSprite.color = NSColor(red: 0.05, green: 0.92, blue: 0.48, alpha: 1.0)
