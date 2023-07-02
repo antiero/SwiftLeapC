@@ -123,7 +123,7 @@ class LeapHandManager: NSObject, ObservableObject {
     
     func leftPalmPosAsSCNVector3() -> SCNVector3 {
         var leftPos = SCNVector3()
-        if (leftHandPresent() && leftHand != nil){
+        if (leftHandPresent() && leftHand != nil && leftHand?.palm.position != nil){
             leftPos = SCNVector3((0.001*(leftHand?.palm.position.x)!), (0.001*(leftHand?.palm.position.y)!), (0.001*(leftHand?.palm.position.z)!))
         }
         return leftPos
@@ -131,7 +131,7 @@ class LeapHandManager: NSObject, ObservableObject {
     
     func rightPalmPosAsSCNVector3() -> SCNVector3 {
         var rightPos = SCNVector3()
-        if (rightHandPresent() && rightHand != nil){
+        if (rightHandPresent() && rightHand != nil && rightHand?.palm.position != nil){
             rightPos = SCNVector3((0.001*(rightHand?.palm.position.x)!), (0.001*(rightHand?.palm.position.y)!), (0.001*(rightHand?.palm.position.z)!))
         }
         return rightPos
