@@ -140,15 +140,28 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
     func InitialiseHandSpheres()
     {
         print("InitialiseLeftHandSpheres")
-        let sphereGeometry = SCNSphere(radius: CGFloat(SPHERE_RADIUS))
+        let sphereGeoLeft = SCNSphere(radius: CGFloat(SPHERE_RADIUS))
+        let leftMaterial = SCNMaterial()
+        leftMaterial.diffuse.contents = NSColor.blue
+        leftMaterial.normal.intensity = 1.0
+        leftMaterial.diffuse.intensity = 1.0
+        
+        let sphereGeoRight = SCNSphere(radius: CGFloat(SPHERE_RADIUS))
+        let rightMaterial = SCNMaterial()
+        rightMaterial.diffuse.contents = NSColor.red
+        rightMaterial.normal.intensity = 1.0
+        rightMaterial.diffuse.intensity = 1.0
+        
         for nodeIx in 0...19{
-            let sphere = SCNNode(geometry: sphereGeometry)
+            let sphere = SCNNode(geometry: sphereGeoLeft)
+            sphere.geometry?.materials = [leftMaterial]
             leftHandNodes.append(sphere)
             scene?.rootNode.addChildNode(leftHandNodes[nodeIx])
         }
         
         for nodeIx in 0...19{
-            let sphere = SCNNode(geometry: sphereGeometry)
+            let sphere = SCNNode(geometry: sphereGeoRight)
+            sphere.geometry?.materials = [rightMaterial]
             rightHandNodes.append(sphere)
             scene?.rootNode.addChildNode(rightHandNodes[nodeIx])
         }
