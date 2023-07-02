@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 import SceneKit
 
 class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
@@ -40,15 +41,29 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
     }
     
     func addHandSpheres()  {
-        let sphereGeometry = SCNSphere(radius: 0.02)
-        leftHandSphere = SCNNode(geometry: sphereGeometry)
+        let sphereGeoLeft = SCNSphere(radius: 0.015)
+        let leftMaterial = SCNMaterial()
+        leftMaterial.diffuse.contents = NSColor.blue
+        leftMaterial.normal.intensity = 1.0
+        leftMaterial.diffuse.intensity = 1.0
+
+        
+        let sphereGeoRight = SCNSphere(radius: 0.015)
+        let rightMaterial = SCNMaterial()
+        rightMaterial.diffuse.contents = NSColor.red
+        rightMaterial.normal.intensity = 1.0
+        rightMaterial.diffuse.intensity = 1.0
+        
+        leftHandSphere = SCNNode(geometry: sphereGeoLeft)
+        leftHandSphere.geometry?.materials = [leftMaterial]
         leftHandSphere.position = SCNVector3(x: -0.1, y: 0, z: 0)
         leftHandSphere.name = "LEFT"
         scene?.rootNode.addChildNode(leftHandSphere)
         
-        rightHandSphere = SCNNode(geometry: sphereGeometry)
+        rightHandSphere = SCNNode(geometry: sphereGeoRight)
+        rightHandSphere.geometry?.materials = [rightMaterial]
         rightHandSphere.position = SCNVector3(x: 0.1, y: 0, z: 0)
-        rightHandSphere.name = "LEFT"
+        rightHandSphere.name = "RIGHT"
         scene?.rootNode.addChildNode(rightHandSphere)
         
         InitialiseHandSpheres()
