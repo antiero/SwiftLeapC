@@ -21,8 +21,8 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
     let cylinderMesh = SCNCylinder(radius: 0.01, height: 0.04)
     let palmRadius : Float = 0.015
     
-    var spherePositions : [SCNVector3] = [SCNVector3]()
     var leftHandNodes : [SCNNode] = [SCNNode]()
+    var rightHandNodes : [SCNNode] = [SCNNode]()
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         updateHandPositions()
@@ -40,7 +40,7 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
     }
     
     func addHandSpheres()  {
-        let sphereGeometry = SCNSphere(radius: 0.01)
+        let sphereGeometry = SCNSphere(radius: 0.02)
         leftHandSphere = SCNNode(geometry: sphereGeometry)
         leftHandSphere.position = SCNVector3(x: -0.1, y: 0, z: 0)
         leftHandSphere.name = "LEFT"
@@ -50,6 +50,8 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
         rightHandSphere.position = SCNVector3(x: 0.1, y: 0, z: 0)
         rightHandSphere.name = "LEFT"
         scene?.rootNode.addChildNode(rightHandSphere)
+        
+        InitialiseHandSpheres()
     }
     
     func getFingerJointIndex(fingerIndex: Int, jointIndex: Int) -> Int
@@ -60,12 +62,6 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
     func UpdateLeftHandBonePositions(){
         if (handManager.leftHand == nil){
             return
-        }
-        
-        if (leftHandNodes.count != TOTAL_JOINT_COUNT)
-        {
-            spherePositions = [SCNVector3](repeating: SCNVector3(), count: TOTAL_JOINT_COUNT)
-            InitialiseLeftHandSpheres()
         }
         
         let leftHand = handManager.leftHand
@@ -86,11 +82,38 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
                 let position = bones[jointIx].next_joint
                 let vec3 = SCNVector3(0.001*position.x, 0.001*position.y, 0.001*position.z)
                 //spherePositions.append(vec3)
-                UpdateSphereNodeWithPosition(node: leftHandNodes[jointIx], position: vec3)
+                UpdateSphereNodeWithPosition(node: leftHandNodes[index], position: vec3)
                 //print("LEFT NODE COUNT: ", leftHandNodes.count)
             }
         }
     }
+    
+    func UpdateRightHandBonePositions(){
+        if (handManager.rightHand == nil){
+            return
+        }
+        
+        let hand = handManager.rightHand
+        let digits = hand?.digits
+        let thumb = digits!.0
+        let index = digits!.1
+        let middle = digits!.2
+        let ring = digits!.3
+        let pinky = digits!.4
+        let fingers = [thumb, index, middle, ring, pinky]
+        for fingerIx in 0...4 {
+            let finger = fingers[fingerIx]
+            let bones = [finger.bones.0, finger.bones.1, finger.bones.2, finger.bones.3]
+            for jointIx in 0...3
+            {
+                let index = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx)
+                let position = bones[jointIx].next_joint
+                let vec3 = SCNVector3(0.001*position.x, 0.001*position.y, 0.001*position.z)
+                UpdateSphereNodeWithPosition(node: rightHandNodes[index], position: vec3)
+            }
+        }
+    }
+    
     
     func UpdateSphereNodeWithPosition(node : SCNNode, position : SCNVector3){
         if (node != nil){
@@ -99,15 +122,20 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
         }
     }
     
-    func InitialiseLeftHandSpheres()
+    func InitialiseHandSpheres()
     {
         print("InitialiseLeftHandSpheres")
         let sphereGeometry = SCNSphere(radius: CGFloat(SPHERE_RADIUS))
         for nodeIx in 0...19{
-            print("ADDING CHILD NODE for index: ", nodeIx)
             let sphere = SCNNode(geometry: sphereGeometry)
             leftHandNodes.append(sphere)
             scene?.rootNode.addChildNode(leftHandNodes[nodeIx])
+        }
+        
+        for nodeIx in 0...19{
+            let sphere = SCNNode(geometry: sphereGeometry)
+            rightHandNodes.append(sphere)
+            scene?.rootNode.addChildNode(rightHandNodes[nodeIx])
         }
     }
     
@@ -118,6 +146,7 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
             }
             if let newRightHandPosition = handManager.rightHandPosition {
                 rightHandSphere.position = handManager.rightPalmPosAsSCNVector3()
+                UpdateRightHandBonePositions()
             }
         }
             

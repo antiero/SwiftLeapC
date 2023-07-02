@@ -31,7 +31,9 @@ class LeapExtendedFingerDetector : ObservableObject {
     func isLeftHandPointing() -> Bool {
         var pointing = false
         if (handManager.leftHandPresent() && handManager.leftHand != nil){
-            pointing = isHandPointing(hand: handManager.leftHand!)
+            if let hand = handManager.leftHand {
+                pointing = isHandPointing(hand: hand)
+            }
         }
         return pointing
     }
@@ -39,7 +41,9 @@ class LeapExtendedFingerDetector : ObservableObject {
     func isRightHandPointing() -> Bool {
         var pointing = false
         if (handManager.rightHandPresent() && handManager.rightHand != nil){
-            pointing = isHandPointing(hand: handManager.rightHand!)
+            if let hand = handManager.rightHand {
+                pointing = isHandPointing(hand: hand)
+            }
         }
         return pointing
     }
