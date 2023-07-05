@@ -108,6 +108,8 @@
 		DF56D1781BDB489600DC6990 /* SwiftLeapC */ = {
 			isa = PBXGroup;
 			children = (
+				DFBD9EB61BE0363B005845D5 /* SwiftLeapC-Bridging-Header.h */,
+				DFBD9EAD1BE03513005845D5 /* LeapC */,
 				ED0AA80D2A56227D0061BAAD /* 2D */,
 				ED0AA80C2A5622600061BAAD /* 3D */,
 				EDFE20A22A4F06B700664D48 /* Tracking */,
@@ -115,9 +117,6 @@
 				DF56D17D1BDB489600DC6990 /* Assets.xcassets */,
 				DFBD9EBD1BE03742005845D5 /* MainMenu.xib */,
 				DF56D1821BDB489600DC6990 /* Info.plist */,
-				DFBD9EAD1BE03513005845D5 /* LeapC */,
-				DFBD9EB61BE0363B005845D5 /* SwiftLeapC-Bridging-Header.h */,
-				ED1145922A4F285E0067C5DE /* Hand3DScene.scn */,
 				ED1145942A4F29080067C5DE /* SceneKitCatalog.scnassets */,
 			);
 			path = SwiftLeapC;
@@ -135,6 +134,7 @@
 		ED0AA80C2A5622600061BAAD /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				ED1145922A4F285E0067C5DE /* Hand3DScene.scn */,
 				ED573D692A50C9310028027D /* HandPreviewViewController.swift */,
 				ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */,
 			);
