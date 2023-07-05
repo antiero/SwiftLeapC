@@ -1,9 +1,8 @@
 //
-//  LeapMotionManager.swift
-//  LeapDemoSwift
+//  LeapHandManager.swift
+//  SwiftLeapC
 //
-//  Created by Kelly Innes on 10/24/15.
-//  Copyright © 2015 Kelly Innes. All rights reserved.
+//  Created by Antony Nasce on 01/07/2023.
 //
 
 import Foundation
@@ -123,16 +122,16 @@ class LeapHandManager: NSObject, ObservableObject {
     
     func leftPalmPosAsSCNVector3() -> SCNVector3 {
         var leftPos = SCNVector3()
-        if (leftHandPresent() && leftHand != nil && leftHand?.palm.position != nil){
-            leftPos = SCNVector3((0.001*(leftHand?.palm.position.x)!), (0.001*(leftHand?.palm.position.y)!), (0.001*(leftHand?.palm.position.z)!))
+        if let palmPosition = leftHand?.palm.position{
+            leftPos = SCNVector3((0.001*(palmPosition.x)), (0.001*(palmPosition.y)), (0.001*(palmPosition.z)))
         }
         return leftPos
     }
     
     func rightPalmPosAsSCNVector3() -> SCNVector3 {
         var rightPos = SCNVector3()
-        if (rightHandPresent() && rightHand != nil && rightHand?.palm.position != nil){
-            rightPos = SCNVector3((0.001*(rightHand?.palm.position.x)!), (0.001*(rightHand?.palm.position.y)!), (0.001*(rightHand?.palm.position.z)!))
+        if let palmPosition = rightHand?.palm.position{
+            rightPos = SCNVector3((0.001*(palmPosition.x)), (0.001*(palmPosition.y)), (0.001*(palmPosition.z)))
         }
         return rightPos
     }

@@ -17,7 +17,7 @@
                BlueprintIdentifier = "DF56D1751BDB489600DC6990"
                BuildableName = "SwiftLeapC.app"
                BlueprintName = "SwiftLeapC"
-               ReferencedContainer = "container:LeapDemoSwift.xcodeproj">
+               ReferencedContainer = "container:SwiftLeapC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,7 +47,7 @@
             BlueprintIdentifier = "DF56D1751BDB489600DC6990"
             BuildableName = "SwiftLeapC.app"
             BlueprintName = "SwiftLeapC"
-            ReferencedContainer = "container:LeapDemoSwift.xcodeproj">
+            ReferencedContainer = "container:SwiftLeapC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -64,7 +64,7 @@
             BlueprintIdentifier = "DF56D1751BDB489600DC6990"
             BuildableName = "SwiftLeapC.app"
             BlueprintName = "SwiftLeapC"
-            ReferencedContainer = "container:LeapDemoSwift.xcodeproj">
+            ReferencedContainer = "container:SwiftLeapC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

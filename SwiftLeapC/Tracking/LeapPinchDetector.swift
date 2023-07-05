@@ -1,9 +1,8 @@
 //
-//  File.swift
+//  LeapPinchDetector.swift
 //  SwiftLeapC
 //
-//  Created by Antony Nasce on 30/06/2023.
-//  Copyright © 2023 Kelly Innes. All rights reserved.
+//  Created by Antony Nasce on 01/07/2023.
 //
 
 import Foundation

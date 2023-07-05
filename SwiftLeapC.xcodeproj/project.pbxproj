@@ -61,7 +61,7 @@
 		DF56D17D1BDB489600DC6990 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF56D1821BDB489600DC6990 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF56D1931BDB490100DC6990 /* LeapHandManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeapHandManager.swift; sourceTree = "<group>"; };
-		DFBD9EB61BE0363B005845D5 /* LeapDemoSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LeapDemoSwift-Bridging-Header.h"; sourceTree = "<group>"; };
+		DFBD9EB61BE0363B005845D5 /* SwiftLeapC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftLeapC-Bridging-Header.h"; sourceTree = "<group>"; };
 		DFBD9EB91BE036F1005845D5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		DFBD9EBB1BE03718005845D5 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		DFBD9EBD1BE03742005845D5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
@@ -71,7 +71,6 @@
 		ED573D692A50C9310028027D /* HandPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandPreviewViewController.swift; sourceTree = "<group>"; };
 		ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.5.dylib; path = "../../../../../../../Library/Application Support/Ultraleap/LeapSDK/lib/libLeapC.5.dylib"; sourceTree = "<group>"; };
 		EDAB611E2A053BEA00B580C6 /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
-		EDFE20892A4EFCEE00664D48 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapPinchDetector.swift; sourceTree = "<group>"; };
 		EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapExtendedFingerDetector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,7 +90,7 @@
 		DF56D16D1BDB489600DC6990 = {
 			isa = PBXGroup;
 			children = (
-				DF56D1781BDB489600DC6990 /* LeapDemoSwift */,
+				DF56D1781BDB489600DC6990 /* SwiftLeapC */,
 				EDFE20882A4EFCEE00664D48 /* Packages */,
 				DF56D1771BDB489600DC6990 /* Products */,
 				ED6420642A4D64510017F7B7 /* Frameworks */,
@@ -106,24 +105,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DF56D1781BDB489600DC6990 /* LeapDemoSwift */ = {
+		DF56D1781BDB489600DC6990 /* SwiftLeapC */ = {
 			isa = PBXGroup;
 			children = (
+				ED0AA80D2A56227D0061BAAD /* 2D */,
+				ED0AA80C2A5622600061BAAD /* 3D */,
 				EDFE20A22A4F06B700664D48 /* Tracking */,
 				DF56D1791BDB489600DC6990 /* AppDelegate.swift */,
-				ED573D692A50C9310028027D /* HandPreviewViewController.swift */,
-				ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */,
-				DFBD9EB91BE036F1005845D5 /* GameScene.sks */,
-				DFBD9EBB1BE03718005845D5 /* GameScene.swift */,
 				DF56D17D1BDB489600DC6990 /* Assets.xcassets */,
 				DFBD9EBD1BE03742005845D5 /* MainMenu.xib */,
 				DF56D1821BDB489600DC6990 /* Info.plist */,
 				DFBD9EAD1BE03513005845D5 /* LeapC */,
-				DFBD9EB61BE0363B005845D5 /* LeapDemoSwift-Bridging-Header.h */,
+				DFBD9EB61BE0363B005845D5 /* SwiftLeapC-Bridging-Header.h */,
 				ED1145922A4F285E0067C5DE /* Hand3DScene.scn */,
 				ED1145942A4F29080067C5DE /* SceneKitCatalog.scnassets */,
 			);
-			path = LeapDemoSwift;
+			path = SwiftLeapC;
 			sourceTree = "<group>";
 		};
 		DFBD9EAD1BE03513005845D5 /* LeapC */ = {
@@ -133,6 +130,24 @@
 				EDAB611E2A053BEA00B580C6 /* LeapC.h */,
 			);
 			path = LeapC;
+			sourceTree = "<group>";
+		};
+		ED0AA80C2A5622600061BAAD /* 3D */ = {
+			isa = PBXGroup;
+			children = (
+				ED573D692A50C9310028027D /* HandPreviewViewController.swift */,
+				ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */,
+			);
+			path = 3D;
+			sourceTree = "<group>";
+		};
+		ED0AA80D2A56227D0061BAAD /* 2D */ = {
+			isa = PBXGroup;
+			children = (
+				DFBD9EB91BE036F1005845D5 /* GameScene.sks */,
+				DFBD9EBB1BE03718005845D5 /* GameScene.swift */,
+			);
+			path = 2D;
 			sourceTree = "<group>";
 		};
 		ED6420642A4D64510017F7B7 /* Frameworks */ = {
@@ -145,7 +160,6 @@
 		EDFE20882A4EFCEE00664D48 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				EDFE20892A4EFCEE00664D48 /* RealityKitContent */,
 			);
 			path = Packages;
 			sourceTree = "<group>";
@@ -200,7 +214,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DF56D1711BDB489600DC6990 /* Build configuration list for PBXProject "LeapDemoSwift" */;
+			buildConfigurationList = DF56D1711BDB489600DC6990 /* Build configuration list for PBXProject "SwiftLeapC" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -368,28 +382,32 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				INFOPLIST_FILE = LeapDemoSwift/Info.plist;
+				DEVELOPMENT_TEAM = 58W8WV39Y9;
+				INFOPLIST_FILE = SwiftLeapC/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
-					"\"$(SRCROOT)/LeapDemoSwift/LeapC\"",
+					"\"$(SRCROOT)/SwiftLeapC/LeapC\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/LeapDemoSwift",
-					"$(PROJECT_DIR)/LeapDemoSwift/LeapC",
+					"$(PROJECT_DIR)/SwiftLeapC",
+					"$(PROJECT_DIR)/SwiftLeapC/LeapC",
 					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_LDFLAGS = "\"$(SRCROOT)/LeapDemoSwift/LeapC/libLeapC.5.dylib\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kellyinnes.LeapDemoSwift;
+				MACOSX_DEPLOYMENT_TARGET = 13.4;
+				OTHER_LDFLAGS = "\"$(SRCROOT)/SwiftLeapC/LeapC/libLeapC.5.dylib\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.antappi.swiftleapc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/LeapDemoSwift/LeapObjCSDK\"";
-				SWIFT_OBJC_BRIDGING_HEADER = "LeapDemoSwift/LeapDemoSwift-Bridging-Header.h";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/SwiftLeapC/LeapC\"";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftLeapC/SwiftLeapC-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -400,28 +418,32 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				INFOPLIST_FILE = LeapDemoSwift/Info.plist;
+				DEVELOPMENT_TEAM = 58W8WV39Y9;
+				INFOPLIST_FILE = SwiftLeapC/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
-					"\"$(SRCROOT)/LeapDemoSwift/LeapC\"",
+					"\"$(SRCROOT)/SwiftLeapC/LeapC\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/LeapDemoSwift",
-					"$(PROJECT_DIR)/LeapDemoSwift/LeapC",
+					"$(PROJECT_DIR)/SwiftLeapC",
+					"$(PROJECT_DIR)/SwiftLeapC/LeapC",
 					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_LDFLAGS = "\"$(SRCROOT)/LeapDemoSwift/LeapC/libLeapC.5.dylib\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kellyinnes.LeapDemoSwift;
+				MACOSX_DEPLOYMENT_TARGET = 13.4;
+				OTHER_LDFLAGS = "\"$(SRCROOT)/SwiftLeapC/LeapC/libLeapC.5.dylib\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.antappi.swiftleapc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/LeapDemoSwift/LeapObjCSDK\"";
-				SWIFT_OBJC_BRIDGING_HEADER = "LeapDemoSwift/LeapDemoSwift-Bridging-Header.h";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/SwiftLeapC/LeapC\"";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftLeapC/SwiftLeapC-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -429,7 +451,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DF56D1711BDB489600DC6990 /* Build configuration list for PBXProject "LeapDemoSwift" */ = {
+		DF56D1711BDB489600DC6990 /* Build configuration list for PBXProject "SwiftLeapC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DF56D1831BDB489600DC6990 /* Debug */,

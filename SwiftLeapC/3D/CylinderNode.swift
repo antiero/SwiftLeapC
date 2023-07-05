@@ -3,7 +3,6 @@
 //  SwiftLeapC
 //
 //  Created by Antony Nasce on 05/07/2023.
-//  Copyright © 2023 Kelly Innes. All rights reserved.
 //
 
 import Foundation

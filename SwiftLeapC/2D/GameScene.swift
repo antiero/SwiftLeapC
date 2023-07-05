@@ -1,6 +1,6 @@
 //
 //  GameScene.swift
-//  LeapDemoSwift
+//  SwiftLeapC
 //
 //  Originally Created by Kelly Innes on 10/27/15. Modified by Antony Nasce 05/05/2023
 //  Copyright (c) 2015 Kelly Innes. All rights reserved.
@@ -44,7 +44,7 @@ class GameScene: SKScene {
         scoreLabel.text = "Score: 0"
         scoreLabel.horizontalAlignmentMode = .right
         scoreLabel.position = CGPoint(x: 980, y: 700)
-        addChild(scoreLabel)
+        //addChild(scoreLabel)
         addChild(leftHandSprite)
         addChild(rightHandSprite)
     }
