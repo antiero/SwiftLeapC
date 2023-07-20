@@ -55,7 +55,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DF56D1761BDB489600DC6990 /* SwiftLeapC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftLeapC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF56D1761BDB489600DC6990 /* Ultraleap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ultraleap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF56D1791BDB489600DC6990 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF56D17D1BDB489600DC6990 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF56D1821BDB489600DC6990 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 		DF56D1771BDB489600DC6990 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DF56D1761BDB489600DC6990 /* SwiftLeapC.app */,
+				DF56D1761BDB489600DC6990 /* Ultraleap.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -166,9 +166,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DF56D1751BDB489600DC6990 /* SwiftLeapC */ = {
+		DF56D1751BDB489600DC6990 /* Ultraleap */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DF56D1851BDB489600DC6990 /* Build configuration list for PBXNativeTarget "SwiftLeapC" */;
+			buildConfigurationList = DF56D1851BDB489600DC6990 /* Build configuration list for PBXNativeTarget "Ultraleap" */;
 			buildPhases = (
 				DF56D1721BDB489600DC6990 /* Sources */,
 				DF56D1731BDB489600DC6990 /* Frameworks */,
@@ -181,9 +181,9 @@
 			);
 			dependencies = (
 			);
-			name = SwiftLeapC;
+			name = Ultraleap;
 			productName = LeapDemoSwift;
-			productReference = DF56D1761BDB489600DC6990 /* SwiftLeapC.app */;
+			productReference = DF56D1761BDB489600DC6990 /* Ultraleap.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -216,7 +216,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DF56D1751BDB489600DC6990 /* SwiftLeapC */,
+				DF56D1751BDB489600DC6990 /* Ultraleap */,
 			);
 		};
 /* End PBXProject section */
@@ -358,6 +358,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -448,7 +449,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DF56D1851BDB489600DC6990 /* Build configuration list for PBXNativeTarget "SwiftLeapC" */ = {
+		DF56D1851BDB489600DC6990 /* Build configuration list for PBXNativeTarget "Ultraleap" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DF56D1861BDB489600DC6990 /* Debug */,

@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DF56D1751BDB489600DC6990"
-               BuildableName = "SwiftLeapC.app"
-               BlueprintName = "SwiftLeapC"
+               BuildableName = "Ultraleap.app"
+               BlueprintName = "Ultraleap"
                ReferencedContainer = "container:SwiftLeapC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DF56D1751BDB489600DC6990"
-            BuildableName = "SwiftLeapC.app"
-            BlueprintName = "SwiftLeapC"
+            BuildableName = "Ultraleap.app"
+            BlueprintName = "Ultraleap"
             ReferencedContainer = "container:SwiftLeapC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DF56D1751BDB489600DC6990"
-            BuildableName = "SwiftLeapC.app"
-            BlueprintName = "SwiftLeapC"
+            BuildableName = "Ultraleap.app"
+            BlueprintName = "Ultraleap"
             ReferencedContainer = "container:SwiftLeapC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
