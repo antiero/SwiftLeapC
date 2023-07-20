@@ -15,7 +15,6 @@
 		DFBD9EBE1BE03742005845D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFBD9EBD1BE03742005845D5 /* MainMenu.xib */; };
 		ED0AA80B2A5601B20061BAAD /* CylinderNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */; };
 		ED1145932A4F285E0067C5DE /* Hand3DScene.scn in Resources */ = {isa = PBXBuildFile; fileRef = ED1145922A4F285E0067C5DE /* Hand3DScene.scn */; };
-		ED1145952A4F29080067C5DE /* SceneKitCatalog.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = ED1145942A4F29080067C5DE /* SceneKitCatalog.scnassets */; };
 		ED573D6A2A50C9310028027D /* HandPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED573D692A50C9310028027D /* HandPreviewViewController.swift */; };
 		ED6420652A4D64510017F7B7 /* libLeapC.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; };
 		ED6420662A4D64510017F7B7 /* libLeapC.5.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -67,7 +66,6 @@
 		DFBD9EBD1BE03742005845D5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CylinderNode.swift; sourceTree = "<group>"; };
 		ED1145922A4F285E0067C5DE /* Hand3DScene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Hand3DScene.scn; sourceTree = "<group>"; };
-		ED1145942A4F29080067C5DE /* SceneKitCatalog.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = SceneKitCatalog.scnassets; sourceTree = "<group>"; };
 		ED573D692A50C9310028027D /* HandPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandPreviewViewController.swift; sourceTree = "<group>"; };
 		ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.5.dylib; path = "../../../../../../../Library/Application Support/Ultraleap/LeapSDK/lib/libLeapC.5.dylib"; sourceTree = "<group>"; };
 		EDAB611E2A053BEA00B580C6 /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
@@ -91,7 +89,6 @@
 			isa = PBXGroup;
 			children = (
 				DF56D1781BDB489600DC6990 /* SwiftLeapC */,
-				EDFE20882A4EFCEE00664D48 /* Packages */,
 				DF56D1771BDB489600DC6990 /* Products */,
 				ED6420642A4D64510017F7B7 /* Frameworks */,
 			);
@@ -117,7 +114,6 @@
 				DF56D17D1BDB489600DC6990 /* Assets.xcassets */,
 				DFBD9EBD1BE03742005845D5 /* MainMenu.xib */,
 				DF56D1821BDB489600DC6990 /* Info.plist */,
-				ED1145942A4F29080067C5DE /* SceneKitCatalog.scnassets */,
 			);
 			path = SwiftLeapC;
 			sourceTree = "<group>";
@@ -155,13 +151,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EDFE20882A4EFCEE00664D48 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Packages;
 			sourceTree = "<group>";
 		};
 		EDFE20A22A4F06B700664D48 /* Tracking */ = {
@@ -237,7 +226,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED1145952A4F29080067C5DE /* SceneKitCatalog.scnassets in Resources */,
 				DF56D17E1BDB489600DC6990 /* Assets.xcassets in Resources */,
 				ED1145932A4F285E0067C5DE /* Hand3DScene.scn in Resources */,
 				DFBD9EBA1BE036F1005845D5 /* GameScene.sks in Resources */,

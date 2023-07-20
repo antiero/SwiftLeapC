@@ -10,8 +10,12 @@ import SwiftUI
 import SceneKit
 
 class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
+    var leftHand : SCNNode!
     var leftHandSphere : SCNNode!
     var leftPinkyMetacarpelSphere : SCNNode!
+    
+    
+    var rightHand : SCNNode!
     var rightHandSphere : SCNNode!
     var rightPinkyMetacarpelSphere : SCNNode!
     let handManager = LeapHandManager.sharedInstance
@@ -49,6 +53,15 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
     }
     
     func addHandSpheres()  {
+        
+        // The root left/right hand objects
+        leftHand = SCNNode()
+        leftHand.name = "LeftHand"
+        rightHand = SCNNode()
+        rightHand.name = "RightHand"
+        scene?.rootNode.addChildNode(leftHand)
+        scene?.rootNode.addChildNode(rightHand)
+        
         let sphereGeoLeft = SCNSphere(radius: PALM_BALL_RADIUS)
         let leftMaterial = SCNMaterial()
         leftMaterial.diffuse.contents = NSColor.blue
@@ -65,13 +78,13 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
         leftHandSphere.geometry?.materials = [leftMaterial]
         leftHandSphere.position = SCNVector3(x: 1, y: 1, z: 1)
         leftHandSphere.name = "LEFT"
-        scene?.rootNode.addChildNode(leftHandSphere)
+        leftHand.addChildNode(leftHandSphere)
         
         rightHandSphere = SCNNode(geometry: sphereGeoRight)
         rightHandSphere.geometry?.materials = [rightMaterial]
         rightHandSphere.position = SCNVector3(x: 1, y: 1, z: 1)
         rightHandSphere.name = "RIGHT"
-        scene?.rootNode.addChildNode(rightHandSphere)
+        rightHand.addChildNode(rightHandSphere)
         
         InitialiseHandGeo()
     }
@@ -85,7 +98,7 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
         if (handManager.leftHand == nil){
             return
         }
-        
+        leftHandSphere.position = handManager.leftPalmPosAsSCNVector3()
         let hand = handManager.leftHand
         if let digits = hand?.digits {
             let thumb = digits.0
@@ -190,7 +203,7 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
         if (handManager.rightHand == nil){
             return
         }
-        
+        rightHandSphere.position = handManager.rightPalmPosAsSCNVector3()
         let hand = handManager.rightHand
         if let digits = hand?.digits {
             let thumb = digits.0
@@ -284,11 +297,25 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
         rightMaterial.normal.intensity = 1.0
         rightMaterial.diffuse.intensity = 1.0
         
+        // Left Hand Sphere Joints
         for nodeIx in 0...19{
             let sphere = SCNNode(geometry: sphereGeoLeft)
             sphere.geometry?.materials = [leftMaterial]
+            sphere.name = "LeftSphere-\(nodeIx)"
             leftHandNodes.append(sphere)
-            scene?.rootNode.addChildNode(leftHandNodes[nodeIx])
+            leftHand.addChildNode(leftHandNodes[nodeIx])
+        }
+        
+        // Initialise Left Hand Bone Cylinders
+        for boneIx in 0...20 {
+            let newBone = SCNNode()
+            newBone.name = "LeftBone-\(boneIx)"
+            leftHandBoneNodes.append(newBone)
+            leftHand.addChildNode(
+                leftHandBoneNodes[boneIx].buildLineInTwoPointsWithRotation(
+                    from: SCNVector3(1,1,1),
+                    to: SCNVector3(1,1,1),
+                    radius: SPHERE_RADIUS*0.8, color: .white))
         }
         
         // Also do those pinky ball joints..
@@ -296,62 +323,53 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
         leftPinkyMetacarpelSphere.geometry?.materials = [leftMaterial]
         leftPinkyMetacarpelSphere.position = SCNVector3(x: 1, y: 1, z: 1)
         leftPinkyMetacarpelSphere.name = "LEFTPINKYMETA"
-        scene?.rootNode.addChildNode(leftPinkyMetacarpelSphere)
+        leftHand.addChildNode(leftPinkyMetacarpelSphere)
         
-        rightPinkyMetacarpelSphere = SCNNode(geometry: sphereGeoRight)
-        rightPinkyMetacarpelSphere.geometry?.materials = [rightMaterial]
-        rightPinkyMetacarpelSphere.position = SCNVector3(x: 1, y: 1, z: 1)
-        rightPinkyMetacarpelSphere.name = "RIGHTPINKYMETA"
-        scene?.rootNode.addChildNode(rightPinkyMetacarpelSphere)
-        
-        // Initialise Left Hand Bone Cylinders
-        for boneIx in 0...20 {
-            let newBone = SCNNode()
-            leftHandBoneNodes.append(newBone)
-            scene.rootNode.addChildNode(
-                leftHandBoneNodes[boneIx].buildLineInTwoPointsWithRotation(
-                    from: SCNVector3(1,1,1),
-                    to: SCNVector3(1,1,1),
-                    radius: SPHERE_RADIUS*0.8, color: .white))
+        // Right Hand Sphere Joints
+        for nodeIx in 0...19{
+            let sphere = SCNNode(geometry: sphereGeoRight)
+            sphere.geometry?.materials = [rightMaterial]
+            rightHandNodes.append(sphere)
+            rightHand.addChildNode(rightHandNodes[nodeIx])
         }
+
         // Initialise Right Hand Bone Cylinders
         for boneIx in 0...20 {
             let newBone = SCNNode()
+            newBone.name = "RightBone-\(boneIx)"
             rightHandBoneNodes.append(newBone)
-            scene.rootNode.addChildNode(
+            rightHand.addChildNode(
                 rightHandBoneNodes[boneIx].buildLineInTwoPointsWithRotation(
                     from: SCNVector3(1,1,1),
                     to: SCNVector3(1,1,1),
                     radius: SPHERE_RADIUS*0.8, color: .white))
         }
         
-        for nodeIx in 0...19{
-            let sphere = SCNNode(geometry: sphereGeoRight)
-            sphere.geometry?.materials = [rightMaterial]
-            rightHandNodes.append(sphere)
-            scene?.rootNode.addChildNode(rightHandNodes[nodeIx])
-        }
+        // Also do those pinky ball joints..
+        rightPinkyMetacarpelSphere = SCNNode(geometry: sphereGeoRight)
+        rightPinkyMetacarpelSphere.geometry?.materials = [rightMaterial]
+        rightPinkyMetacarpelSphere.position = SCNVector3(x: 1, y: 1, z: 1)
+        rightPinkyMetacarpelSphere.name = "RIGHTPINKYMETA"
+        rightHand.addChildNode(rightPinkyMetacarpelSphere)
+        
     }
     
     func updateHandPositions() {
-        rightLoop: if (handManager.rightHandPresent()){
-            if (handManager.rightHand == nil){
-                break rightLoop
-            }
-            if handManager.rightHandPosition != nil {
-                rightHandSphere.position = handManager.rightPalmPosAsSCNVector3()
-                UpdateRightHandBonePositions()
-            }
+
+        if handManager.rightHandPresent() {
+            rightHand.isHidden = false
+            UpdateRightHandBonePositions()
         }
-            
-        leftLoop: if (handManager.leftHandPresent()){
-            if (handManager.leftHand == nil){
-                break leftLoop
-            }
-            if handManager.leftHandPosition != nil {
-                leftHandSphere.position = handManager.leftPalmPosAsSCNVector3()
-                UpdateLeftHandBonePositions()
-            }
+        else{
+            rightHand.isHidden = true
+        }
+        
+        if handManager.leftHandPresent() {
+            leftHand.isHidden = false
+            UpdateLeftHandBonePositions()
+        }
+        else{
+            leftHand.isHidden = true
         }
     }
 }

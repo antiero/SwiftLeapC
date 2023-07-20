@@ -11,31 +11,54 @@ import SceneKit
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    private var statusItem: NSStatusItem!
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var skView: SKView!
     @IBOutlet weak var handPreview: SCNView!
+    lazy var showHideMenuItem : NSMenuItem = {
+       return NSMenuItem(title: "Hide", action: #selector(ToggleWindow), keyEquivalent: "")
+    }()
     var handPreviewController = HandPreviewViewController()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-//        if let scene = GameScene(fileNamed:"GameScene") {
-//            /* Set the scale mode to scale to fit the window */
-//            scene.scaleMode = .aspectFill
-//            
-//            self.skView!.presentScene(scene)
-//            
-//            /* Sprite Kit applies additional optimizations to improve rendering performance */
-//            self.skView!.ignoresSiblingOrder = true
-//            
-//            self.skView!.showsFPS = true
-//            self.skView!.showsNodeCount = true        }
-
         handPreview.scene = handPreviewController.makeScene()
         handPreview.delegate = handPreviewController
         handPreview.isPlaying = true
         handPreview.allowsCameraControl = true
         handPreview.showsStatistics = true
+        
+        // 2
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        // 3
+        if let button = statusItem.button {
+            button.image = NSImage(named: "ultraleap-icon-menubar")
+        }
+        setupMenus()
+        window.canHide = true
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
     }
+    
+    @objc func ToggleWindow() {
+        window.setIsVisible(!window.isVisible)
+        showHideMenuItem.title = (window.isMainWindow) ? "Hide" : "Show"
+    }
+    
+    func setupMenus() {
+        // 1
+        let menu = NSMenu()
+        
+        // 2
+        //let one = NSMenuItem(title: showHideMenuItem.title, action: #selector(ToggleWindow), keyEquivalent: "")
+        menu.addItem(showHideMenuItem)
+        
+        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+
+        // 3
+        statusItem.menu = menu
+    }
+    
     
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
