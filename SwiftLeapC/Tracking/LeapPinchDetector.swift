@@ -15,6 +15,14 @@ class LeapPinchDetector : ObservableObject {
     @Published var leftPinching : Bool = false
     @Published var rightPinching : Bool = false
     
+    func pinchStrength(hand: LEAP_HAND?) -> Double {
+        var pinchAmount = 0.0
+        if (hand != nil) {
+            pinchAmount = Double(hand!.pinch_strength)
+        }
+        return pinchAmount
+    }
+    
     func leftIsPinching() -> Bool {
         var test = false
         if (handManager.leftHand != nil){

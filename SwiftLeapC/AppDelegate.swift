@@ -13,21 +13,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var statusItem: NSStatusItem!
     @IBOutlet weak var window: NSWindow!
-    @IBOutlet weak var skView: SKView!
-    @IBOutlet weak var handPreview: SCNView!
     lazy var showHideMenuItem : NSMenuItem = {
        return NSMenuItem(title: "Hide", action: #selector(ToggleWindow), keyEquivalent: "")
     }()
-    var handPreviewController = HandPreviewViewController()
+    @IBOutlet weak var handPreviewController : HandPreviewViewController!
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-        handPreview.scene = handPreviewController.makeScene()
-        handPreview.delegate = handPreviewController
-        handPreview.isPlaying = true
-        handPreview.allowsCameraControl = true
-        handPreview.showsStatistics = true
-        
+        handPreviewController.initialiseScene()
         // 2
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         // 3

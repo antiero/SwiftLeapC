@@ -9,12 +9,16 @@ import Foundation
 import SwiftUI
 import SceneKit
 
-class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
+class HandPreviewViewController : NSViewController, SCNSceneRendererDelegate {
+    
+    @IBOutlet weak var handPreview: SCNView!
+    
     var leftHand : SCNNode!
     var leftHandSphere : SCNNode!
     var leftPinkyMetacarpelSphere : SCNNode!
-    
-    
+
+    var pinchDetector = LeapPinchDetector()
+
     var rightHand : SCNNode!
     var rightHandSphere : SCNNode!
     var rightPinkyMetacarpelSphere : SCNNode!
@@ -41,9 +45,14 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
         updateHandPositions()
     }
     
-    func initialiseScene() -> SCNScene? {
+    func initialiseScene() {
         scene = makeScene();
-        return scene
+        handPreview.delegate = self
+        handPreview.allowsCameraControl = true
+        handPreview.showsStatistics = true
+        handPreview.isPlaying = true
+        handPreview.scene = scene
+        //return scene
     }
     
     func makeScene() -> SCNScene? {
@@ -94,13 +103,26 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
         return fingerIndex * 4 + jointIndex;
     }
     
+    func UpdatePinchIndicatorsForHand(hand: LEAP_HAND){
+        let pinchStrength = pinchDetector.pinchStrength(hand: hand)
+        if (hand.type == eLeapHandType_Left){
+            leftHandSphere.opacity = pinchStrength
+        }
+        else{
+            rightHandSphere.opacity = pinchStrength
+        }
+    }
+    
     func UpdateLeftHandBonePositions(){
         if (handManager.leftHand == nil){
             return
         }
         leftHandSphere.position = handManager.leftPalmPosAsSCNVector3()
-        let hand = handManager.leftHand
-        if let digits = hand?.digits {
+        
+        let leftHand = handManager.leftHand
+        
+        if let digits = leftHand?.digits {
+            UpdatePinchIndicatorsForHand(hand: leftHand!)
             let thumb = digits.0
             let index = digits.1
             let middle = digits.2
@@ -204,8 +226,9 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
             return
         }
         rightHandSphere.position = handManager.rightPalmPosAsSCNVector3()
-        let hand = handManager.rightHand
-        if let digits = hand?.digits {
+        let rightHand = handManager.rightHand
+        if let digits = rightHand?.digits {
+            UpdatePinchIndicatorsForHand(hand: rightHand!)
             let thumb = digits.0
             let index = digits.1
             let middle = digits.2
@@ -355,7 +378,6 @@ class HandPreviewViewController : NSObject, SCNSceneRendererDelegate {
     }
     
     func updateHandPositions() {
-
         if handManager.rightHandPresent() {
             rightHand.isHidden = false
             UpdateRightHandBonePositions()

@@ -109,31 +109,30 @@
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="0.0" y="0.0" width="800" height="600"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
-            <view key="contentView" id="372">
+            <view key="contentView" id="372" userLabel="MainView">
                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView id="539" customClass="SKView">
+                    <sceneView sceneName="Hand3DScene.scn" id="MwL-RN-hHp">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <sceneView fixedFrame="YES" id="MwL-RN-hHp">
-                                <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </sceneView>
-                        </subviews>
-                    </customView>
+                    </sceneView>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-367" y="-433"/>
         </window>
         <customObject id="494" customClass="AppDelegate" customModule="Ultraleap" customModuleProvider="target">
             <connections>
-                <outlet property="handPreview" destination="MwL-RN-hHp" id="7k5-0K-73t"/>
-                <outlet property="skView" destination="539" id="540"/>
+                <outlet property="handPreviewController" destination="gWr-Xe-0SQ" id="Wej-HL-Yz2"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>
+        <viewController id="gWr-Xe-0SQ" customClass="HandPreviewViewController" customModule="Ultraleap" customModuleProvider="target">
+            <connections>
+                <outlet property="handPreview" destination="MwL-RN-hHp" id="6TR-Ea-Y5L"/>
+                <outlet property="mainView" destination="372" id="vxe-9w-AhL"/>
+            </connections>
+        </viewController>
     </objects>
 </document>
