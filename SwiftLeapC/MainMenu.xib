@@ -104,7 +104,7 @@
             </items>
             <point key="canvasLocation" x="139" y="-36"/>
         </menu>
-        <window title="SwiftLeapC" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
+        <window title="Ultraleap Hand Tracking" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="0.0" y="0.0" width="800" height="600"/>
@@ -113,22 +113,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="539" customClass="SKView">
+                    <customView id="539" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <sceneView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MwL-RN-hHp">
+                            <sceneView fixedFrame="YES" id="MwL-RN-hHp">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </sceneView>
                         </subviews>
                     </customView>
                 </subviews>
-                <constraints>
-                    <constraint firstItem="539" firstAttribute="bottom" secondItem="372" secondAttribute="bottom" id="541"/>
-                    <constraint firstItem="539" firstAttribute="top" secondItem="372" secondAttribute="top" id="542"/>
-                    <constraint firstItem="539" firstAttribute="trailing" secondItem="372" secondAttribute="trailing" id="543"/>
-                    <constraint firstItem="539" firstAttribute="leading" secondItem="372" secondAttribute="leading" id="544"/>
-                </constraints>
             </view>
             <point key="canvasLocation" x="-367" y="-433"/>
         </window>
