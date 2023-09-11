@@ -15,13 +15,20 @@ extension UInt32 {
     }
 }
 
-class LeapHandManager: NSObject, ObservableObject {
+class LeapHandManager: NSObject {
       
     static let sharedInstance = LeapHandManager()
     private var _rightHandPosition : LEAP_VECTOR? = nil
     private var _leftHandPosition : LEAP_VECTOR? = nil
     private var _rightHand : LEAP_HAND? = nil
     private var _leftHand : LEAP_HAND? = nil
+    public var currentImage : CGImage?
+    
+    var currentFrameID: Int64
+    private let notificationCenter: NotificationCenter
+    static var OnNewLeapFrame: Notification.Name {
+        return .init(rawValue: "NEW_LEAP_FRAME")
+    }
     
     var leftHand : LEAP_HAND? {
         get {
@@ -81,13 +88,16 @@ class LeapHandManager: NSObject, ObservableObject {
     let lock = NSLock()
 
     override init() {
+        currentFrameID = 0
+        notificationCenter = .default
         super.init()
         var config = LEAP_CONNECTION_CONFIG()
         var connection : LEAP_CONNECTION? = OpaquePointer(bitPattern: 0)
         _ = withUnsafeMutablePointer(to: &connection, {
             LeapCreateConnection(&config, $0)
         })
-        
+        //LeapSetPolicyFlags(connection, eLeapPolicyFlag_Images, 0);
+        LeapSetPolicyFlags(connection, 0x00000002, 0)
         LeapOpenConnection(connection)
         
         let queue = DispatchQueue(label: "leapc", attributes: .concurrent)
@@ -106,6 +116,8 @@ class LeapHandManager: NSObject, ObservableObject {
                 switch msg.type {
                     case eLeapEventType_Tracking:
                         self.onFrame(msg.tracking_event!.pointee)
+                    case eLeapEventType_Image:
+                        self.onImage(msg.image_event!.pointee)
                     case eLeapEventType_Connection:
                         self.onConnect(msg.connection_event!.pointee)
                     case eLeapEventType_ConnectionLost:
@@ -165,6 +177,8 @@ class LeapHandManager: NSObject, ObservableObject {
         rightHandPosition = nil
         leftHand = nil
         rightHand = nil
+        currentFrameID = frame.tracking_frame_id
+        
         
         for i in 0 ..< frame.nHands {
             let hand = frame.pHands.advanced(by: Int(i)).pointee
@@ -176,5 +190,39 @@ class LeapHandManager: NSObject, ObservableObject {
                 rightHandPosition = rightHand!.palm.position
             }
         }
+        notificationCenter.post(name: LeapHandManager.OnNewLeapFrame, object: currentFrameID)
+    }
+    
+    func onImage(_ imageEvent: _LEAP_IMAGE_EVENT){
+        
+        // The LeapImage class represents a single greyscale image from one of the the Leap Motion cameras.
+        let leftImage = imageEvent.image.0
+        //let rightImage = imageEvent.image.1
+        let leftImageData = leftImage.data!
+        let leftImageProperties = leftImage.properties
+        let width = Int(leftImageProperties.width)
+        let height = Int(leftImageProperties.height)
+        
+        let provider: CGDataProvider = CGDataProvider(data: Data(
+                        bytes: UnsafeMutableRawPointer(mutating: leftImageData),
+                        count: width*height
+                    ) as CFData)!
+        if (provider.data == nil){
+            print("NO IMAGE PROVIDER")
+            return
+        }
+        currentImage = CGImage(
+                        width: width,
+                        height: height,
+                        bitsPerComponent: 8,
+                        bitsPerPixel: 8,
+                        bytesPerRow: width,
+                        space: CGColorSpaceCreateDeviceGray(),
+                        bitmapInfo: CGBitmapInfo(),
+                        provider: provider,
+                        decode: nil,
+                        shouldInterpolate: false,
+                        intent: CGColorRenderingIntent.defaultIntent
+                    )
     }
 }

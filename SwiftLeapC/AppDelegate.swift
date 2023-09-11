@@ -18,11 +18,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }()
     @IBOutlet weak var handPreviewController : HandPreviewViewController!
     
+    @IBOutlet weak var handStatsView: HandStatsViewController!
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         handPreviewController.initialiseScene()
-        // 2
+        handStatsView.initLeapStats()
+        
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        // 3
         if let button = statusItem.button {
             button.image = NSImage(named: "ultraleap-icon-menubar")
         }

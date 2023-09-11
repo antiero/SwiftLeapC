@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 import SceneKit
 
 class HandPreviewViewController : NSViewController, SCNSceneRendererDelegate {

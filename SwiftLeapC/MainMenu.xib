@@ -4,6 +4,7 @@
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22138.1"/>
         <plugIn identifier="com.apple.SceneKitIBPlugin" version="22138.1"/>
+        <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -108,7 +109,8 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="0.0" y="0.0" width="800" height="600"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <value key="minSize" type="size" width="800" height="600"/>
             <view key="contentView" id="372" userLabel="MainView">
                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -117,6 +119,121 @@
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </sceneView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OUm-YK-OKj" userLabel="HandStatsView">
+                        <rect key="frame" x="0.0" y="0.0" width="800" height="112"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3tb-bj-Fya" userLabel="leftPinchImage">
+                                <rect key="frame" x="215" y="74" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="pinchLeft" id="AXy-Qe-JSc"/>
+                            </imageView>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hxU-zS-igm" userLabel="leftGrabImage">
+                                <rect key="frame" x="215" y="40" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="grabLeft" id="feb-VQ-D8V"/>
+                            </imageView>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Kp-SY-jRe" userLabel="rightPinchImage">
+                                <rect key="frame" x="566" y="74" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="pinchRight" id="tB4-6c-iuz"/>
+                            </imageView>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfR-9r-rOF" userLabel="rightGrabImage">
+                                <rect key="frame" x="566" y="40" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="grabRight" id="oWe-QR-6tF"/>
+                            </imageView>
+                            <levelIndicator verticalHuggingPriority="750" fixedFrame="YES" drawsTieredCapacityLevels="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BPh-LQ-3KS" userLabel="LeftPinchLevelIndicator">
+                                <rect key="frame" x="20" y="73" width="181" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <levelIndicatorCell key="cell" alignment="left" doubleValue="1" maxValue="1" criticalValue="1" numberOfMajorTickMarks="1" levelIndicatorStyle="continuousCapacity" id="M1x-ce-acA"/>
+                                <color key="fillColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                <color key="warningFillColor" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
+                                <color key="criticalFillColor" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
+                            </levelIndicator>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pyE-Or-1ZM" userLabel="LeftPinchValue">
+                                <rect key="frame" x="24" y="76" width="70" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" allowsUndo="NO" alignment="left" title="PINCH" usesSingleLineMode="YES" id="t5z-Wa-VKo">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="unemphasizedSelectedContentBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <levelIndicator verticalHuggingPriority="750" fixedFrame="YES" drawsTieredCapacityLevels="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZYA-qO-dfB" userLabel="LeftGrabLevelIndicator">
+                                <rect key="frame" x="20" y="41" width="181" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <levelIndicatorCell key="cell" alignment="left" doubleValue="1" maxValue="1" criticalValue="1" numberOfMajorTickMarks="1" levelIndicatorStyle="continuousCapacity" id="tdW-zb-wYq"/>
+                                <color key="fillColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                <color key="warningFillColor" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
+                                <color key="criticalFillColor" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
+                            </levelIndicator>
+                            <levelIndicator verticalHuggingPriority="750" fixedFrame="YES" drawsTieredCapacityLevels="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c9m-Tt-ZaP" userLabel="RightPinchLevelIndicator">
+                                <rect key="frame" x="599" y="77" width="181" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <levelIndicatorCell key="cell" userInterfaceLayoutDirection="rightToLeft" alignment="left" doubleValue="1" maxValue="1" criticalValue="1" numberOfMajorTickMarks="1" levelIndicatorStyle="continuousCapacity" id="Vs4-fh-z7q"/>
+                                <color key="fillColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                <color key="warningFillColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                <color key="criticalFillColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                            </levelIndicator>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6y1-3U-Qt0" userLabel="RightPinchValue">
+                                <rect key="frame" x="691" y="77" width="86" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" allowsUndo="NO" alignment="right" title="RIGHT PINCH" placeholderString="RIGHT PINCH" usesSingleLineMode="YES" id="pI5-Rw-f8v">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="unemphasizedSelectedTextBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <levelIndicator verticalHuggingPriority="750" fixedFrame="YES" drawsTieredCapacityLevels="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lwL-DJ-dll" userLabel="RightGrabLevelIndicator">
+                                <rect key="frame" x="599" y="41" width="181" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <levelIndicatorCell key="cell" userInterfaceLayoutDirection="rightToLeft" alignment="left" doubleValue="1" maxValue="1" criticalValue="1" numberOfMajorTickMarks="1" levelIndicatorStyle="continuousCapacity" id="7L2-Nc-yK5"/>
+                                <color key="fillColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                <color key="warningFillColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                <color key="criticalFillColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                            </levelIndicator>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" id="5gJ-3T-syh" userLabel="RightGrabValue">
+                                <rect key="frame" x="592" y="42" width="185" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" allowsUndo="NO" alignment="right" title="RIGHT GRAB" placeholderString="RIGHT GRAB" usesSingleLineMode="YES" id="1y2-dc-S5a">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="unemphasizedSelectedTextBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYU-24-x3I" userLabel="LeftGrabValue">
+                                <rect key="frame" x="24" y="44" width="57" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" allowsUndo="NO" alignment="left" title="GRAB" usesSingleLineMode="YES" id="pJR-V4-mEV">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="unemphasizedSelectedContentBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </customView>
+                    <switch toolTip="Toggle stats view on/off" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" state="on" translatesAutoresizingMaskIntoConstraints="NO" id="xd6-zi-UN3" userLabel="ShowStatsSwitch">
+                        <rect key="frame" x="746" y="559" width="36" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <connections>
+                            <action selector="HandleStatsSwitchChanged:" target="sGg-rc-obp" id="kwE-tK-0rK"/>
+                        </connections>
+                    </switch>
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" id="MLP-8L-WHM" userLabel="StatsLabel">
+                        <rect key="frame" x="679" y="561" width="63" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" allowsUndo="NO" alignment="left" title="Show Stats" usesSingleLineMode="YES" id="gY2-mr-7KB">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q2M-Oa-Uh7" userLabel="PreviewImage">
+                        <rect key="frame" x="0.0" y="360" width="320" height="240"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="3DZ-lQ-DBC"/>
+                    </imageView>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-367" y="-433"/>
@@ -124,6 +241,7 @@
         <customObject id="494" customClass="AppDelegate" customModule="Ultraleap" customModuleProvider="target">
             <connections>
                 <outlet property="handPreviewController" destination="gWr-Xe-0SQ" id="Wej-HL-Yz2"/>
+                <outlet property="handStatsView" destination="sGg-rc-obp" id="Lph-TZ-Qhg"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
         </customObject>
@@ -134,5 +252,31 @@
                 <outlet property="mainView" destination="372" id="vxe-9w-AhL"/>
             </connections>
         </viewController>
+        <viewController title="StatsViee" id="sGg-rc-obp" userLabel="StatsView" customClass="HandStatsViewController" customModule="Ultraleap" customModuleProvider="target">
+            <connections>
+                <outlet property="cameraImageView" destination="Q2M-Oa-Uh7" id="RWI-GJ-e7r"/>
+                <outlet property="leftGrabAmountTextField" destination="sYU-24-x3I" id="l6R-BO-Kvr"/>
+                <outlet property="leftGrabImage" destination="hxU-zS-igm" id="hLq-Vm-U6n"/>
+                <outlet property="leftGrabIndicator" destination="ZYA-qO-dfB" id="43E-GK-8bp"/>
+                <outlet property="leftPinchAmountTextField" destination="pyE-Or-1ZM" id="dBq-XB-Cc9"/>
+                <outlet property="leftPinchImage" destination="3tb-bj-Fya" id="2kc-EH-ghh"/>
+                <outlet property="leftPinchIndicator" destination="BPh-LQ-3KS" id="4dP-YP-wpc"/>
+                <outlet property="rightGrabAmountTextField" destination="5gJ-3T-syh" id="XcJ-rp-OGG"/>
+                <outlet property="rightGrabImage" destination="sfR-9r-rOF" id="aI1-qz-WcZ"/>
+                <outlet property="rightGrabIndicator" destination="lwL-DJ-dll" id="eIg-9d-u2n"/>
+                <outlet property="rightPinchAmountTextField" destination="6y1-3U-Qt0" id="wiC-mf-zJz"/>
+                <outlet property="rightPinchImage" destination="2Kp-SY-jRe" id="qi3-Ud-bDz"/>
+                <outlet property="rightPinchIndicator" destination="c9m-Tt-ZaP" id="sXC-2U-gBt"/>
+                <outlet property="toggleStatsViewSwitch" destination="xd6-zi-UN3" id="4Ev-tA-mEi"/>
+                <outlet property="view" destination="OUm-YK-OKj" id="aoC-4R-ddD"/>
+            </connections>
+        </viewController>
     </objects>
+    <resources>
+        <image name="NSCaution" width="32" height="32"/>
+        <image name="grabLeft" width="1024" height="1024"/>
+        <image name="grabRight" width="1024" height="1024"/>
+        <image name="pinchLeft" width="1024" height="1024"/>
+        <image name="pinchRight" width="1024" height="1024"/>
+    </resources>
 </document>
