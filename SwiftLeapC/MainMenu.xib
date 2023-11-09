@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22138.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22138.1"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="22138.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="22155"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -109,9 +110,9 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="0.0" y="0.0" width="800" height="600"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <value key="minSize" type="size" width="800" height="600"/>
-            <view key="contentView" id="372" userLabel="MainView">
+            <view key="contentView" wantsLayer="YES" id="372" userLabel="MainView">
                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -229,16 +230,34 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <switch toolTip="Toggle stats view on/off" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" state="on" translatesAutoresizingMaskIntoConstraints="NO" id="NwQ-sf-zHO" userLabel="ShowImageSwitch">
+                        <rect key="frame" x="746" y="533" width="36" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <connections>
+                            <action selector="HandleImageSwitchChanged:" target="sGg-rc-obp" id="mwg-Tn-myE"/>
+                        </connections>
+                    </switch>
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" id="f3z-uR-Rbx" userLabel="ImageLabel">
+                        <rect key="frame" x="674" y="535" width="68" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" allowsUndo="NO" alignment="left" title="Show Image" usesSingleLineMode="YES" id="qKu-4N-Z7h">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q2M-Oa-Uh7" userLabel="PreviewImage">
-                        <rect key="frame" x="0.0" y="360" width="320" height="240"/>
+                        <rect key="frame" x="0.0" y="347" width="256" height="256"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="3DZ-lQ-DBC"/>
+                        <imageCell key="cell" selectable="YES" editable="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="groove" id="3DZ-lQ-DBC">
+                            <imageReference key="image" image="video" catalog="system" symbolScale="default"/>
+                        </imageCell>
                     </imageView>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-367" y="-433"/>
         </window>
-        <customObject id="494" customClass="AppDelegate" customModule="Ultraleap" customModuleProvider="target">
+        <customObject id="494" customClass="AppDelegate" customModule="Ultraleap_Hands" customModuleProvider="target">
             <connections>
                 <outlet property="handPreviewController" destination="gWr-Xe-0SQ" id="Wej-HL-Yz2"/>
                 <outlet property="handStatsView" destination="sGg-rc-obp" id="Lph-TZ-Qhg"/>
@@ -246,13 +265,13 @@
             </connections>
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>
-        <viewController id="gWr-Xe-0SQ" customClass="HandPreviewViewController" customModule="Ultraleap" customModuleProvider="target">
+        <viewController id="gWr-Xe-0SQ" customClass="HandPreviewViewController" customModule="Ultraleap_Hands" customModuleProvider="target">
             <connections>
                 <outlet property="handPreview" destination="MwL-RN-hHp" id="6TR-Ea-Y5L"/>
                 <outlet property="mainView" destination="372" id="vxe-9w-AhL"/>
             </connections>
         </viewController>
-        <viewController title="StatsViee" id="sGg-rc-obp" userLabel="StatsView" customClass="HandStatsViewController" customModule="Ultraleap" customModuleProvider="target">
+        <viewController title="StatsViee" id="sGg-rc-obp" userLabel="StatsView" customClass="HandStatsViewController" customModule="Ultraleap_Hands" customModuleProvider="target">
             <connections>
                 <outlet property="cameraImageView" destination="Q2M-Oa-Uh7" id="RWI-GJ-e7r"/>
                 <outlet property="leftGrabAmountTextField" destination="sYU-24-x3I" id="l6R-BO-Kvr"/>
@@ -267,16 +286,17 @@
                 <outlet property="rightPinchAmountTextField" destination="6y1-3U-Qt0" id="wiC-mf-zJz"/>
                 <outlet property="rightPinchImage" destination="2Kp-SY-jRe" id="qi3-Ud-bDz"/>
                 <outlet property="rightPinchIndicator" destination="c9m-Tt-ZaP" id="sXC-2U-gBt"/>
+                <outlet property="toggleImageViewSwitch" destination="NwQ-sf-zHO" id="s7n-I5-dMd"/>
                 <outlet property="toggleStatsViewSwitch" destination="xd6-zi-UN3" id="4Ev-tA-mEi"/>
                 <outlet property="view" destination="OUm-YK-OKj" id="aoC-4R-ddD"/>
             </connections>
         </viewController>
     </objects>
     <resources>
-        <image name="NSCaution" width="32" height="32"/>
         <image name="grabLeft" width="1024" height="1024"/>
         <image name="grabRight" width="1024" height="1024"/>
         <image name="pinchLeft" width="1024" height="1024"/>
         <image name="pinchRight" width="1024" height="1024"/>
+        <image name="video" catalog="system" width="19" height="13"/>
     </resources>
 </document>

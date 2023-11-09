@@ -28,6 +28,7 @@ class HandStatsViewController : NSViewController {
     let pinchDetector = LeapPinchDetector()
     let handManager = LeapHandManager.sharedInstance
     @IBOutlet weak var toggleStatsViewSwitch: NSSwitch!
+    @IBOutlet weak var toggleImageViewSwitch: NSSwitch!
     
     func initLeapStats(){
         leftPinchIndicator.warningValue = pinchDetector.pinchThreshold
@@ -35,11 +36,16 @@ class HandStatsViewController : NSViewController {
         leftGrabIndicator.warningValue = pinchDetector.grabThreshold
         rightGrabIndicator.warningValue = pinchDetector.grabThreshold
         NotificationCenter.default.addObserver(self, selector: #selector(updateHandStats), name: LeapHandManager.OnNewLeapFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDisconnected), name: LeapHandManager.OnDisconnect, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleOnPinchBegan), name: LeapPinchDetector.OnPinchBegan, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleOnPinchEnded), name: LeapPinchDetector.OnPinchEnded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleOnGrabBegan), name: LeapPinchDetector.OnGrabBegan, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleOnGrabEnded), name: LeapPinchDetector.OnGrabEnded, object: nil)
+        
         self.keyBoardMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: myKeyDownEvent)
+        
+        // Initially hide the image preview
+        hideImageView()
     }
     
     @objc private func handleOnPinchBegan(_ notification: Notification){
@@ -70,7 +76,6 @@ class HandStatsViewController : NSViewController {
             DispatchQueue.main.async {
                 self.rightGrabImage.image?.backgroundColor = NSColor.blue
             }
-
         }
     }
 
@@ -138,6 +143,13 @@ class HandStatsViewController : NSViewController {
         }
     }
     
+    @objc private func handleDisconnected(_ notification: Notification){
+        DispatchQueue.main.async {
+            self.cameraImageView.image = NSImage(systemSymbolName: "video", accessibilityDescription: "No camera connected")
+            self.hideImageView()
+        }
+    }
+    
     @IBAction func HandleStatsSwitchChanged(_ sender: NSSwitch) {
         self.view.isHidden = (sender.state == .off)
     }
@@ -145,6 +157,20 @@ class HandStatsViewController : NSViewController {
     func toggleStatsView(){
         self.view.isHidden = !self.view.isHidden
         toggleStatsViewSwitch.state = (self.view.isHidden ? .off : .on)
+    }
+    
+    func toggleImageView(){
+        self.cameraImageView.isHidden = !self.cameraImageView.isHidden
+        toggleImageViewSwitch.state = (self.cameraImageView.isHidden ? .off : .on)
+    }
+    
+    @IBAction func HandleImageSwitchChanged(_ sender: NSSwitch) {
+        toggleImageView()
+    }
+    
+    func hideImageView(){
+        self.cameraImageView.isHidden = true
+        toggleImageViewSwitch.state = .off
     }
     
     // Detect each keyboard event

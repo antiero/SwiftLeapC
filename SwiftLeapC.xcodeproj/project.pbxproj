@@ -14,9 +14,9 @@
 		ED0AA80B2A5601B20061BAAD /* CylinderNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */; };
 		ED1145932A4F285E0067C5DE /* Hand3DScene.scn in Resources */ = {isa = PBXBuildFile; fileRef = ED1145922A4F285E0067C5DE /* Hand3DScene.scn */; };
 		ED26419C2A727B9B00F438F4 /* HandStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */; };
+		ED4B12EC2AFD1D7B005C3F3C /* libLeapC.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED4B12E92AFD1D7B005C3F3C /* libLeapC.5.dylib */; };
+		ED4B12ED2AFD1D7B005C3F3C /* libLeapC.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED4B12EA2AFD1D7B005C3F3C /* libLeapC.dylib */; };
 		ED573D6A2A50C9310028027D /* HandPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED573D692A50C9310028027D /* HandPreviewViewController.swift */; };
-		ED6420652A4D64510017F7B7 /* libLeapC.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; };
-		ED6420662A4D64510017F7B7 /* libLeapC.5.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */; };
 		EDFE20A12A4F05CC00664D48 /* LeapExtendedFingerDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */; };
 /* End PBXBuildFile section */
@@ -46,7 +46,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				ED6420662A4D64510017F7B7 /* libLeapC.5.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -54,7 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DF56D1761BDB489600DC6990 /* Ultraleap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ultraleap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF56D1761BDB489600DC6990 /* Ultraleap Hands.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ultraleap Hands.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF56D1791BDB489600DC6990 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF56D17D1BDB489600DC6990 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF56D1821BDB489600DC6990 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -64,9 +63,10 @@
 		ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CylinderNode.swift; sourceTree = "<group>"; };
 		ED1145922A4F285E0067C5DE /* Hand3DScene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Hand3DScene.scn; sourceTree = "<group>"; };
 		ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandStatsViewController.swift; sourceTree = "<group>"; };
+		ED4B12E92AFD1D7B005C3F3C /* libLeapC.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.5.dylib; path = "../../../../../../Applications/Ultraleap Hand Tracking Service.app/Contents/LeapSDK/lib/libLeapC.5.dylib"; sourceTree = "<group>"; };
+		ED4B12EA2AFD1D7B005C3F3C /* libLeapC.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.dylib; path = "../../../../../../Applications/Ultraleap Hand Tracking Service.app/Contents/LeapSDK/lib/libLeapC.dylib"; sourceTree = "<group>"; };
+		ED4B12EB2AFD1D7B005C3F3C /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
 		ED573D692A50C9310028027D /* HandPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandPreviewViewController.swift; sourceTree = "<group>"; };
-		ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.5.dylib; path = "../../../../../../../Library/Application Support/Ultraleap/LeapSDK/lib/libLeapC.5.dylib"; sourceTree = "<group>"; };
-		EDAB611E2A053BEA00B580C6 /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
 		EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapPinchDetector.swift; sourceTree = "<group>"; };
 		EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapExtendedFingerDetector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,7 +76,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED6420652A4D64510017F7B7 /* libLeapC.5.dylib in Frameworks */,
+				ED4B12ED2AFD1D7B005C3F3C /* libLeapC.dylib in Frameworks */,
+				ED4B12EC2AFD1D7B005C3F3C /* libLeapC.5.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +96,7 @@
 		DF56D1771BDB489600DC6990 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DF56D1761BDB489600DC6990 /* Ultraleap.app */,
+				DF56D1761BDB489600DC6990 /* Ultraleap Hands.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,8 +120,9 @@
 		DFBD9EAD1BE03513005845D5 /* LeapC */ = {
 			isa = PBXGroup;
 			children = (
-				ED6420622A4D63BE0017F7B7 /* libLeapC.5.dylib */,
-				EDAB611E2A053BEA00B580C6 /* LeapC.h */,
+				ED4B12EB2AFD1D7B005C3F3C /* LeapC.h */,
+				ED4B12E92AFD1D7B005C3F3C /* libLeapC.5.dylib */,
+				ED4B12EA2AFD1D7B005C3F3C /* libLeapC.dylib */,
 			);
 			path = LeapC;
 			sourceTree = "<group>";
@@ -163,9 +165,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DF56D1751BDB489600DC6990 /* Ultraleap */ = {
+		DF56D1751BDB489600DC6990 /* Ultraleap Hands */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DF56D1851BDB489600DC6990 /* Build configuration list for PBXNativeTarget "Ultraleap" */;
+			buildConfigurationList = DF56D1851BDB489600DC6990 /* Build configuration list for PBXNativeTarget "Ultraleap Hands" */;
 			buildPhases = (
 				DF56D1721BDB489600DC6990 /* Sources */,
 				DF56D1731BDB489600DC6990 /* Frameworks */,
@@ -178,9 +180,9 @@
 			);
 			dependencies = (
 			);
-			name = Ultraleap;
+			name = "Ultraleap Hands";
 			productName = LeapDemoSwift;
-			productReference = DF56D1761BDB489600DC6990 /* Ultraleap.app */;
+			productReference = DF56D1761BDB489600DC6990 /* Ultraleap Hands.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -213,7 +215,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DF56D1751BDB489600DC6990 /* Ultraleap */,
+				DF56D1751BDB489600DC6990 /* Ultraleap Hands */,
 			);
 		};
 /* End PBXProject section */
@@ -447,7 +449,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DF56D1851BDB489600DC6990 /* Build configuration list for PBXNativeTarget "Ultraleap" */ = {
+		DF56D1851BDB489600DC6990 /* Build configuration list for PBXNativeTarget "Ultraleap Hands" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DF56D1861BDB489600DC6990 /* Debug */,

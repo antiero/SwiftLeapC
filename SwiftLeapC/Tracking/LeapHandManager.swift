@@ -29,6 +29,9 @@ class LeapHandManager: NSObject {
     static var OnNewLeapFrame: Notification.Name {
         return .init(rawValue: "NEW_LEAP_FRAME")
     }
+    static var OnDisconnect: Notification.Name {
+        return .init(rawValue: "DISCONNECT")
+    }
     
     var leftHand : LEAP_HAND? {
         get {
@@ -157,11 +160,12 @@ class LeapHandManager: NSObject {
     }
     
     func onConnect(_ connection: _LEAP_CONNECTION_EVENT){
-        print("Leap Connected")
+        print("Leap Connected", connection)
     }
     
     func onDisconnect(_ connection: _LEAP_CONNECTION_LOST_EVENT){
         print("Disconnected")
+        notificationCenter.post(name: LeapHandManager.OnDisconnect, object: connection)
     }
     
     func onDevice(_ device: _LEAP_DEVICE_EVENT){
