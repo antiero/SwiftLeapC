@@ -43,7 +43,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let menu = NSMenu()
         
         // 2
-        //let one = NSMenuItem(title: showHideMenuItem.title, action: #selector(ToggleWindow), keyEquivalent: "")
         menu.addItem(showHideMenuItem)
         
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))

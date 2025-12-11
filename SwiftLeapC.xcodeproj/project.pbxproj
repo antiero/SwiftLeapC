@@ -13,8 +13,8 @@
 		DFBD9EBE1BE03742005845D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFBD9EBD1BE03742005845D5 /* MainMenu.xib */; };
 		ED0AA80B2A5601B20061BAAD /* CylinderNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */; };
 		ED1145932A4F285E0067C5DE /* Hand3DScene.scn in Resources */ = {isa = PBXBuildFile; fileRef = ED1145922A4F285E0067C5DE /* Hand3DScene.scn */; };
+		ED125F182EEB83F500C22F89 /* libLeapC.6.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		ED26419C2A727B9B00F438F4 /* HandStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */; };
-		ED4B12ED2AFD1D7B005C3F3C /* libLeapC.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED4B12EA2AFD1D7B005C3F3C /* libLeapC.dylib */; };
 		ED573D6A2A50C9310028027D /* HandPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED573D692A50C9310028027D /* HandPreviewViewController.swift */; };
 		ED82BDA62EEB7912008BE4DE /* libLeapC.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */; };
 		EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */; };
@@ -46,6 +46,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				ED125F182EEB83F500C22F89 /* libLeapC.6.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,7 +64,6 @@
 		ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CylinderNode.swift; sourceTree = "<group>"; };
 		ED1145922A4F285E0067C5DE /* Hand3DScene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Hand3DScene.scn; sourceTree = "<group>"; };
 		ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandStatsViewController.swift; sourceTree = "<group>"; };
-		ED4B12EA2AFD1D7B005C3F3C /* libLeapC.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.dylib; path = "../../../../../../Applications/Ultraleap Hand Tracking Service.app/Contents/LeapSDK/lib/libLeapC.dylib"; sourceTree = "<group>"; };
 		ED4B12EB2AFD1D7B005C3F3C /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
 		ED573D692A50C9310028027D /* HandPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandPreviewViewController.swift; sourceTree = "<group>"; };
 		ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libLeapC.6.dylib; sourceTree = "<group>"; };
@@ -77,7 +77,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED82BDA62EEB7912008BE4DE /* libLeapC.6.dylib in Frameworks */,
-				ED4B12ED2AFD1D7B005C3F3C /* libLeapC.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,7 +120,6 @@
 			isa = PBXGroup;
 			children = (
 				ED4B12EB2AFD1D7B005C3F3C /* LeapC.h */,
-				ED4B12EA2AFD1D7B005C3F3C /* libLeapC.dylib */,
 				ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */,
 			);
 			path = LeapC;
@@ -376,10 +374,23 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 58W8WV39Y9;
+				DEVELOPMENT_TEAM = 67P3XQL3B4;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
+				EXCLUDED_ARCHS = x86_64;
 				INFOPLIST_FILE = SwiftLeapC/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -393,8 +404,9 @@
 					"$(PROJECT_DIR)/SwiftLeapC/LeapC",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.4;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "\"$(SRCROOT)/SwiftLeapC/LeapC/libLeapC.6.dylib\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.antappi.swiftleapc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.5of12.swiftleapc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/SwiftLeapC/LeapC\"";
@@ -408,12 +420,27 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				AUTOMATION_APPLE_EVENTS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 58W8WV39Y9;
+				DEVELOPMENT_TEAM = 67P3XQL3B4;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = YES;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = YES;
+				EXCLUDED_ARCHS = x86_64;
 				INFOPLIST_FILE = SwiftLeapC/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -427,10 +454,17 @@
 					"$(PROJECT_DIR)/SwiftLeapC/LeapC",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.4;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "\"$(SRCROOT)/SwiftLeapC/LeapC/libLeapC.6.dylib\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.antappi.swiftleapc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.5of12.swiftleapc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = YES;
+				RUNTIME_EXCEPTION_ALLOW_JIT = YES;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
 				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/SwiftLeapC/LeapC\"";
 				SWIFT_OBJC_BRIDGING_HEADER = "SwiftLeapC/SwiftLeapC-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
