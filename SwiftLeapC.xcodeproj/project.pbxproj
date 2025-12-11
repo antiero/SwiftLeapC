@@ -14,9 +14,9 @@
 		ED0AA80B2A5601B20061BAAD /* CylinderNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */; };
 		ED1145932A4F285E0067C5DE /* Hand3DScene.scn in Resources */ = {isa = PBXBuildFile; fileRef = ED1145922A4F285E0067C5DE /* Hand3DScene.scn */; };
 		ED26419C2A727B9B00F438F4 /* HandStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */; };
-		ED4B12EC2AFD1D7B005C3F3C /* libLeapC.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED4B12E92AFD1D7B005C3F3C /* libLeapC.5.dylib */; };
 		ED4B12ED2AFD1D7B005C3F3C /* libLeapC.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED4B12EA2AFD1D7B005C3F3C /* libLeapC.dylib */; };
 		ED573D6A2A50C9310028027D /* HandPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED573D692A50C9310028027D /* HandPreviewViewController.swift */; };
+		ED82BDA62EEB7912008BE4DE /* libLeapC.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */; };
 		EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */; };
 		EDFE20A12A4F05CC00664D48 /* LeapExtendedFingerDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */; };
 /* End PBXBuildFile section */
@@ -63,10 +63,10 @@
 		ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CylinderNode.swift; sourceTree = "<group>"; };
 		ED1145922A4F285E0067C5DE /* Hand3DScene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Hand3DScene.scn; sourceTree = "<group>"; };
 		ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandStatsViewController.swift; sourceTree = "<group>"; };
-		ED4B12E92AFD1D7B005C3F3C /* libLeapC.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.5.dylib; path = "../../../../../../Applications/Ultraleap Hand Tracking Service.app/Contents/LeapSDK/lib/libLeapC.5.dylib"; sourceTree = "<group>"; };
 		ED4B12EA2AFD1D7B005C3F3C /* libLeapC.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeapC.dylib; path = "../../../../../../Applications/Ultraleap Hand Tracking Service.app/Contents/LeapSDK/lib/libLeapC.dylib"; sourceTree = "<group>"; };
 		ED4B12EB2AFD1D7B005C3F3C /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
 		ED573D692A50C9310028027D /* HandPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandPreviewViewController.swift; sourceTree = "<group>"; };
+		ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libLeapC.6.dylib; sourceTree = "<group>"; };
 		EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapPinchDetector.swift; sourceTree = "<group>"; };
 		EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapExtendedFingerDetector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,8 +76,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED82BDA62EEB7912008BE4DE /* libLeapC.6.dylib in Frameworks */,
 				ED4B12ED2AFD1D7B005C3F3C /* libLeapC.dylib in Frameworks */,
-				ED4B12EC2AFD1D7B005C3F3C /* libLeapC.5.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,8 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				ED4B12EB2AFD1D7B005C3F3C /* LeapC.h */,
-				ED4B12E92AFD1D7B005C3F3C /* libLeapC.5.dylib */,
 				ED4B12EA2AFD1D7B005C3F3C /* libLeapC.dylib */,
+				ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */,
 			);
 			path = LeapC;
 			sourceTree = "<group>";
@@ -391,7 +391,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.4;
-				OTHER_LDFLAGS = "\"$(SRCROOT)/SwiftLeapC/LeapC/libLeapC.5.dylib\"";
+				OTHER_LDFLAGS = "\"$(SRCROOT)/SwiftLeapC/LeapC/libLeapC.6.dylib\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.antappi.swiftleapc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -427,7 +427,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.4;
-				OTHER_LDFLAGS = "\"$(SRCROOT)/SwiftLeapC/LeapC/libLeapC.5.dylib\"";
+				OTHER_LDFLAGS = "\"$(SRCROOT)/SwiftLeapC/LeapC/libLeapC.6.dylib\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.antappi.swiftleapc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
