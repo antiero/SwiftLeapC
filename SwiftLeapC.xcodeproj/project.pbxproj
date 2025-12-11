@@ -193,7 +193,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2610;
 				ORGANIZATIONNAME = "Kelly Innes";
 				TargetAttributes = {
 					DF56D1751BDB489600DC6990 = {
@@ -287,6 +287,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -306,6 +307,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -347,6 +349,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -360,6 +363,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 3.0;
@@ -387,8 +391,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SwiftLeapC",
 					"$(PROJECT_DIR)/SwiftLeapC/LeapC",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.4;
 				OTHER_LDFLAGS = "\"$(SRCROOT)/SwiftLeapC/LeapC/libLeapC.6.dylib\"";
@@ -423,8 +425,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SwiftLeapC",
 					"$(PROJECT_DIR)/SwiftLeapC/LeapC",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/Ultraleap/LeapSDK/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.4;
 				OTHER_LDFLAGS = "\"$(SRCROOT)/SwiftLeapC/LeapC/libLeapC.6.dylib\"";
