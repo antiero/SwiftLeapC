@@ -131,59 +131,57 @@ class HandStatsViewController : NSViewController {
     
     private func scheduleUIUpdate() {
         uiUpdateLock.lock()
-        if uiUpdateScheduled {
-            uiUpdateLock.unlock()
-            return
-        }
+        defer { uiUpdateLock.unlock() }
+
+        // Already have an update queued or running on the main actor.
+        guard !uiUpdateScheduled else { return }
         uiUpdateScheduled = true
-        uiUpdateLock.unlock()
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.uiUpdateLock.lock()
-            self.uiUpdateScheduled = false
-            self.uiUpdateLock.unlock()
-            
-            self.performUIUpdate()
+
+        Task { @MainActor [weak self] in
+            self?.performUIUpdate()
         }
     }
-    
+
     @MainActor
     private func performUIUpdate() {
-        
-        DispatchQueue.main.async {
-            // Don't bother to update if the view is not shown...
-            if (self.view.isHidden){
-                return
-            }
-            
-            self.pinchDetector.updatePinchStates()
-            let leftPinchAmount = self.pinchDetector.pinchStrength(hand: self.handManager.leftHand)
-            let rightPinchAmount = self.pinchDetector.pinchStrength(hand: self.handManager.rightHand)
-            let leftGrabAmount = self.pinchDetector.grabStrength(hand: self.handManager.leftHand)
-            let rightGrabAmount = self.pinchDetector.grabStrength(hand: self.handManager.rightHand)
-            
-            
-            self.leftPinchAmountTextField.stringValue = String(format: "%.2f", leftPinchAmount)
-            self.leftGrabAmountTextField.stringValue = String(format: "%.2f", leftGrabAmount)
-            self.rightPinchAmountTextField.stringValue = String(format: "%.2f", rightPinchAmount)
-            self.rightGrabAmountTextField.stringValue = String(format: "%.2f", rightGrabAmount)
-            
-            self.leftPinchIndicator.floatValue = Float(leftPinchAmount)
-            self.rightPinchIndicator.floatValue = Float(rightPinchAmount)
-            self.leftGrabIndicator.floatValue = Float(leftGrabAmount)
-            self.rightGrabIndicator.floatValue = Float(rightGrabAmount)
-            
-            if let cgImage = self.handManager.getCurrentImageThreadSafe() {
-                self.cameraImageView.image = nil
-                self.cameraImageView.layer?.contents = cgImage
-            }
-            else{
-                self.cameraImageView.layer?.contents = nil
-                self.cameraImageView.image = NSImage(named: "AppIcon")
-            }
+        defer {
+            uiUpdateLock.lock()
+            uiUpdateScheduled = false
+            uiUpdateLock.unlock()
+        }
+
+        // Don't bother to update if the view is not shown...
+        if (self.view.isHidden) {
+            return
+        }
+
+        self.pinchDetector.updatePinchStates()
+        let leftPinchAmount = self.pinchDetector.pinchStrength(hand: self.handManager.leftHand)
+        let rightPinchAmount = self.pinchDetector.pinchStrength(hand: self.handManager.rightHand)
+        let leftGrabAmount = self.pinchDetector.grabStrength(hand: self.handManager.leftHand)
+        let rightGrabAmount = self.pinchDetector.grabStrength(hand: self.handManager.rightHand)
+
+
+        self.leftPinchAmountTextField.stringValue = String(format: "%.2f", leftPinchAmount)
+        self.leftGrabAmountTextField.stringValue = String(format: "%.2f", leftGrabAmount)
+        self.rightPinchAmountTextField.stringValue = String(format: "%.2f", rightPinchAmount)
+        self.rightGrabAmountTextField.stringValue = String(format: "%.2f", rightGrabAmount)
+
+        self.leftPinchIndicator.floatValue = Float(leftPinchAmount)
+        self.rightPinchIndicator.floatValue = Float(rightPinchAmount)
+        self.leftGrabIndicator.floatValue = Float(leftGrabAmount)
+        self.rightGrabIndicator.floatValue = Float(rightGrabAmount)
+
+        if let cgImage = self.handManager.getCurrentImageThreadSafe() {
+            self.cameraImageView.image = nil
+            self.cameraImageView.layer?.contents = cgImage
+        }
+        else{
+            self.cameraImageView.layer?.contents = nil
+            self.cameraImageView.image = NSImage(named: "AppIcon")
         }
     }
+
     
     @objc private func handleDisconnected(_ notification: Notification){
         DispatchQueue.main.async {
