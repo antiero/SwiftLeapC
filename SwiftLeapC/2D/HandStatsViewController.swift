@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 class HandStatsViewController : NSViewController {
-
+    
     var keyBoardMonitor: Any?
     @IBOutlet weak var rightGrabImage: NSImageView!
     @IBOutlet weak var rightPinchImage: NSImageView!
@@ -25,16 +25,31 @@ class HandStatsViewController : NSViewController {
     @IBOutlet weak var rightPinchAmountTextField: NSTextField!
     @IBOutlet weak var cameraImageView: NSImageView!
     @IBOutlet weak var rightGrabAmountTextField: NSTextField!
-    let pinchDetector = LeapPinchDetector.sharedInstance
+    let pinchDetector = LeapPinchDetector()
     let handManager = LeapHandManager.sharedInstance
     @IBOutlet weak var toggleStatsViewSwitch: NSSwitch!
     @IBOutlet weak var toggleImageViewSwitch: NSSwitch!
     
+    // Coalesce high-frequency Leap notifications into a single UI update on the main thread.
+    private let uiUpdateLock = NSLock()
+    private var uiUpdateScheduled = false
+    private var didRegisterObservers = false
+    
+    // Throttle camera image updates (AppKit snapshots can get cranky if you churn too hard).
+    private var lastImageUpdateTime: CFAbsoluteTime = 0
+    private let minImageUpdateInterval: CFAbsoluteTime = 1.0 / 15.0
+    
     func initLeapStats(){
+        if didRegisterObservers { return }
+        didRegisterObservers = true
         leftPinchIndicator.warningValue = pinchDetector.pinchThreshold
         rightPinchIndicator.warningValue = pinchDetector.pinchThreshold
         leftGrabIndicator.warningValue = pinchDetector.grabThreshold
         rightGrabIndicator.warningValue = pinchDetector.grabThreshold
+        
+        // Render camera frames via CALayer contents (CGImage) to avoid NSImage snapshot churn.
+        cameraImageView.wantsLayer = true
+        cameraImageView.layer?.contentsGravity = .resizeAspect
         NotificationCenter.default.addObserver(self, selector: #selector(updateHandStats), name: LeapHandManager.OnNewLeapFrame, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleDisconnected), name: LeapHandManager.OnDisconnect, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleOnPinchBegan), name: LeapPinchDetector.OnPinchBegan, object: nil)
@@ -70,7 +85,7 @@ class HandStatsViewController : NSViewController {
             DispatchQueue.main.async {
                 self.leftGrabImage.image?.backgroundColor = NSColor.blue
             }
-
+            
         }
         else {
             DispatchQueue.main.async {
@@ -78,7 +93,7 @@ class HandStatsViewController : NSViewController {
             }
         }
     }
-
+    
     
     @objc private func handleOnPinchEnded(_ notification: Notification){
         guard let item = notification.object as? LEAP_HAND else {
@@ -111,12 +126,41 @@ class HandStatsViewController : NSViewController {
         }
     }
     
-    @objc private func updateHandStats(_ notification: Notification){
+    @objc private
+    func updateHandStats(_ notification: Notification){
+        // Called from the Leap pump thread via NotificationCenter.
+        // Coalesce to avoid unbounded main-queue backlog when app is backgrounded.
+        scheduleUIUpdate()
+    }
+    
+    private func scheduleUIUpdate() {
+        uiUpdateLock.lock()
+        if uiUpdateScheduled {
+            uiUpdateLock.unlock()
+            return
+        }
+        uiUpdateScheduled = true
+        uiUpdateLock.unlock()
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.uiUpdateLock.lock()
+            self.uiUpdateScheduled = false
+            self.uiUpdateLock.unlock()
+            
+            self.performUIUpdate()
+        }
+    }
+    
+    @MainActor
+    private func performUIUpdate() {
+        
         DispatchQueue.main.async {
             // Don't bother to update if the view is not shown...
             if (self.view.isHidden){
                 return
             }
+            
             self.pinchDetector.updatePinchStates()
             let leftPinchAmount = self.pinchDetector.pinchStrength(hand: self.handManager.leftHand)
             let rightPinchAmount = self.pinchDetector.pinchStrength(hand: self.handManager.rightHand)
@@ -128,16 +172,18 @@ class HandStatsViewController : NSViewController {
             self.leftGrabAmountTextField.stringValue = String(format: "%.2f", leftGrabAmount)
             self.rightPinchAmountTextField.stringValue = String(format: "%.2f", rightPinchAmount)
             self.rightGrabAmountTextField.stringValue = String(format: "%.2f", rightGrabAmount)
-
+            
             self.leftPinchIndicator.floatValue = Float(leftPinchAmount)
             self.rightPinchIndicator.floatValue = Float(rightPinchAmount)
             self.leftGrabIndicator.floatValue = Float(leftGrabAmount)
             self.rightGrabIndicator.floatValue = Float(rightGrabAmount)
             
-            if (self.handManager.currentImage != nil){
-                self.cameraImageView.image = NSImage(cgImage: self.handManager.currentImage!, size: .zero)
+            if let cgImage = self.handManager.getCurrentImageThreadSafe() {
+                self.cameraImageView.image = nil
+                self.cameraImageView.layer?.contents = cgImage
             }
             else{
+                self.cameraImageView.layer?.contents = nil
                 self.cameraImageView.image = NSImage(named: "AppIcon")
             }
         }
@@ -181,5 +227,8 @@ class HandStatsViewController : NSViewController {
         }
         return event
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
-

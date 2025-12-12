@@ -9,12 +9,6 @@ import Foundation
 import Dispatch
 import SceneKit
 
-extension UInt32 {
-    var boolValue: Bool {
-        return (self as NSNumber).boolValue
-    }
-}
-
 class LeapHandManager: NSObject {
       
     static let sharedInstance = LeapHandManager()
@@ -24,10 +18,13 @@ class LeapHandManager: NSObject {
     private var _leftHand : LEAP_HAND? = nil
     public private(set) var currentImage: CGImage?
     private let imageLock = NSLock()
-    private var imageBuffers: [Data] = [Data(), Data()]
-    private var activeImageBufferIndex: Int = 0
-    private var lastImageSize: Int = 0
-    
+
+    func getCurrentImageThreadSafe() -> CGImage? {
+        imageLock.lock()
+        defer { imageLock.unlock() }
+        return currentImage
+    }
+
     var currentFrameID: Int64
     private let notificationCenter: NotificationCenter
     static var OnNewLeapFrame: Notification.Name {
@@ -209,33 +206,25 @@ class LeapHandManager: NSObject {
     
     
     func onImage(_ imageEvent: _LEAP_IMAGE_EVENT) {
+        // IMPORTANT:
+        // The imageEvent.image.*.data pointers are owned by LeapC and may be reused/overwritten
+        // after the next LeapPollConnection call. We therefore COPY the bytes into our own Data
+        // each frame so that any UI or SceneKit rendering that happens later never reads
+        // from mutated memory (a common source of flicker *and* rare crashes).
         let leftImage = imageEvent.image.0
         guard let srcPtr = leftImage.data else { return }
-        
+
         let props = leftImage.properties
         let width = Int(props.width)
         let height = Int(props.height)
         let byteCount = width * height
         guard byteCount > 0 else { return }
-        
-        // Ensure buffers are sized once (or when resolution changes)
-        if byteCount != lastImageSize {
-            imageBuffers[0] = Data(count: byteCount)
-            imageBuffers[1] = Data(count: byteCount)
-            lastImageSize = byteCount
-        }
-        
-        // Write into the "back" buffer
-        let backIndex = (activeImageBufferIndex + 1) & 1
-        imageBuffers[backIndex].withUnsafeMutableBytes { dst in
-            guard let dstBase = dst.baseAddress else { return }
-            memcpy(dstBase, srcPtr, byteCount)
-        }
-        
-        // Build CGImage backed by OUR Data (not Leap's)
-        let cfData = imageBuffers[backIndex] as CFData
+
+        // Own the bytes for this frame (immutable backing for CGImage).
+        let data = Data(bytes: srcPtr, count: byteCount)
+        let cfData = data as CFData
         guard let provider = CGDataProvider(data: cfData) else { return }
-        
+
         let img = CGImage(
             width: width,
             height: height,
@@ -249,18 +238,10 @@ class LeapHandManager: NSObject {
             shouldInterpolate: false,
             intent: .defaultIntent
         )
-        
+
         // Swap atomically under lock so renderer/UI never sees half-updates
         imageLock.lock()
         currentImage = img
-        activeImageBufferIndex = backIndex
         imageLock.unlock()
-    }
-    
-    func getCurrentImageThreadSafe() -> CGImage? {
-        imageLock.lock()
-        let img = currentImage
-        imageLock.unlock()
-        return img
     }
 }
