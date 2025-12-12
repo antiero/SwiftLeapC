@@ -12,6 +12,12 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
     
     @IBOutlet weak var handPreview: SCNView!
     
+    private let leftHandMaterial = SCNMaterial()
+    private let rightHandMaterial = SCNMaterial()
+
+    var leftHandColor: NSColor = .blue { didSet { leftHandMaterial.diffuse.contents = leftHandColor } }
+    var rightHandColor: NSColor = .red { didSet { rightHandMaterial.diffuse.contents = rightHandColor } }
+    
     var leftHand: SCNNode!
     var leftHandSphere: SCNNode!
     var leftPinkyMetacarpelSphere: SCNNode!
@@ -48,6 +54,18 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
     
     let SPHERE_RADIUS: CGFloat = 0.01
     
+    private lazy var leftSphereGeo: SCNSphere = {
+        let g = SCNSphere(radius: SPHERE_RADIUS)
+        g.firstMaterial = leftHandMaterial
+        return g
+    }()
+
+    private lazy var rightSphereGeo: SCNSphere = {
+        let g = SCNSphere(radius: SPHERE_RADIUS)
+        g.firstMaterial = rightHandMaterial
+        return g
+    }()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -55,6 +73,9 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
         print("HandPreviewViewController.viewDidLoad")
         
         handManager = LeapHandManager.sharedInstance
+        
+        leftHandMaterial.diffuse.contents = leftHandColor
+        rightHandMaterial.diffuse.contents = rightHandColor
         
         leftSpherePositions = Array(repeating: SCNVector3Zero, count: TOTAL_JOINT_COUNT)
         rightSpherePositions = Array(repeating: SCNVector3Zero, count: TOTAL_JOINT_COUNT)
@@ -97,17 +118,15 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
         rightHand.name = "RightHand"
         scene.rootNode.addChildNode(rightHand)
         
-        // Palm spheres
-        leftHandSphere = SCNNode(geometry: SCNSphere(radius: SPHERE_RADIUS))
-        leftHandSphere.geometry?.materials.first?.diffuse.contents = NSColor.blue
+        // Palm spheres (use shared geometries/materials)
+        leftHandSphere = SCNNode(geometry: leftSphereGeo)
         leftHandSphere.name = "LEFT"
         leftHand.addChildNode(leftHandSphere)
-        
-        rightHandSphere = SCNNode(geometry: SCNSphere(radius: SPHERE_RADIUS))
-        rightHandSphere.geometry?.materials.first?.diffuse.contents = NSColor.red
+
+        rightHandSphere = SCNNode(geometry: rightSphereGeo)
         rightHandSphere.name = "RIGHT"
         rightHand.addChildNode(rightHandSphere)
-        
+
         initialiseHandGeo(on: scene)
     }
     
@@ -125,19 +144,9 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
     }
     
     func initialiseHandGeo(on scene: SCNScene) {
-        let sphereGeoLeft = SCNSphere(radius: SPHERE_RADIUS)
-        let leftMaterial = SCNMaterial()
-        leftMaterial.diffuse.contents = NSColor.blue
-        sphereGeoLeft.firstMaterial = leftMaterial
-        
-        let sphereGeoRight = SCNSphere(radius: SPHERE_RADIUS)
-        let rightMaterial = SCNMaterial()
-        rightMaterial.diffuse.contents = NSColor.red
-        sphereGeoRight.firstMaterial = rightMaterial
-        
         // LEFT JOINT SPHERES
         for nodeIx in 0..<20 {
-            let newNode = SCNNode(geometry: sphereGeoLeft)
+            let newNode = SCNNode(geometry: leftSphereGeo)
             newNode.name = "LeftJoint-\(nodeIx)"
             leftHandNodes.append(newNode)
             leftHand.addChildNode(newNode)
@@ -145,7 +154,7 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
         
         // RIGHT JOINT SPHERES
         for nodeIx in 0..<20 {
-            let newNode = SCNNode(geometry: sphereGeoRight)
+            let newNode = SCNNode(geometry: rightSphereGeo)
             newNode.name = "RightJoint-\(nodeIx)"
             rightHandNodes.append(newNode)
             rightHand.addChildNode(newNode)
@@ -165,8 +174,7 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
             leftHand.addChildNode(newBone)
         }
         
-        leftPinkyMetacarpelSphere = SCNNode(geometry: sphereGeoLeft)
-        leftPinkyMetacarpelSphere.geometry?.materials.first?.diffuse.contents = NSColor.blue
+        leftPinkyMetacarpelSphere = SCNNode(geometry: leftSphereGeo)
         leftHand.addChildNode(leftPinkyMetacarpelSphere)
         
         leftPinchNode = SCNNode(geometry: SCNSphere(radius: SPHERE_RADIUS * 1.5))
@@ -189,8 +197,7 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
             rightHand.addChildNode(newBone)
         }
         
-        rightPinkyMetacarpelSphere = SCNNode(geometry: sphereGeoRight)
-        rightPinkyMetacarpelSphere.geometry?.materials.first?.diffuse.contents = NSColor.systemRed
+        rightPinkyMetacarpelSphere = SCNNode(geometry: rightSphereGeo)
         rightHand.addChildNode(rightPinkyMetacarpelSphere)
         
         rightPinchNode = SCNNode(geometry: SCNSphere(radius: SPHERE_RADIUS * 1.5))
