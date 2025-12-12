@@ -35,10 +35,6 @@ class HandStatsViewController : NSViewController {
     private var uiUpdateScheduled = false
     private var didRegisterObservers = false
     
-    // Throttle camera image updates (AppKit snapshots can get cranky if you churn too hard).
-    private var lastImageUpdateTime: CFAbsoluteTime = 0
-    private let minImageUpdateInterval: CFAbsoluteTime = 1.0 / 15.0
-    
     func initLeapStats(){
         if didRegisterObservers { return }
         didRegisterObservers = true
