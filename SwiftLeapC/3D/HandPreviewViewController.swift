@@ -8,388 +8,392 @@
 import Foundation
 import SceneKit
 
-class HandPreviewViewController : NSViewController, SCNSceneRendererDelegate {
+class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
     
     @IBOutlet weak var handPreview: SCNView!
     
-    var leftHand : SCNNode!
-    var leftHandSphere : SCNNode!
-    var leftPinkyMetacarpelSphere : SCNNode!
-
-    var pinchDetector = LeapPinchDetector()
-
-    var rightHand : SCNNode!
-    var rightHandSphere : SCNNode!
-    var rightPinkyMetacarpelSphere : SCNNode!
-    let handManager = LeapHandManager.sharedInstance
-    var scene : SCNScene! = nil
+    var leftHand: SCNNode!
+    var leftHandSphere: SCNNode!
+    var leftPinkyMetacarpelSphere: SCNNode!
     
-    let joinThumbProximal : Bool = true
-    let joinFingerProximals : Bool = true
-    let showPinkyMetacarpal : Bool = true
-    let PALM_BALL_RADIUS : CGFloat = 0.012
-    let SPHERE_RADIUS : CGFloat = 0.008
-    let TOTAL_JOINT_COUNT : Int = 4 * 5;
-    let PINKY_BASE_INDEX = 16;
+    var pinchDetector = LeapPinchDetector.sharedInstance
+    var extendedFingerDetector = LeapExtendedFingerDetector.sharedInstance
     
-    var leftSpherePositions : [SCNVector3] = [SCNVector3]()
-    var leftHandNodes : [SCNNode] = [SCNNode]()
-    var leftHandBoneNodes : [SCNNode] = [SCNNode]()
+    var rightHand: SCNNode!
+    var rightHandSphere: SCNNode!
+    var rightPinkyMetacarpelSphere: SCNNode!
     
-    var rightSpherePositions : [SCNVector3] = [SCNVector3]()
-    var rightHandNodes : [SCNNode] = [SCNNode]()
-    var rightHandBoneNodes : [SCNNode] = [SCNNode]()
+    var handManager: LeapHandManager!
     
-    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        updateHandPositions()
-    }
+    var leftHandNodes = [SCNNode]()
+    var rightHandNodes = [SCNNode]()
     
-    func initialiseScene() {
-        scene = makeScene();
+    var leftHandBoneNodes = [SCNNode]()
+    var rightHandBoneNodes = [SCNNode]()
+    
+    var leftPinchNode: SCNNode!
+    var rightPinchNode: SCNNode!
+    
+    let TOTAL_JOINT_COUNT = 4 * 5 // 4 joints per finger, 5 fingers
+    let PINKY_BASE_INDEX = 3 * 4  // 4th finger (pinky), joint 0 index in joint list
+    
+    var showPinchIndicators = true
+    var joinThumbProximal = true
+    var joinMetacarpals = true
+    var showPinkyMetacarpal = true
+    var showExtendedFingerIndicators = true
+    
+    var leftSpherePositions = [SCNVector3]()
+    var rightSpherePositions = [SCNVector3]()
+    
+    let SPHERE_RADIUS: CGFloat = 0.01
+    
+    // MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("HandPreviewViewController.viewDidLoad")
+        
+        handManager = LeapHandManager.sharedInstance
+        
+        leftSpherePositions = Array(repeating: SCNVector3Zero, count: TOTAL_JOINT_COUNT)
+        rightSpherePositions = Array(repeating: SCNVector3Zero, count: TOTAL_JOINT_COUNT)
+        
+        // Use the scene from Interface Builder if available (Hand3DScene.scn),
+        // otherwise create a fresh one.
+        let scene: SCNScene
+        if let existing = handPreview.scene {
+            scene = existing
+        } else {
+            print("No scene attached in IB, creating a new one.")
+            scene = SCNScene()
+            handPreview.scene = scene
+        }
+        
+        // Configure SCNView + delegate so renderer(updateAtTime:) will fire
         handPreview.delegate = self
         handPreview.allowsCameraControl = true
         handPreview.showsStatistics = true
+        handPreview.autoenablesDefaultLighting = true
         handPreview.isPlaying = true
-        handPreview.scene = scene
-        //return scene
-    }
-    
-    func makeScene() -> SCNScene? {
-        scene = SCNScene(named: "Hand3DScene.scn")
-        addHandSpheres();
-        return scene
-    }
-    
-    func addHandSpheres()  {
         
-        // The root left/right hand objects
+        setupSceneGraph(on: scene)
+    }
+    
+    deinit {
+        handPreview?.delegate = nil
+        handPreview?.scene = nil
+    }
+    
+    // MARK: - Scene graph construction
+    
+    private func setupSceneGraph(on scene: SCNScene) {
+        // Root nodes for left/right hands
         leftHand = SCNNode()
         leftHand.name = "LeftHand"
+        scene.rootNode.addChildNode(leftHand)
+        
         rightHand = SCNNode()
         rightHand.name = "RightHand"
-        scene?.rootNode.addChildNode(leftHand)
-        scene?.rootNode.addChildNode(rightHand)
+        scene.rootNode.addChildNode(rightHand)
         
-        let sphereGeoLeft = SCNSphere(radius: PALM_BALL_RADIUS)
-        let leftMaterial = SCNMaterial()
-        leftMaterial.diffuse.contents = NSColor.blue
-        leftMaterial.normal.intensity = 1.0
-        leftMaterial.diffuse.intensity = 1.0
-        
-        let sphereGeoRight = SCNSphere(radius: PALM_BALL_RADIUS)
-        let rightMaterial = SCNMaterial()
-        rightMaterial.diffuse.contents = NSColor.red
-        rightMaterial.normal.intensity = 1.0
-        rightMaterial.diffuse.intensity = 1.0
-        
-        leftHandSphere = SCNNode(geometry: sphereGeoLeft)
-        leftHandSphere.geometry?.materials = [leftMaterial]
-        leftHandSphere.position = SCNVector3(x: 1, y: 1, z: 1)
+        // Palm spheres
+        leftHandSphere = SCNNode(geometry: SCNSphere(radius: SPHERE_RADIUS))
+        leftHandSphere.geometry?.materials.first?.diffuse.contents = NSColor.blue
         leftHandSphere.name = "LEFT"
         leftHand.addChildNode(leftHandSphere)
         
-        rightHandSphere = SCNNode(geometry: sphereGeoRight)
-        rightHandSphere.geometry?.materials = [rightMaterial]
-        rightHandSphere.position = SCNVector3(x: 1, y: 1, z: 1)
+        rightHandSphere = SCNNode(geometry: SCNSphere(radius: SPHERE_RADIUS))
+        rightHandSphere.geometry?.materials.first?.diffuse.contents = NSColor.red
         rightHandSphere.name = "RIGHT"
         rightHand.addChildNode(rightHandSphere)
         
-        InitialiseHandGeo()
+        initialiseHandGeo(on: scene)
     }
     
-    func getFingerJointIndex(fingerIndex: Int, jointIndex: Int) -> Int
-    {
-        return fingerIndex * 4 + jointIndex;
+    func getFingerJointIndex(fingerIndex: Int, jointIndex: Int) -> Int {
+        return fingerIndex * 4 + jointIndex
     }
     
-    func UpdatePinchIndicatorsForHand(hand: LEAP_HAND){
+    func UpdatePinchIndicatorsForHand(hand: LEAP_HAND) {
         let pinchStrength = pinchDetector.pinchStrength(hand: hand)
-        if (hand.type == eLeapHandType_Left){
-            leftHandSphere.opacity = pinchStrength
-        }
-        else{
-            rightHandSphere.opacity = pinchStrength
-        }
-    }
-    
-    func UpdateLeftHandBonePositions(){
-        if (handManager.leftHand == nil){
-            return
-        }
-        leftHandSphere.position = handManager.leftPalmPosAsSCNVector3()
-        
-        let leftHand = handManager.leftHand
-        
-        if let digits = leftHand?.digits {
-            UpdatePinchIndicatorsForHand(hand: leftHand!)
-            let thumb = digits.0
-            let index = digits.1
-            let middle = digits.2
-            let ring = digits.3
-            let pinky = digits.4
-            let fingers = [thumb, index, middle, ring, pinky]
-            for fingerIx in 0...4 {
-                let finger = fingers[fingerIx]
-                let bones = [finger.bones.0, finger.bones.1, finger.bones.2, finger.bones.3]
-                for jointIx in 0...3
-                {
-                    let index = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx)
-                    let position = bones[jointIx].next_joint
-                    let vec3 = SCNVector3(0.001*position.x, 0.001*position.y, 0.001*position.z)
-                    leftSpherePositions[index] = vec3
-                    UpdateSphereNodeWithPosition(node: leftHandNodes[index], position: vec3)
-                }
-            }
-            
-            var leftBoneIndex = 0
-            //Draw cylinders between left finger joints
-            for fingerIx in 0...4
-            {
-                for jointIx in 0...2
-                {
-                    let keyA = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx);
-                    let keyB = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx + 1);
-                    UpdateLeftCylinderBoneAtIndex(leftBoneIndex: leftBoneIndex, keyA: keyA, keyB: keyB)
-                    leftBoneIndex += 1
-                }
-            }
-            
-            // Draw cylinder between thumb and index finger
-            if (joinThumbProximal)
-            {
-                let keyA = getFingerJointIndex(fingerIndex: 0, jointIndex: 0);
-                let keyB = getFingerJointIndex(fingerIndex: 1, jointIndex: 0);
-                UpdateLeftCylinderBoneAtIndex(leftBoneIndex: leftBoneIndex, keyA: keyA, keyB: keyB)
-                leftBoneIndex += 1
-            }
-            
-            if (joinFingerProximals)
-            {
-                for i in 1...3
-                {
-                    let keyA = getFingerJointIndex(fingerIndex: i, jointIndex: 0);
-                    let keyB = getFingerJointIndex(fingerIndex: i + 1, jointIndex: 0);
-                    UpdateLeftCylinderBoneAtIndex(leftBoneIndex: leftBoneIndex, keyA: keyA, keyB: keyB)
-                    leftBoneIndex += 1
-                }
-            }
-            
-            if (showPinkyMetacarpal){
-                
-                let pinkyMetacarpal = pinky.metacarpal.prev_joint
-                //let indexMetacarpal = index.metacarpal.prev_joint // THIS DID NOT LOOK RIGHT, USE THUMB!
-                let indexMetacarpal = thumb.metacarpal.prev_joint
-                let vecA = SCNVector3(0.001*pinkyMetacarpal.x, 0.001*pinkyMetacarpal.y, 0.001*pinkyMetacarpal.z)
-                let vecB = SCNVector3(0.001*indexMetacarpal.x, 0.001*indexMetacarpal.y, 0.001*indexMetacarpal.z)
-                
-                SetNodePositionFromLeapVector(node: leftPinkyMetacarpelSphere, vec: pinkyMetacarpal)
-                leftHandBoneNodes[leftBoneIndex] = UpdateCylinderBoneAtIndex(nodeIn: leftHandBoneNodes[leftBoneIndex],
-                                          vecA: vecA, vecB: vecB)
-                leftBoneIndex += 1
-                leftHandBoneNodes[leftBoneIndex] = UpdateCylinderBoneAtIndex(nodeIn: leftHandBoneNodes[leftBoneIndex],
-                                          vecA: vecA, vecB: leftSpherePositions[PINKY_BASE_INDEX])
-            }
-
+        if hand.type == eLeapHandType_Left {
+            leftPinchNode.isHidden = (pinchStrength < 0.9)
+        } else if hand.type == eLeapHandType_Right {
+            rightPinchNode.isHidden = (pinchStrength < 0.9)
         }
     }
     
-    func UpdateLeftCylinderBoneAtIndex(leftBoneIndex: Int, keyA: Int, keyB: Int){
-        leftHandBoneNodes[leftBoneIndex] = leftHandBoneNodes[leftBoneIndex].buildLineInTwoPointsWithRotation(
-            from: leftSpherePositions[keyA],
-            to: leftSpherePositions[keyB],
-            radius: SPHERE_RADIUS, color: .white)
-    }
-    
-    func UpdateRightCylinderBoneAtIndex(rightBoneIndex: Int, keyA: Int, keyB: Int){
-        rightHandBoneNodes[rightBoneIndex] = rightHandBoneNodes[rightBoneIndex].buildLineInTwoPointsWithRotation(
-            from: rightSpherePositions[keyA],
-            to: rightSpherePositions[keyB],
-            radius: SPHERE_RADIUS, color: .white)
-    }
-    
-    func UpdateCylinderBoneAtIndex(nodeIn: SCNNode, vecA: SCNVector3, vecB: SCNVector3) -> SCNNode {
-        let nodeOut = nodeIn.buildLineInTwoPointsWithRotation(
-            from: vecA,
-            to: vecB,
-            radius: SPHERE_RADIUS, color: .white)
-        return nodeOut
-    }
-    
-    func SetNodePositionFromLeapVector(node : SCNNode, vec : LEAP_VECTOR){
-        let newPos = SCNVector3(0.001*vec.x, 0.001*vec.y, 0.001*vec.z)
-        node.position = newPos
-    }
-    
-    func UpdateRightHandBonePositions(){
-        if (handManager.rightHand == nil){
-            return
-        }
-        rightHandSphere.position = handManager.rightPalmPosAsSCNVector3()
-        let rightHand = handManager.rightHand
-        if let digits = rightHand?.digits {
-            UpdatePinchIndicatorsForHand(hand: rightHand!)
-            let thumb = digits.0
-            let index = digits.1
-            let middle = digits.2
-            let ring = digits.3
-            let pinky = digits.4
-            let fingers = [thumb, index, middle, ring, pinky]
-            for fingerIx in 0...4 {
-                let finger = fingers[fingerIx]
-                let bones = [finger.bones.0, finger.bones.1, finger.bones.2, finger.bones.3]
-                for jointIx in 0...3
-                {
-                    let index = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx)
-                    let position = bones[jointIx].next_joint
-                    let vec3 = SCNVector3(0.001*position.x, 0.001*position.y, 0.001*position.z)
-                    rightSpherePositions[index] = vec3
-                    UpdateSphereNodeWithPosition(node: rightHandNodes[index], position: vec3)
-                }
-            }
-            
-            var rightBoneIndex = 0
-            //Draw cylinders between left finger joints
-            for fingerIx in 0...4
-            {
-                for jointIx in 0...2
-                {
-                    let keyA = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx);
-                    let keyB = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx + 1);
-                    UpdateRightCylinderBoneAtIndex(rightBoneIndex: rightBoneIndex, keyA: keyA, keyB: keyB)
-                    rightBoneIndex += 1
-                }
-            }
-            
-            // Draw cylinder between thumb and index finger
-            if (joinThumbProximal)
-            {
-                let keyA = getFingerJointIndex(fingerIndex: 0, jointIndex: 0);
-                let keyB = getFingerJointIndex(fingerIndex: 1, jointIndex: 0);
-                UpdateRightCylinderBoneAtIndex(rightBoneIndex: rightBoneIndex, keyA: keyA, keyB: keyB)
-                rightBoneIndex += 1
-            }
-            
-            if (joinFingerProximals)
-            {
-                for i in 1...3
-                {
-                    let keyA = getFingerJointIndex(fingerIndex: i, jointIndex: 0);
-                    let keyB = getFingerJointIndex(fingerIndex: i + 1, jointIndex: 0);
-                    UpdateRightCylinderBoneAtIndex(rightBoneIndex: rightBoneIndex, keyA: keyA, keyB: keyB)
-                    rightBoneIndex += 1
-                }
-            }
-            
-            if (showPinkyMetacarpal){
-                
-                let pinkyMetacarpal = pinky.metacarpal.prev_joint
-                //let indexMetacarpal = index.metacarpal.prev_joint // THIS DID NOT LOOK RIGHT, USE THUMB!
-                let indexMetacarpal = thumb.metacarpal.prev_joint
-                let vecA = SCNVector3(0.001*pinkyMetacarpal.x, 0.001*pinkyMetacarpal.y, 0.001*pinkyMetacarpal.z)
-                let vecB = SCNVector3(0.001*indexMetacarpal.x, 0.001*indexMetacarpal.y, 0.001*indexMetacarpal.z)
-                
-                SetNodePositionFromLeapVector(node: rightPinkyMetacarpelSphere, vec: pinkyMetacarpal)
-                rightHandBoneNodes[rightBoneIndex] = UpdateCylinderBoneAtIndex(nodeIn: rightHandBoneNodes[rightBoneIndex],
-                                          vecA: vecA, vecB: vecB)
-                rightBoneIndex += 1
-                rightHandBoneNodes[rightBoneIndex] = UpdateCylinderBoneAtIndex(nodeIn: rightHandBoneNodes[rightBoneIndex],
-                                          vecA: vecA, vecB: rightSpherePositions[PINKY_BASE_INDEX])
-            }
-        }
-    }
-    
-    
-    func UpdateSphereNodeWithPosition(node : SCNNode, position : SCNVector3){
-        node.position = position
-    }
-    
-    func InitialiseHandGeo()
-    {
-        leftSpherePositions = [SCNVector3](repeating: SCNVector3(), count: TOTAL_JOINT_COUNT)
-        rightSpherePositions = [SCNVector3](repeating: SCNVector3(), count: TOTAL_JOINT_COUNT)
-        let sphereGeoLeft = SCNSphere(radius: CGFloat(SPHERE_RADIUS))
+    func initialiseHandGeo(on scene: SCNScene) {
+        let sphereGeoLeft = SCNSphere(radius: SPHERE_RADIUS)
         let leftMaterial = SCNMaterial()
         leftMaterial.diffuse.contents = NSColor.blue
-        leftMaterial.normal.intensity = 1.0
-        leftMaterial.diffuse.intensity = 1.0
+        sphereGeoLeft.firstMaterial = leftMaterial
         
-        let sphereGeoRight = SCNSphere(radius: CGFloat(SPHERE_RADIUS))
+        let sphereGeoRight = SCNSphere(radius: SPHERE_RADIUS)
         let rightMaterial = SCNMaterial()
         rightMaterial.diffuse.contents = NSColor.red
-        rightMaterial.normal.intensity = 1.0
-        rightMaterial.diffuse.intensity = 1.0
+        sphereGeoRight.firstMaterial = rightMaterial
         
-        // Left Hand Sphere Joints
-        for nodeIx in 0...19{
-            let sphere = SCNNode(geometry: sphereGeoLeft)
-            sphere.geometry?.materials = [leftMaterial]
-            sphere.name = "LeftSphere-\(nodeIx)"
-            leftHandNodes.append(sphere)
-            leftHand.addChildNode(leftHandNodes[nodeIx])
+        // LEFT JOINT SPHERES
+        for nodeIx in 0..<20 {
+            let newNode = SCNNode(geometry: sphereGeoLeft)
+            newNode.name = "LeftJoint-\(nodeIx)"
+            leftHandNodes.append(newNode)
+            leftHand.addChildNode(newNode)
         }
         
-        // Initialise Left Hand Bone Cylinders
+        // RIGHT JOINT SPHERES
+        for nodeIx in 0..<20 {
+            let newNode = SCNNode(geometry: sphereGeoRight)
+            newNode.name = "RightJoint-\(nodeIx)"
+            rightHandNodes.append(newNode)
+            rightHand.addChildNode(newNode)
+        }
+        
+        // LEFT BONE CYLINDERS
         for boneIx in 0...20 {
             let newBone = SCNNode()
             newBone.name = "LeftBone-\(boneIx)"
+            newBone.updateLineInTwoPointsWithRotation(
+                from: SCNVector3(1, 1, 1),
+                to: SCNVector3(1, 1, 1),
+                radius: SPHERE_RADIUS * 0.8,
+                color: .white
+            )
             leftHandBoneNodes.append(newBone)
-            leftHand.addChildNode(
-                leftHandBoneNodes[boneIx].buildLineInTwoPointsWithRotation(
-                    from: SCNVector3(1,1,1),
-                    to: SCNVector3(1,1,1),
-                    radius: SPHERE_RADIUS*0.8, color: .white))
+            leftHand.addChildNode(newBone)
         }
         
-        // Also do those pinky ball joints..
         leftPinkyMetacarpelSphere = SCNNode(geometry: sphereGeoLeft)
-        leftPinkyMetacarpelSphere.geometry?.materials = [leftMaterial]
-        leftPinkyMetacarpelSphere.position = SCNVector3(x: 1, y: 1, z: 1)
-        leftPinkyMetacarpelSphere.name = "LEFTPINKYMETA"
+        leftPinkyMetacarpelSphere.geometry?.materials.first?.diffuse.contents = NSColor.blue
         leftHand.addChildNode(leftPinkyMetacarpelSphere)
         
-        // Right Hand Sphere Joints
-        for nodeIx in 0...19{
-            let sphere = SCNNode(geometry: sphereGeoRight)
-            sphere.geometry?.materials = [rightMaterial]
-            rightHandNodes.append(sphere)
-            rightHand.addChildNode(rightHandNodes[nodeIx])
-        }
-
-        // Initialise Right Hand Bone Cylinders
+        leftPinchNode = SCNNode(geometry: SCNSphere(radius: SPHERE_RADIUS * 1.5))
+        leftPinchNode.geometry?.materials.first?.diffuse.contents = NSColor.systemYellow
+        leftPinchNode.name = "LeftPinchIndicator"
+        leftHand.addChildNode(leftPinchNode)
+        leftPinchNode.isHidden = !showPinchIndicators
+        
+        // RIGHT BONE CYLINDERS
         for boneIx in 0...20 {
             let newBone = SCNNode()
             newBone.name = "RightBone-\(boneIx)"
+            newBone.updateLineInTwoPointsWithRotation(
+                from: SCNVector3(1, 1, 1),
+                to: SCNVector3(1, 1, 1),
+                radius: SPHERE_RADIUS * 0.8,
+                color: .white
+            )
             rightHandBoneNodes.append(newBone)
-            rightHand.addChildNode(
-                rightHandBoneNodes[boneIx].buildLineInTwoPointsWithRotation(
-                    from: SCNVector3(1,1,1),
-                    to: SCNVector3(1,1,1),
-                    radius: SPHERE_RADIUS*0.8, color: .white))
+            rightHand.addChildNode(newBone)
         }
         
-        // Also do those pinky ball joints..
         rightPinkyMetacarpelSphere = SCNNode(geometry: sphereGeoRight)
-        rightPinkyMetacarpelSphere.geometry?.materials = [rightMaterial]
-        rightPinkyMetacarpelSphere.position = SCNVector3(x: 1, y: 1, z: 1)
-        rightPinkyMetacarpelSphere.name = "RIGHTPINKYMETA"
+        rightPinkyMetacarpelSphere.geometry?.materials.first?.diffuse.contents = NSColor.systemRed
         rightHand.addChildNode(rightPinkyMetacarpelSphere)
         
+        rightPinchNode = SCNNode(geometry: SCNSphere(radius: SPHERE_RADIUS * 1.5))
+        rightPinchNode.geometry?.materials.first?.diffuse.contents = NSColor.systemYellow
+        rightPinchNode.name = "RightPinchIndicator"
+        rightHand.addChildNode(rightPinchNode)
+        rightPinchNode.isHidden = !showPinchIndicators
+        
+        // Camera (if your Hand3DScene.scn already has one, this just adds another)
+        let cameraNode = SCNNode()
+        cameraNode.camera = SCNCamera()
+        cameraNode.position = SCNVector3(x: 0, y: 0.2, z: 0.7)
+        cameraNode.look(at: SCNVector3(0, 0.2, 0))
+        scene.rootNode.addChildNode(cameraNode)
     }
     
-    func updateHandPositions() {
+    // MARK: - Per-frame updates
+    
+    func UpdateSphereNodeWithPosition(node: SCNNode, position: SCNVector3) {
+        node.position = position
+    }
+    
+    func UpdateLeftHandBonePositions() {
+        guard let leftLeapHand = handManager.leftHand else { return }
+        
+        leftHandSphere.position = handManager.leftPalmPosAsSCNVector3()
+        
+        let digits = leftLeapHand.digits
+        UpdatePinchIndicatorsForHand(hand: leftLeapHand)
+        
+        let thumb  = digits.0
+        let index  = digits.1
+        let middle = digits.2
+        let ring   = digits.3
+        let pinky  = digits.4
+        let fingers = [thumb, index, middle, ring, pinky]
+        
+        // Update joint spheres and cache positions
+        for fingerIx in 0...4 {
+            let finger = fingers[fingerIx]
+            let bones = [finger.bones.0, finger.bones.1, finger.bones.2, finger.bones.3]
+            for jointIx in 0...3 {
+                let idx = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx)
+                let position = bones[jointIx].next_joint
+                let vec3 = SCNVector3(0.001 * position.x, 0.001 * position.y, 0.001 * position.z)
+                leftSpherePositions[idx] = vec3
+                UpdateSphereNodeWithPosition(node: leftHandNodes[idx], position: vec3)
+            }
+        }
+        
+        var leftBoneIndex = 0
+        // Finger segments
+        for fingerIx in 0...4 {
+            for jointIx in 0...2 {
+                let keyA = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx)
+                let keyB = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx + 1)
+                UpdateLeftCylinderBoneAtIndex(leftBoneIndex: leftBoneIndex, keyA: keyA, keyB: keyB)
+                leftBoneIndex += 1
+            }
+        }
+        
+        if joinThumbProximal {
+            let keyA = getFingerJointIndex(fingerIndex: 0, jointIndex: 0)
+            let keyB = getFingerJointIndex(fingerIndex: 1, jointIndex: 0)
+            UpdateLeftCylinderBoneAtIndex(leftBoneIndex: leftBoneIndex, keyA: keyA, keyB: keyB)
+            leftBoneIndex += 1
+        }
+        
+        if joinMetacarpals {
+            for i in 1...3 {
+                let keyA = getFingerJointIndex(fingerIndex: i, jointIndex: 0)
+                let keyB = getFingerJointIndex(fingerIndex: i + 1, jointIndex: 0)
+                UpdateLeftCylinderBoneAtIndex(leftBoneIndex: leftBoneIndex, keyA: keyA, keyB: keyB)
+                leftBoneIndex += 1
+            }
+        }
+        
+        if showPinkyMetacarpal {
+            let pinkyMetacarpal = pinky.metacarpal.prev_joint
+            let indexMetacarpal = thumb.metacarpal.prev_joint
+            let vecA = SCNVector3(0.001 * pinkyMetacarpal.x, 0.001 * pinkyMetacarpal.y, 0.001 * pinkyMetacarpal.z)
+            let vecB = SCNVector3(0.001 * indexMetacarpal.x, 0.001 * indexMetacarpal.y, 0.001 * indexMetacarpal.z)
+            
+            SetNodePositionFromLeapVector(node: leftPinkyMetacarpelSphere, vec: pinkyMetacarpal)
+            UpdateCylinderBoneAtIndex(nodeIn: leftHandBoneNodes[leftBoneIndex], vecA: vecA, vecB: vecB)
+            leftBoneIndex += 1
+            UpdateCylinderBoneAtIndex(nodeIn: leftHandBoneNodes[leftBoneIndex], vecA: vecA, vecB: leftSpherePositions[PINKY_BASE_INDEX])
+        }
+    }
+    
+    func UpdateLeftCylinderBoneAtIndex(leftBoneIndex: Int, keyA: Int, keyB: Int) {
+        leftHandBoneNodes[leftBoneIndex].updateLineInTwoPointsWithRotation(
+            from: leftSpherePositions[keyA],
+            to: leftSpherePositions[keyB],
+            radius: SPHERE_RADIUS,
+            color: .white
+        )
+    }
+    
+    func UpdateRightCylinderBoneAtIndex(rightBoneIndex: Int, keyA: Int, keyB: Int) {
+        rightHandBoneNodes[rightBoneIndex].updateLineInTwoPointsWithRotation(
+            from: rightSpherePositions[keyA],
+            to: rightSpherePositions[keyB],
+            radius: SPHERE_RADIUS,
+            color: .white
+        )
+    }
+    
+    func UpdateCylinderBoneAtIndex(nodeIn: SCNNode, vecA: SCNVector3, vecB: SCNVector3) {
+        nodeIn.updateLineInTwoPointsWithRotation(
+            from: vecA,
+            to: vecB,
+            radius: SPHERE_RADIUS,
+            color: .white
+        )
+    }
+    
+    func SetNodePositionFromLeapVector(node: SCNNode, vec: LEAP_VECTOR) {
+        let newPos = SCNVector3(0.001 * vec.x, 0.001 * vec.y, 0.001 * vec.z)
+        node.position = newPos
+    }
+    
+    func UpdateRightHandBonePositions() {
+        guard let rightLeapHand = handManager.rightHand else { return }
+        
+        rightHandSphere.position = handManager.rightPalmPosAsSCNVector3()
+        
+        let digits = rightLeapHand.digits
+        UpdatePinchIndicatorsForHand(hand: rightLeapHand)
+        
+        let thumb  = digits.0
+        let index  = digits.1
+        let middle = digits.2
+        let ring   = digits.3
+        let pinky  = digits.4
+        let fingers = [thumb, index, middle, ring, pinky]
+        
+        for fingerIx in 0...4 {
+            let finger = fingers[fingerIx]
+            let bones = [finger.bones.0, finger.bones.1, finger.bones.2, finger.bones.3]
+            for jointIx in 0...3 {
+                let idx = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx)
+                let position = bones[jointIx].next_joint
+                let vec3 = SCNVector3(0.001 * position.x, 0.001 * position.y, 0.001 * position.z)
+                rightSpherePositions[idx] = vec3
+                UpdateSphereNodeWithPosition(node: rightHandNodes[idx], position: vec3)
+            }
+        }
+        
+        var rightBoneIndex = 0
+        // Finger segments
+        for fingerIx in 0...4 {
+            for jointIx in 0...2 {
+                let keyA = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx)
+                let keyB = getFingerJointIndex(fingerIndex: fingerIx, jointIndex: jointIx + 1)
+                UpdateRightCylinderBoneAtIndex(rightBoneIndex: rightBoneIndex, keyA: keyA, keyB: keyB)
+                rightBoneIndex += 1
+            }
+        }
+        
+        if joinThumbProximal {
+            let keyA = getFingerJointIndex(fingerIndex: 0, jointIndex: 0)
+            let keyB = getFingerJointIndex(fingerIndex: 1, jointIndex: 0)
+            UpdateRightCylinderBoneAtIndex(rightBoneIndex: rightBoneIndex, keyA: keyA, keyB: keyB)
+            rightBoneIndex += 1
+        }
+        
+        if joinMetacarpals {
+            for i in 1...3 {
+                let keyA = getFingerJointIndex(fingerIndex: i, jointIndex: 0)
+                let keyB = getFingerJointIndex(fingerIndex: i + 1, jointIndex: 0)
+                UpdateRightCylinderBoneAtIndex(rightBoneIndex: rightBoneIndex, keyA: keyA, keyB: keyB)
+                rightBoneIndex += 1
+            }
+        }
+        
+        if showPinkyMetacarpal {
+            let pinkyMetacarpal = pinky.metacarpal.prev_joint
+            let indexMetacarpal = thumb.metacarpal.prev_joint
+            let vecA = SCNVector3(0.001 * pinkyMetacarpal.x, 0.001 * pinkyMetacarpal.y, 0.001 * pinkyMetacarpal.z)
+            let vecB = SCNVector3(0.001 * indexMetacarpal.x, 0.001 * indexMetacarpal.y, 0.001 * indexMetacarpal.z)
+            
+            SetNodePositionFromLeapVector(node: rightPinkyMetacarpelSphere, vec: pinkyMetacarpal)
+            UpdateCylinderBoneAtIndex(nodeIn: rightHandBoneNodes[rightBoneIndex], vecA: vecA, vecB: vecB)
+            rightBoneIndex += 1
+            UpdateCylinderBoneAtIndex(nodeIn: rightHandBoneNodes[rightBoneIndex], vecA: vecA, vecB: rightSpherePositions[PINKY_BASE_INDEX])
+        }
+    }
+    
+    // MARK: - SCNSceneRendererDelegate
+    
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         if handManager.rightHandPresent() {
             rightHand.isHidden = false
             UpdateRightHandBonePositions()
-        }
-        else{
+        } else {
             rightHand.isHidden = true
         }
         
         if handManager.leftHandPresent() {
             leftHand.isHidden = false
             UpdateLeftHandBonePositions()
-        }
-        else{
+        } else {
             leftHand.isHidden = true
         }
     }

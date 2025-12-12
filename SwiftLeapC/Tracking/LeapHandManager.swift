@@ -22,7 +22,11 @@ class LeapHandManager: NSObject {
     private var _leftHandPosition : LEAP_VECTOR? = nil
     private var _rightHand : LEAP_HAND? = nil
     private var _leftHand : LEAP_HAND? = nil
-    public var currentImage : CGImage?
+    public private(set) var currentImage: CGImage?
+    private let imageLock = NSLock()
+    private var imageBuffers: [Data] = [Data(), Data()]
+    private var activeImageBufferIndex: Int = 0
+    private var lastImageSize: Int = 0
     
     var currentFrameID: Int64
     private let notificationCenter: NotificationCenter
@@ -32,6 +36,8 @@ class LeapHandManager: NSObject {
     static var OnDisconnect: Notification.Name {
         return .init(rawValue: "DISCONNECT")
     }
+    
+    private let lock = NSLock()
     
     var leftHand : LEAP_HAND? {
         get {
@@ -46,7 +52,7 @@ class LeapHandManager: NSObject {
             lock.unlock()
         }
     }
-
+    
     var rightHand : LEAP_HAND? {
         get {
             lock.lock()
@@ -61,7 +67,7 @@ class LeapHandManager: NSObject {
         }
     }
     
-    var rightHandPosition : LEAP_VECTOR?  {
+    var rightHandPosition : LEAP_VECTOR? {
         get {
             lock.lock()
             let tmp = _rightHandPosition
@@ -88,8 +94,6 @@ class LeapHandManager: NSObject {
         }
     }
     
-    let lock = NSLock()
-
     override init() {
         currentFrameID = 0
         notificationCenter = .default
@@ -104,19 +108,23 @@ class LeapHandManager: NSObject {
         LeapOpenConnection(connection)
         
         let queue = DispatchQueue(label: "leapc", attributes: .concurrent)
-        queue.async {
+        queue.async { [weak self] in
+            guard let self = self else { return }
             while true {
-                var msg = LEAP_CONNECTION_MESSAGE()
-                var result = eLeapRS_Success
-                withUnsafeMutablePointer(to: &msg, {
-                    result = LeapPollConnection(connection, 100, $0)
-                })
-                
-                if result != eLeapRS_Success {
-                    continue
-                }
-                
-                switch msg.type {
+                autoreleasepool {
+                    var msg = LEAP_CONNECTION_MESSAGE()
+                    var result = eLeapRS_Success
+                    withUnsafeMutablePointer(to: &msg, {
+                        result = LeapPollConnection(connection, 100, $0)
+                    })
+                    
+                    // If polling fails, exit this worker
+                    if result != eLeapRS_Success {
+                        //print("LeapPollConnection failed with code \(result.rawValue)")
+                        return
+                    }
+                    
+                    switch msg.type {
                     case eLeapEventType_Tracking:
                         self.onFrame(msg.tracking_event!.pointee)
                     case eLeapEventType_Image:
@@ -130,10 +138,12 @@ class LeapHandManager: NSObject {
                     case eLeapEventType_DeviceLost:
                         self.onDeviceLost(msg.device_event!.pointee)
                     default: break
+                    }
                 }
             }
         }
     }
+    
     
     func leftPalmPosAsSCNVector3() -> SCNVector3 {
         var leftPos = SCNVector3()
@@ -169,6 +179,7 @@ class LeapHandManager: NSObject {
     }
     
     func onDevice(_ device: _LEAP_DEVICE_EVENT){
+        // LEAP_DEVICE_REF has .handle and .id (see LeapC.h), not .serial
         print("On Device Change with ID:", device.device.id)
     }
     
@@ -183,7 +194,6 @@ class LeapHandManager: NSObject {
         rightHand = nil
         currentFrameID = frame.tracking_frame_id
         
-        
         for i in 0 ..< frame.nHands {
             let hand = frame.pHands.advanced(by: Int(i)).pointee
             if hand.type == eLeapHandType_Left {
@@ -197,36 +207,60 @@ class LeapHandManager: NSObject {
         notificationCenter.post(name: LeapHandManager.OnNewLeapFrame, object: currentFrameID)
     }
     
-    func onImage(_ imageEvent: _LEAP_IMAGE_EVENT){
-        
-        // The LeapImage class represents a single greyscale image from one of the the Leap Motion cameras.
+    
+    func onImage(_ imageEvent: _LEAP_IMAGE_EVENT) {
         let leftImage = imageEvent.image.0
-        //let rightImage = imageEvent.image.1
-        let leftImageData = leftImage.data!
-        let leftImageProperties = leftImage.properties
-        let width = Int(leftImageProperties.width)
-        let height = Int(leftImageProperties.height)
+        guard let srcPtr = leftImage.data else { return }
         
-        let provider: CGDataProvider = CGDataProvider(data: Data(
-                        bytes: UnsafeMutableRawPointer(mutating: leftImageData),
-                        count: width*height
-                    ) as CFData)!
-        if (provider.data == nil){
-            print("NO IMAGE PROVIDER")
-            return
+        let props = leftImage.properties
+        let width = Int(props.width)
+        let height = Int(props.height)
+        let byteCount = width * height
+        guard byteCount > 0 else { return }
+        
+        // Ensure buffers are sized once (or when resolution changes)
+        if byteCount != lastImageSize {
+            imageBuffers[0] = Data(count: byteCount)
+            imageBuffers[1] = Data(count: byteCount)
+            lastImageSize = byteCount
         }
-        currentImage = CGImage(
-                        width: width,
-                        height: height,
-                        bitsPerComponent: 8,
-                        bitsPerPixel: 8,
-                        bytesPerRow: width,
-                        space: CGColorSpaceCreateDeviceGray(),
-                        bitmapInfo: CGBitmapInfo(),
-                        provider: provider,
-                        decode: nil,
-                        shouldInterpolate: false,
-                        intent: CGColorRenderingIntent.defaultIntent
-                    )
+        
+        // Write into the "back" buffer
+        let backIndex = (activeImageBufferIndex + 1) & 1
+        imageBuffers[backIndex].withUnsafeMutableBytes { dst in
+            guard let dstBase = dst.baseAddress else { return }
+            memcpy(dstBase, srcPtr, byteCount)
+        }
+        
+        // Build CGImage backed by OUR Data (not Leap's)
+        let cfData = imageBuffers[backIndex] as CFData
+        guard let provider = CGDataProvider(data: cfData) else { return }
+        
+        let img = CGImage(
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bitsPerPixel: 8,
+            bytesPerRow: width,
+            space: CGColorSpaceCreateDeviceGray(),
+            bitmapInfo: CGBitmapInfo(),
+            provider: provider,
+            decode: nil,
+            shouldInterpolate: false,
+            intent: .defaultIntent
+        )
+        
+        // Swap atomically under lock so renderer/UI never sees half-updates
+        imageLock.lock()
+        currentImage = img
+        activeImageBufferIndex = backIndex
+        imageLock.unlock()
+    }
+    
+    func getCurrentImageThreadSafe() -> CGImage? {
+        imageLock.lock()
+        let img = currentImage
+        imageLock.unlock()
+        return img
     }
 }
