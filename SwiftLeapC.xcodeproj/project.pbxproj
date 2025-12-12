@@ -16,6 +16,8 @@
 		ED125F182EEB83F500C22F89 /* libLeapC.6.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		ED26419C2A727B9B00F438F4 /* HandStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */; };
 		ED573D6A2A50C9310028027D /* HandPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED573D692A50C9310028027D /* HandPreviewViewController.swift */; };
+		ED704AA02EEBAAAB001FF132 /* HandRigFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED704A9F2EEBAAAB001FF132 /* HandRigFactory.swift */; };
+		ED704AA12EEBAAAB001FF132 /* HandRig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED704A9E2EEBAAAB001FF132 /* HandRig.swift */; };
 		ED82BDA62EEB7912008BE4DE /* libLeapC.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */; };
 		EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */; };
 		EDFE20A12A4F05CC00664D48 /* LeapExtendedFingerDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */; };
@@ -66,6 +68,8 @@
 		ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandStatsViewController.swift; sourceTree = "<group>"; };
 		ED4B12EB2AFD1D7B005C3F3C /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
 		ED573D692A50C9310028027D /* HandPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandPreviewViewController.swift; sourceTree = "<group>"; };
+		ED704A9E2EEBAAAB001FF132 /* HandRig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandRig.swift; sourceTree = "<group>"; };
+		ED704A9F2EEBAAAB001FF132 /* HandRigFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandRigFactory.swift; sourceTree = "<group>"; };
 		ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libLeapC.6.dylib; sourceTree = "<group>"; };
 		EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapPinchDetector.swift; sourceTree = "<group>"; };
 		EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapExtendedFingerDetector.swift; sourceTree = "<group>"; };
@@ -128,9 +132,11 @@
 		ED0AA80C2A5622600061BAAD /* 3D */ = {
 			isa = PBXGroup;
 			children = (
-				ED1145922A4F285E0067C5DE /* Hand3DScene.scn */,
-				ED573D692A50C9310028027D /* HandPreviewViewController.swift */,
 				ED0AA80A2A5601B20061BAAD /* CylinderNode.swift */,
+				ED1145922A4F285E0067C5DE /* Hand3DScene.scn */,
+				ED704A9E2EEBAAAB001FF132 /* HandRig.swift */,
+				ED704A9F2EEBAAAB001FF132 /* HandRigFactory.swift */,
+				ED573D692A50C9310028027D /* HandPreviewViewController.swift */,
 			);
 			path = 3D;
 			sourceTree = "<group>";
@@ -237,6 +243,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */,
+				ED704AA02EEBAAAB001FF132 /* HandRigFactory.swift in Sources */,
+				ED704AA12EEBAAAB001FF132 /* HandRig.swift in Sources */,
 				ED573D6A2A50C9310028027D /* HandPreviewViewController.swift in Sources */,
 				EDFE20A12A4F05CC00664D48 /* LeapExtendedFingerDetector.swift in Sources */,
 				ED26419C2A727B9B00F438F4 /* HandStatsViewController.swift in Sources */,
