@@ -25,7 +25,7 @@ class HandStatsViewController : NSViewController {
     @IBOutlet weak var rightPinchAmountTextField: NSTextField!
     @IBOutlet weak var cameraImageView: NSImageView!
     @IBOutlet weak var rightGrabAmountTextField: NSTextField!
-    let pinchDetector = LeapPinchDetector()
+    let pinchDetector = LeapPinchDetector.sharedInstance
     let handManager = LeapHandManager.sharedInstance
     @IBOutlet weak var toggleStatsViewSwitch: NSSwitch!
     @IBOutlet weak var toggleImageViewSwitch: NSSwitch!
