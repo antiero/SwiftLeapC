@@ -60,8 +60,8 @@ class LeapPinchDetector : NSObject {
     }
     
     func updateGrabStates(){
-        leftGrabbing = leftIsPinching()
-        rightGrabbing = rightIsPinching()
+        leftGrabbing = leftIsGrabbing()
+        rightGrabbing = rightIsGrabbing()
     }
     
     func leftIsGrabbing() -> Bool {
