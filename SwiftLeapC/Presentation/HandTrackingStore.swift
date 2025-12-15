@@ -4,7 +4,6 @@
 //
 //  UI-facing state for AppKit/SwiftUI.
 //
-
 import CoreGraphics
 import Combine
 
@@ -38,7 +37,17 @@ final class HandTrackingStore: ObservableObject {
         cameraTask = Task { [weak self] in
             guard let self else { return }
             for await cam in session.cameraFrames {
-                self.cameraImage = cam.makeCGImage()
+                if Task.isCancelled { break }
+
+                // Convert off the MainActor to keep UI responsive (especially at higher camera frame rates).
+                let cgImage: CGImage? = await withCheckedContinuation { continuation in
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        let img = cam.makeCGImage()
+                        continuation.resume(returning: img)
+                    }
+                }
+
+                self.cameraImage = cgImage
             }
         }
 

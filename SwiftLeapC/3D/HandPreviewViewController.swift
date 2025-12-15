@@ -5,8 +5,6 @@
 //  Created by Antony Nasce on 01/07/2023.
 //
 
-import Foundation
-import AppKit
 import SceneKit
 
 class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {

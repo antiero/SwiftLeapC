@@ -5,7 +5,6 @@
 //  AppKit UI fed by Domain models via HandTrackingStore.
 //
 
-import Foundation
 import AppKit
 import Combine
 

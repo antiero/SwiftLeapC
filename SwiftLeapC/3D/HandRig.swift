@@ -5,8 +5,6 @@
 //  Created by ChatGPT (refactor) on 12/12/2025.
 //
 
-import Foundation
-import AppKit
 import SceneKit
 
 enum RigSide {
@@ -164,7 +162,8 @@ final class HandRig {
         let fingers = hand.digits
         
         // Joints are indexed by [fingerIx][jointIx] where jointIx is 0..3 (4 joints per finger: each bone's nextJoint)
-        var jointPositions: [Int: SCNVector3] = [:]
+        // Use the preallocated flat array to avoid per-frame Dictionary allocations.
+        var jointValid = Array(repeating: false, count: HandRig.totalJointCount)
         for fingerIx in 0...4 {
             let finger = fingers[fingerIx]
             guard finger.bones.count == 4 else { continue }
@@ -172,7 +171,8 @@ final class HandRig {
                 let idx = HandRig.fingerJointIndex(digitIndex: fingerIx, jointIndex: jointIx)
                 let positionMM = finger.bones[jointIx].nextJointMM
                 let vec3 = positionMM.scnMeters
-                jointPositions[idx] = vec3
+                self.jointPositions[idx] = vec3
+                jointValid[idx] = true
                 if idx < jointNodes.count { jointNodes[idx].position = vec3 }
             }
         }
@@ -185,7 +185,9 @@ final class HandRig {
             for jointIx in 0...2 {
                 let idxA = HandRig.fingerJointIndex(digitIndex: fingerIx, jointIndex: jointIx)
                 let idxB = HandRig.fingerJointIndex(digitIndex: fingerIx, jointIndex: jointIx + 1)
-                if let a = jointPositions[idxA], let b = jointPositions[idxB] {
+                if jointValid[idxA] && jointValid[idxB] {
+                    let a = self.jointPositions[idxA]
+                    let b = self.jointPositions[idxB]
                     updateBone(at: boneIndex, from: a, to: b, radius: sphereRadius)
                 }
                 boneIndex += 1
@@ -195,7 +197,9 @@ final class HandRig {
         if config.joinThumbProximal {
             let keyA = HandRig.fingerJointIndex(digitIndex: 0, jointIndex: 0)
             let keyB = HandRig.fingerJointIndex(digitIndex: 1, jointIndex: 0)
-            if let a = jointPositions[keyA], let b = jointPositions[keyB] {
+            if jointValid[keyA] && jointValid[keyB] {
+                let a = self.jointPositions[keyA]
+                let b = self.jointPositions[keyB]
                 updateBone(at: boneIndex, from: a, to: b, radius: sphereRadius)
             }
             boneIndex += 1
@@ -206,8 +210,12 @@ final class HandRig {
             for i in 1...3 {
                 let keyA = HandRig.fingerJointIndex(digitIndex: i, jointIndex: 0)
                 let keyB = HandRig.fingerJointIndex(digitIndex: i + 1, jointIndex: 0)
-                if let a = jointPositions[keyA], let b = jointPositions[keyB] {
+                if jointValid[keyA] && jointValid[keyB] {
+                    let a = jointPositions[keyA]
+                    let b = jointPositions[keyB]
                     updateBone(at: boneIndex, from: a, to: b, radius: sphereRadius)
+                } else {
+                    boneNodes[boneIndex].isHidden = true   // optional, but prevents “stale” cylinders
                 }
                 boneIndex += 1
             }
@@ -231,7 +239,8 @@ final class HandRig {
                 
                 // Cylinder: pinky metacarpal <-> pinky base knuckle (PINKY_BASE_INDEX)
                 let pinkyBaseKey = HandRig.pinkyBaseIndex
-                if let pinkyBase = jointPositions[pinkyBaseKey] {
+                if jointValid[pinkyBaseKey] {
+                    let pinkyBase = self.jointPositions[pinkyBaseKey]
                     updateBone(at: boneIndex, from: pinkyMetacarpalPrev, to: pinkyBase, radius: sphereRadius)
                     boneNodes[boneIndex].isHidden = false
                 } else {

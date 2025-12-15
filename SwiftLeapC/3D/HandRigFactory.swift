@@ -5,7 +5,6 @@
 //  Created by ChatGPT (refactor) on 12/12/2025.
 //
 
-import Foundation
 import SceneKit
 
 enum HandRigFactory {
