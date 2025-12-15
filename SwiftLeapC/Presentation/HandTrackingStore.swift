@@ -1,0 +1,69 @@
+//
+//  HandTrackingStore.swift
+//  SwiftLeapC
+//
+//  UI-facing state for AppKit/SwiftUI.
+//  Copyright © 2025 Antony Nasce. All rights reserved.
+
+import CoreGraphics
+import Combine
+
+@MainActor
+final class HandTrackingStore: ObservableObject {
+    static let shared = HandTrackingStore()
+
+    @Published private(set) var frame: HandFrame?
+    @Published private(set) var cameraImage: CGImage?
+    @Published private(set) var status: LeapSession.Status = .idle
+
+    /// SwiftUI-friendly derived text (NOT published; observe `status` instead)
+    var statusText: String { status.description }
+
+    private var frameTask: Task<Void, Never>?
+    private var cameraTask: Task<Void, Never>?
+    private var statusTask: Task<Void, Never>?
+
+    private init() {}
+
+    func start(session: LeapSession = .shared) {
+        guard frameTask == nil, cameraTask == nil, statusTask == nil else { return }
+
+        frameTask = Task { [weak self] in
+            guard let self else { return }
+            for await f in session.frames {
+                self.frame = f
+            }
+        }
+
+        cameraTask = Task { [weak self] in
+            guard let self else { return }
+            for await cam in session.cameraFrames {
+                if Task.isCancelled { break }
+
+                // Convert off the MainActor to keep UI responsive (especially at higher camera frame rates).
+                let cgImage: CGImage? = await withCheckedContinuation { continuation in
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        let img = cam.makeCGImage()
+                        continuation.resume(returning: img)
+                    }
+                }
+
+                self.cameraImage = cgImage
+            }
+        }
+
+        statusTask = Task { [weak self] in
+            guard let self else { return }
+            for await s in session.status {
+                self.status = s
+            }
+        }
+    }
+
+    func stop() {
+        frameTask?.cancel(); frameTask = nil
+        cameraTask?.cancel(); cameraTask = nil
+        statusTask?.cancel(); statusTask = nil
+        status = .stopped
+    }
+}

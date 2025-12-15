@@ -9,19 +9,27 @@
 /* Begin PBXBuildFile section */
 		DF56D17A1BDB489600DC6990 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF56D1791BDB489600DC6990 /* AppDelegate.swift */; };
 		DF56D17E1BDB489600DC6990 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF56D17D1BDB489600DC6990 /* Assets.xcassets */; };
-		DF56D1941BDB490100DC6990 /* LeapHandManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF56D1931BDB490100DC6990 /* LeapHandManager.swift */; };
 		DFBD9EBE1BE03742005845D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFBD9EBD1BE03742005845D5 /* MainMenu.xib */; };
-		ED0AA80B2A5601B20061BAAD /* SCNNode+CylinderDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0AA80A2A5601B20061BAAD /* SCNNode+CylinderDrawing.swift */; };
-		ED1145932A4F285E0067C5DE /* Hand3DScene.scn in Resources */ = {isa = PBXBuildFile; fileRef = ED1145922A4F285E0067C5DE /* Hand3DScene.scn */; };
 		ED125F182EEB83F500C22F89 /* libLeapC.6.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		ED26419C2A727B9B00F438F4 /* HandStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */; };
-		ED573D6A2A50C9310028027D /* HandPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED573D692A50C9310028027D /* HandPreviewViewController.swift */; };
-		ED704AA02EEBAAAB001FF132 /* HandRigFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED704A9F2EEBAAAB001FF132 /* HandRigFactory.swift */; };
-		ED704AA12EEBAAAB001FF132 /* HandRig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED704A9E2EEBAAAB001FF132 /* HandRig.swift */; };
 		ED82BDA62EEB7912008BE4DE /* libLeapC.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */; };
-		EDC330A72EEBB0E50003A2EF /* UInt32+Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC330A62EEBB0D80003A2EF /* UInt32+Bool.swift */; };
-		EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */; };
-		EDFE20A12A4F05CC00664D48 /* LeapExtendedFingerDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */; };
+		EDB8A3CF2EEF7C0500B417DB /* Hand3DScene.scn in Resources */ = {isa = PBXBuildFile; fileRef = EDB8A3B32EEF7C0500B417DB /* Hand3DScene.scn */; };
+		EDB8A3D02EEF7C0500B417DB /* SIMD+SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3C62EEF7C0500B417DB /* SIMD+SceneKit.swift */; };
+		EDB8A3D12EEF7C0500B417DB /* HandGestureState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3B82EEF7C0500B417DB /* HandGestureState.swift */; };
+		EDB8A3D22EEF7C0500B417DB /* LeapSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3C42EEF7C0500B417DB /* LeapSession.swift */; };
+		EDB8A3D32EEF7C0500B417DB /* HandPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3B42EEF7C0500B417DB /* HandPreviewViewController.swift */; };
+		EDB8A3D42EEF7C0500B417DB /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3BD2EEF7C0500B417DB /* Hand.swift */; };
+		EDB8A3D52EEF7C0500B417DB /* HandStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3B12EEF7C0500B417DB /* HandStatsViewController.swift */; };
+		EDB8A3D72EEF7C0500B417DB /* CameraFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3BB2EEF7C0500B417DB /* CameraFrame.swift */; };
+		EDB8A3D82EEF7C0500B417DB /* CameraFrame+CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3C82EEF7C0500B417DB /* CameraFrame+CGImage.swift */; };
+		EDB8A3D92EEF7C0500B417DB /* HandTrackingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3C92EEF7C0500B417DB /* HandTrackingStore.swift */; };
+		EDB8A3DA2EEF7C0500B417DB /* Bone.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3BA2EEF7C0500B417DB /* Bone.swift */; };
+		EDB8A3DB2EEF7C0500B417DB /* UInt32+Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3C12EEF7C0500B417DB /* UInt32+Bool.swift */; };
+		EDB8A3DC2EEF7C0500B417DB /* Digit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3BC2EEF7C0500B417DB /* Digit.swift */; };
+		EDB8A3DD2EEF7C0500B417DB /* LeapEventMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3C32EEF7C0500B417DB /* LeapEventMapper.swift */; };
+		EDB8A3DE2EEF7C0500B417DB /* HandRigFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3B62EEF7C0500B417DB /* HandRigFactory.swift */; };
+		EDB8A3E02EEF7C0500B417DB /* SCNNode+CylinderDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3C02EEF7C0500B417DB /* SCNNode+CylinderDrawing.swift */; };
+		EDB8A3E12EEF7C0500B417DB /* HandRig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3B52EEF7C0500B417DB /* HandRig.swift */; };
+		EDB8A3E32EEF7C0500B417DB /* HandFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3BE2EEF7C0500B417DB /* HandFrame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,20 +69,28 @@
 		DF56D1791BDB489600DC6990 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF56D17D1BDB489600DC6990 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF56D1821BDB489600DC6990 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DF56D1931BDB490100DC6990 /* LeapHandManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeapHandManager.swift; sourceTree = "<group>"; };
 		DFBD9EB61BE0363B005845D5 /* SwiftLeapC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftLeapC-Bridging-Header.h"; sourceTree = "<group>"; };
 		DFBD9EBD1BE03742005845D5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		ED0AA80A2A5601B20061BAAD /* SCNNode+CylinderDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+CylinderDrawing.swift"; sourceTree = "<group>"; };
-		ED1145922A4F285E0067C5DE /* Hand3DScene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Hand3DScene.scn; sourceTree = "<group>"; };
-		ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandStatsViewController.swift; sourceTree = "<group>"; };
 		ED4B12EB2AFD1D7B005C3F3C /* LeapC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapC.h; sourceTree = "<group>"; };
-		ED573D692A50C9310028027D /* HandPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandPreviewViewController.swift; sourceTree = "<group>"; };
-		ED704A9E2EEBAAAB001FF132 /* HandRig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandRig.swift; sourceTree = "<group>"; };
-		ED704A9F2EEBAAAB001FF132 /* HandRigFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandRigFactory.swift; sourceTree = "<group>"; };
 		ED82BDA52EEB7912008BE4DE /* libLeapC.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libLeapC.6.dylib; sourceTree = "<group>"; };
-		EDC330A62EEBB0D80003A2EF /* UInt32+Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt32+Bool.swift"; sourceTree = "<group>"; };
-		EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapPinchDetector.swift; sourceTree = "<group>"; };
-		EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapExtendedFingerDetector.swift; sourceTree = "<group>"; };
+		EDB8A3B12EEF7C0500B417DB /* HandStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandStatsViewController.swift; sourceTree = "<group>"; };
+		EDB8A3B32EEF7C0500B417DB /* Hand3DScene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Hand3DScene.scn; sourceTree = "<group>"; };
+		EDB8A3B42EEF7C0500B417DB /* HandPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandPreviewViewController.swift; sourceTree = "<group>"; };
+		EDB8A3B52EEF7C0500B417DB /* HandRig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandRig.swift; sourceTree = "<group>"; };
+		EDB8A3B62EEF7C0500B417DB /* HandRigFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandRigFactory.swift; sourceTree = "<group>"; };
+		EDB8A3B82EEF7C0500B417DB /* HandGestureState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandGestureState.swift; sourceTree = "<group>"; };
+		EDB8A3BA2EEF7C0500B417DB /* Bone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bone.swift; sourceTree = "<group>"; };
+		EDB8A3BB2EEF7C0500B417DB /* CameraFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFrame.swift; sourceTree = "<group>"; };
+		EDB8A3BC2EEF7C0500B417DB /* Digit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Digit.swift; sourceTree = "<group>"; };
+		EDB8A3BD2EEF7C0500B417DB /* Hand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
+		EDB8A3BE2EEF7C0500B417DB /* HandFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandFrame.swift; sourceTree = "<group>"; };
+		EDB8A3C02EEF7C0500B417DB /* SCNNode+CylinderDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+CylinderDrawing.swift"; sourceTree = "<group>"; };
+		EDB8A3C12EEF7C0500B417DB /* UInt32+Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt32+Bool.swift"; sourceTree = "<group>"; };
+		EDB8A3C32EEF7C0500B417DB /* LeapEventMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapEventMapper.swift; sourceTree = "<group>"; };
+		EDB8A3C42EEF7C0500B417DB /* LeapSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapSession.swift; sourceTree = "<group>"; };
+		EDB8A3C62EEF7C0500B417DB /* SIMD+SceneKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SIMD+SceneKit.swift"; sourceTree = "<group>"; };
+		EDB8A3C82EEF7C0500B417DB /* CameraFrame+CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraFrame+CGImage.swift"; sourceTree = "<group>"; };
+		EDB8A3C92EEF7C0500B417DB /* HandTrackingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandTrackingStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,12 +125,14 @@
 		DF56D1781BDB489600DC6990 /* SwiftLeapC */ = {
 			isa = PBXGroup;
 			children = (
-				EDC330A52EEBB0D10003A2EF /* Extensions */,
+				EDB8A3B22EEF7C0500B417DB /* 2D */,
+				EDB8A3B72EEF7C0500B417DB /* 3D */,
+				EDB8A3BF2EEF7C0500B417DB /* Domain */,
+				EDB8A3C22EEF7C0500B417DB /* Extensions */,
+				EDB8A3C52EEF7C0500B417DB /* LeapCore */,
+				EDB8A3CA2EEF7C0500B417DB /* Presentation */,
 				DFBD9EB61BE0363B005845D5 /* SwiftLeapC-Bridging-Header.h */,
 				DFBD9EAD1BE03513005845D5 /* LeapC */,
-				ED0AA80D2A56227D0061BAAD /* 2D */,
-				ED0AA80C2A5622600061BAAD /* 3D */,
-				EDFE20A22A4F06B700664D48 /* Tracking */,
 				DF56D1791BDB489600DC6990 /* AppDelegate.swift */,
 				DF56D17D1BDB489600DC6990 /* Assets.xcassets */,
 				DFBD9EBD1BE03742005845D5 /* MainMenu.xib */,
@@ -132,25 +150,6 @@
 			path = LeapC;
 			sourceTree = "<group>";
 		};
-		ED0AA80C2A5622600061BAAD /* 3D */ = {
-			isa = PBXGroup;
-			children = (
-				ED1145922A4F285E0067C5DE /* Hand3DScene.scn */,
-				ED704A9E2EEBAAAB001FF132 /* HandRig.swift */,
-				ED704A9F2EEBAAAB001FF132 /* HandRigFactory.swift */,
-				ED573D692A50C9310028027D /* HandPreviewViewController.swift */,
-			);
-			path = 3D;
-			sourceTree = "<group>";
-		};
-		ED0AA80D2A56227D0061BAAD /* 2D */ = {
-			isa = PBXGroup;
-			children = (
-				ED26419B2A727B9B00F438F4 /* HandStatsViewController.swift */,
-			);
-			path = 2D;
-			sourceTree = "<group>";
-		};
 		ED6420642A4D64510017F7B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,23 +157,80 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		EDC330A52EEBB0D10003A2EF /* Extensions */ = {
+		EDB8A3B22EEF7C0500B417DB /* 2D */ = {
 			isa = PBXGroup;
 			children = (
-				EDC330A62EEBB0D80003A2EF /* UInt32+Bool.swift */,
-				ED0AA80A2A5601B20061BAAD /* SCNNode+CylinderDrawing.swift */,
+				EDB8A3B12EEF7C0500B417DB /* HandStatsViewController.swift */,
+			);
+			path = 2D;
+			sourceTree = "<group>";
+		};
+		EDB8A3B72EEF7C0500B417DB /* 3D */ = {
+			isa = PBXGroup;
+			children = (
+				EDB8A3B32EEF7C0500B417DB /* Hand3DScene.scn */,
+				EDB8A3B42EEF7C0500B417DB /* HandPreviewViewController.swift */,
+				EDB8A3B52EEF7C0500B417DB /* HandRig.swift */,
+				EDB8A3B62EEF7C0500B417DB /* HandRigFactory.swift */,
+			);
+			path = 3D;
+			sourceTree = "<group>";
+		};
+		EDB8A3B92EEF7C0500B417DB /* Gestures */ = {
+			isa = PBXGroup;
+			children = (
+				EDB8A3B82EEF7C0500B417DB /* HandGestureState.swift */,
+			);
+			path = Gestures;
+			sourceTree = "<group>";
+		};
+		EDB8A3BF2EEF7C0500B417DB /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				EDB8A3B92EEF7C0500B417DB /* Gestures */,
+				EDB8A3BA2EEF7C0500B417DB /* Bone.swift */,
+				EDB8A3BB2EEF7C0500B417DB /* CameraFrame.swift */,
+				EDB8A3BC2EEF7C0500B417DB /* Digit.swift */,
+				EDB8A3BD2EEF7C0500B417DB /* Hand.swift */,
+				EDB8A3BE2EEF7C0500B417DB /* HandFrame.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		EDB8A3C22EEF7C0500B417DB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EDB8A3C02EEF7C0500B417DB /* SCNNode+CylinderDrawing.swift */,
+				EDB8A3C12EEF7C0500B417DB /* UInt32+Bool.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		EDFE20A22A4F06B700664D48 /* Tracking */ = {
+		EDB8A3C52EEF7C0500B417DB /* LeapCore */ = {
 			isa = PBXGroup;
 			children = (
-				DF56D1931BDB490100DC6990 /* LeapHandManager.swift */,
-				EDFE209E2A4F049300664D48 /* LeapPinchDetector.swift */,
-				EDFE20A02A4F05CC00664D48 /* LeapExtendedFingerDetector.swift */,
+				EDB8A3C32EEF7C0500B417DB /* LeapEventMapper.swift */,
+				EDB8A3C42EEF7C0500B417DB /* LeapSession.swift */,
 			);
-			path = Tracking;
+			path = LeapCore;
+			sourceTree = "<group>";
+		};
+		EDB8A3C72EEF7C0500B417DB /* SceneKit */ = {
+			isa = PBXGroup;
+			children = (
+				EDB8A3C62EEF7C0500B417DB /* SIMD+SceneKit.swift */,
+			);
+			path = SceneKit;
+			sourceTree = "<group>";
+		};
+		EDB8A3CA2EEF7C0500B417DB /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				EDB8A3C72EEF7C0500B417DB /* SceneKit */,
+				EDB8A3C82EEF7C0500B417DB /* CameraFrame+CGImage.swift */,
+				EDB8A3C92EEF7C0500B417DB /* HandTrackingStore.swift */,
+			);
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,8 +297,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF56D17E1BDB489600DC6990 /* Assets.xcassets in Resources */,
-				ED1145932A4F285E0067C5DE /* Hand3DScene.scn in Resources */,
 				DFBD9EBE1BE03742005845D5 /* MainMenu.xib in Resources */,
+				EDB8A3CF2EEF7C0500B417DB /* Hand3DScene.scn in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,16 +309,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDC330A72EEBB0E50003A2EF /* UInt32+Bool.swift in Sources */,
-				EDFE209F2A4F049300664D48 /* LeapPinchDetector.swift in Sources */,
-				ED704AA02EEBAAAB001FF132 /* HandRigFactory.swift in Sources */,
-				ED704AA12EEBAAAB001FF132 /* HandRig.swift in Sources */,
-				ED573D6A2A50C9310028027D /* HandPreviewViewController.swift in Sources */,
-				EDFE20A12A4F05CC00664D48 /* LeapExtendedFingerDetector.swift in Sources */,
-				ED26419C2A727B9B00F438F4 /* HandStatsViewController.swift in Sources */,
-				ED0AA80B2A5601B20061BAAD /* SCNNode+CylinderDrawing.swift in Sources */,
-				DF56D1941BDB490100DC6990 /* LeapHandManager.swift in Sources */,
 				DF56D17A1BDB489600DC6990 /* AppDelegate.swift in Sources */,
+				EDB8A3D02EEF7C0500B417DB /* SIMD+SceneKit.swift in Sources */,
+				EDB8A3D12EEF7C0500B417DB /* HandGestureState.swift in Sources */,
+				EDB8A3D22EEF7C0500B417DB /* LeapSession.swift in Sources */,
+				EDB8A3D32EEF7C0500B417DB /* HandPreviewViewController.swift in Sources */,
+				EDB8A3D42EEF7C0500B417DB /* Hand.swift in Sources */,
+				EDB8A3D52EEF7C0500B417DB /* HandStatsViewController.swift in Sources */,
+				EDB8A3D72EEF7C0500B417DB /* CameraFrame.swift in Sources */,
+				EDB8A3D82EEF7C0500B417DB /* CameraFrame+CGImage.swift in Sources */,
+				EDB8A3D92EEF7C0500B417DB /* HandTrackingStore.swift in Sources */,
+				EDB8A3DA2EEF7C0500B417DB /* Bone.swift in Sources */,
+				EDB8A3DB2EEF7C0500B417DB /* UInt32+Bool.swift in Sources */,
+				EDB8A3DC2EEF7C0500B417DB /* Digit.swift in Sources */,
+				EDB8A3DD2EEF7C0500B417DB /* LeapEventMapper.swift in Sources */,
+				EDB8A3DE2EEF7C0500B417DB /* HandRigFactory.swift in Sources */,
+				EDB8A3E02EEF7C0500B417DB /* SCNNode+CylinderDrawing.swift in Sources */,
+				EDB8A3E12EEF7C0500B417DB /* HandRig.swift in Sources */,
+				EDB8A3E32EEF7C0500B417DB /* HandFrame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

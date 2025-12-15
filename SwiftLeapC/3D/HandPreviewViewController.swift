@@ -2,66 +2,58 @@
 //  HandPreviewViewController.swift
 //  SwiftLeapC
 //
-//  Created by Antony Nasce on 01/07/2023.
-//
+//  Copyright © 2025 Antony Nasce. All rights reserved.
 
-import Foundation
-import AppKit
 import SceneKit
 
 class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
-
+    
     @IBOutlet weak var handPreview: SCNView!
-
+    
+    private let session = LeapSession.shared
+    
     // Shared hand materials (one per hand). Changing diffuse updates all nodes using that geometry.
     private let leftHandMaterial = SCNMaterial()
     private let rightHandMaterial = SCNMaterial()
-
+    
     var leftHandColor: NSColor = .blue { didSet { leftHandMaterial.diffuse.contents = leftHandColor } }
     var rightHandColor: NSColor = .red { didSet { rightHandMaterial.diffuse.contents = rightHandColor } }
-
-    // Managers / detectors
-    private var handManager: LeapHandManager!
-    private var pinchDetector = LeapPinchDetector.sharedInstance
-    private var extendedFingerDetector = LeapExtendedFingerDetector.sharedInstance // currently unused, kept for now
-
+        
     // Config toggles (kept as-is)
     var showPinchIndicators = true
     var joinThumbProximal = true
     var joinMetacarpals = true
     var showPinkyMetacarpal = true
     var showExtendedFingerIndicators = true
-
+    
     // Scene scale / sizes
     let SPHERE_RADIUS: CGFloat = 0.01
-
+    
     private lazy var leftSphereGeo: SCNSphere = {
         let g = SCNSphere(radius: SPHERE_RADIUS)
         g.firstMaterial = leftHandMaterial
         return g
     }()
-
+    
     private lazy var rightSphereGeo: SCNSphere = {
         let g = SCNSphere(radius: SPHERE_RADIUS)
         g.firstMaterial = rightHandMaterial
         return g
     }()
-
+    
     // Hand rigs
     private var leftRig: HandRig!
     private var rightRig: HandRig!
-
+    
     // MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
+        session.start(enableImages: true)
         super.viewDidLoad()
-        print("HandPreviewViewController.viewDidLoad")
-
-        handManager = LeapHandManager.sharedInstance
-
+        
         leftHandMaterial.diffuse.contents = leftHandColor
         rightHandMaterial.diffuse.contents = rightHandColor
-
+        
         // Use the scene from Interface Builder if available (Hand3DScene.scn),
         // otherwise create a fresh one.
         let scene: SCNScene
@@ -72,7 +64,7 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
             scene = SCNScene()
             handPreview.scene = scene
         }
-
+        
         // Configure SCNView + delegate so renderer(updateAtTime:) will fire
         handPreview.delegate = self
         handPreview.allowsCameraControl = true
@@ -81,7 +73,9 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
         
         // Use this to toggle the hand preview on/off
         handPreview.isPlaying = true
-
+        handPreview.loops = true
+        handPreview.rendersContinuously = true // useful during development
+        
         // Build rigs + camera (same visuals, fewer lines in this controller)
         (leftRig, rightRig) = HandRigFactory.buildRigs(
             in: scene,
@@ -92,12 +86,12 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
         )
         HandRigFactory.addDefaultCamera(to: scene)
     }
-
+    
     deinit {
         handPreview?.delegate = nil
         handPreview?.scene = nil
     }
-
+    
     private var rigConfig: HandRigConfig {
         HandRigConfig(
             showPinchIndicators: showPinchIndicators,
@@ -106,37 +100,27 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
             showPinkyMetacarpal: showPinkyMetacarpal
         )
     }
-
+    
     // MARK: - Renderer delegate
-
+    
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        // NOTE: This is called on SceneKit's render loop thread.
-        // We keep work minimal and use LeapHandManager's latest cached hands.
-
-        if handManager.rightHandPresent(), let rightLeapHand = handManager.rightHand {
+        // Pull the latest snapshot synchronously; SceneKit may call this off the main thread.
+        guard let frame = session.latestFrameSnapshot() else {
+            leftRig.setHidden(true)
+            rightRig.setHidden(true)
+            return
+        }
+        
+        if let rightHand = frame.right {
             rightRig.setHidden(false)
-            let pinchStrength = pinchDetector.pinchStrength(hand: rightLeapHand)
-            rightRig.update(
-                leapHand: rightLeapHand,
-                palmPosition: handManager.rightPalmPosAsSCNVector3(),
-                pinchStrength: Float(pinchStrength),
-                config: rigConfig,
-                sphereRadius: SPHERE_RADIUS
-            )
+            rightRig.update(hand: rightHand, config: rigConfig, sphereRadius: SPHERE_RADIUS)
         } else {
             rightRig.setHidden(true)
         }
-
-        if handManager.leftHandPresent(), let leftLeapHand = handManager.leftHand {
+        
+        if let leftHand = frame.left {
             leftRig.setHidden(false)
-            let pinchStrength = pinchDetector.pinchStrength(hand: leftLeapHand)
-            leftRig.update(
-                leapHand: leftLeapHand,
-                palmPosition: handManager.leftPalmPosAsSCNVector3(),
-                pinchStrength: Float(pinchStrength),
-                config: rigConfig,
-                sphereRadius: SPHERE_RADIUS
-            )
+            leftRig.update(hand: leftHand, config: rigConfig, sphereRadius: SPHERE_RADIUS)
         } else {
             leftRig.setHidden(true)
         }
