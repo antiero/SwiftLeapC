@@ -3,7 +3,8 @@
 //  SwiftLeapC
 //
 //  UI-facing state for AppKit/SwiftUI.
-//
+//  Copyright © 2025 Antony Nasce. All rights reserved.
+
 import CoreGraphics
 import Combine
 

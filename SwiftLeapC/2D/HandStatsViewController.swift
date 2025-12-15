@@ -3,7 +3,7 @@
 //  SwiftLeapC
 //
 //  AppKit UI fed by Domain models via HandTrackingStore.
-//
+//  Copyright © 2025 Antony Nasce. All rights reserved.
 
 import AppKit
 import Combine

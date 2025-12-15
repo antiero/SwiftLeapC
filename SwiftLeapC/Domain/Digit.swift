@@ -2,6 +2,7 @@
 //  Digit.swift
 //  SwiftLeapC
 //
+//  Copyright © 2025 Antony Nasce. All rights reserved.
 
 import Foundation
 

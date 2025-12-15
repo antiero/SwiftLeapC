@@ -2,7 +2,7 @@
 //  HandRigFactory.swift
 //  SwiftLeapC
 //
-//  Created by ChatGPT (refactor) on 12/12/2025.
+//  Copyright © 2025 Antony Nasce. All rights reserved.
 //
 
 import SceneKit

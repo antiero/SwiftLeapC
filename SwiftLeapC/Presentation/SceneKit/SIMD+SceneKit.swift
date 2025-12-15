@@ -1,11 +1,9 @@
 //
 //  SIMD+SceneKit.swift
 //  SwiftLeapC
-//
+//  Copyright © 2025 Antony Nasce. All rights reserved.
 
-import Foundation
 import SceneKit
-import simd
 
 public extension SIMD3 where Scalar == Float {
     /// Interprets this vector as millimeters and converts to SceneKit meters.

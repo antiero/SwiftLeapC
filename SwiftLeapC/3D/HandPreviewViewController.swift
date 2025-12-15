@@ -2,8 +2,7 @@
 //  HandPreviewViewController.swift
 //  SwiftLeapC
 //
-//  Created by Antony Nasce on 01/07/2023.
-//
+//  Copyright © 2025 Antony Nasce. All rights reserved.
 
 import SceneKit
 
@@ -12,7 +11,6 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
     @IBOutlet weak var handPreview: SCNView!
     
     private let session = LeapSession.shared
-    
     
     // Shared hand materials (one per hand). Changing diffuse updates all nodes using that geometry.
     private let leftHandMaterial = SCNMaterial()
@@ -52,8 +50,6 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
     override func viewDidLoad() {
         session.start(enableImages: true)
         super.viewDidLoad()
-        print("HandPreviewViewController.viewDidLoad")
-        
         
         leftHandMaterial.diffuse.contents = leftHandColor
         rightHandMaterial.diffuse.contents = rightHandColor

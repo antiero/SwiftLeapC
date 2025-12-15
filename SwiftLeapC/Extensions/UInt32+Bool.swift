@@ -2,9 +2,7 @@
 //  UInt32Extension.swift
 //  Ultraleap Hands
 //
-//  Created by Antony Nasce on 12/12/2025.
-//  Copyright © 2025 Kelly Innes. All rights reserved.
-//
+//  Copyright © 2025 Antony Nasce. All rights reserved.
 
 import Foundation
 

@@ -2,8 +2,7 @@
 //  CylinderNode.swift
 //  SwiftLeapC
 //
-//  Created by Antony Nasce on 05/07/2023.
-//
+//  Copyright © 2025 Antony Nasce. All rights reserved.
 
 import SceneKit
 //extension code starts
@@ -13,9 +12,7 @@ func normalizeVector(_ iv: SCNVector3) -> SCNVector3 {
     if length == 0 {
         return SCNVector3(0.0, 0.0, 0.0)
     }
-    
     return SCNVector3( iv.x / length, iv.y / length, iv.z / length)
-    
 }
 
 extension SCNNode {

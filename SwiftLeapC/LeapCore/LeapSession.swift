@@ -3,7 +3,7 @@
 //  SwiftLeapC
 //
 //  Owns the LeapC connection + polling loop and exposes typed async streams.
-//
+//  Copyright © 2025 Antony Nasce. All rights reserved.
 
 import Foundation
 

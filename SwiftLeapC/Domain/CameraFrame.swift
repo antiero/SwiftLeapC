@@ -3,7 +3,7 @@
 //  SwiftLeapC
 //
 //  Domain model for a single grayscale camera image.
-//
+//  Copyright © 2025 Antony Nasce. All rights reserved.
 
 import Foundation
 
