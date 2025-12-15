@@ -9,7 +9,7 @@ import Foundation
 import SceneKit
 
 enum HandRigFactory {
-
+    
     static func buildRigs(
         in scene: SCNScene,
         leftSphereGeo: SCNGeometry,
@@ -17,7 +17,7 @@ enum HandRigFactory {
         sphereRadius: CGFloat,
         showPinchIndicators: Bool
     ) -> (left: HandRig, right: HandRig) {
-
+        
         let left = HandRig(
             side: .left,
             sphereGeometry: leftSphereGeo,
@@ -25,7 +25,7 @@ enum HandRigFactory {
             showPinchIndicators: showPinchIndicators
         )
         scene.rootNode.addChildNode(left.root)
-
+        
         let right = HandRig(
             side: .right,
             sphereGeometry: rightSphereGeo,
@@ -33,10 +33,10 @@ enum HandRigFactory {
             showPinchIndicators: showPinchIndicators
         )
         scene.rootNode.addChildNode(right.root)
-
+        
         return (left, right)
     }
-
+    
     /// Preserves your previous behavior: always adds an extra camera node.
     static func addDefaultCamera(to scene: SCNScene) {
         let cameraNode = SCNNode()

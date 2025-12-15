@@ -22,18 +22,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                    keyEquivalent: "")
     }()
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+            
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        print("Calling LeapSession.shared.start()")
+        LeapSession.shared.start()
+        
+        Task { @MainActor in
+            HandTrackingStore.shared.start(session: LeapSession.shared)
+            print("Called HandTrackingStore.shared.start(session: LeapSession.shared)")
+        }
+        
         // Force the SCNView to load so viewDidLoad runs and hooks up the delegate
         _ = handPreviewController.view
         
         handStatsView.initLeapStats()
-
+        
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         if let button = statusItem.button {
             button.image = NSImage(named: "ultraleap-icon-menubar")
         }
         setupMenus()
-
+        
         window.canHide = true
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
