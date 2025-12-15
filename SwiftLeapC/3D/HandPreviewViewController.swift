@@ -10,7 +10,7 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
     
     @IBOutlet weak var handPreview: SCNView!
     
-    private let session = LeapSession.shared
+    private let store = HandTrackingStore.shared
     
     // Shared hand materials (one per hand). Changing diffuse updates all nodes using that geometry.
     private let leftHandMaterial = SCNMaterial()
@@ -48,7 +48,6 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
-        session.start(enableImages: true)
         super.viewDidLoad()
         
         leftHandMaterial.diffuse.contents = leftHandColor
@@ -104,8 +103,7 @@ class HandPreviewViewController: NSViewController, SCNSceneRendererDelegate {
     // MARK: - Renderer delegate
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        // Pull the latest snapshot synchronously; SceneKit may call this off the main thread.
-        guard let frame = session.latestFrameSnapshot() else {
+        guard let frame = store.latestFrameSnapshot() else {
             leftRig.setHidden(true)
             rightRig.setHidden(true)
             return

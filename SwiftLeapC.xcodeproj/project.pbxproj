@@ -30,6 +30,7 @@
 		EDB8A3E02EEF7C0500B417DB /* SCNNode+CylinderDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3C02EEF7C0500B417DB /* SCNNode+CylinderDrawing.swift */; };
 		EDB8A3E12EEF7C0500B417DB /* HandRig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3B52EEF7C0500B417DB /* HandRig.swift */; };
 		EDB8A3E32EEF7C0500B417DB /* HandFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3BE2EEF7C0500B417DB /* HandFrame.swift */; };
+		EDCF72522EF0C0FA00AD05F7 /* LeapTrackingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF72512EF0C0F300AD05F7 /* LeapTrackingCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -91,6 +92,7 @@
 		EDB8A3C62EEF7C0500B417DB /* SIMD+SceneKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SIMD+SceneKit.swift"; sourceTree = "<group>"; };
 		EDB8A3C82EEF7C0500B417DB /* CameraFrame+CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraFrame+CGImage.swift"; sourceTree = "<group>"; };
 		EDB8A3C92EEF7C0500B417DB /* HandTrackingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandTrackingStore.swift; sourceTree = "<group>"; };
+		EDCF72512EF0C0F300AD05F7 /* LeapTrackingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapTrackingCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,9 +228,10 @@
 		EDB8A3CA2EEF7C0500B417DB /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				EDB8A3C72EEF7C0500B417DB /* SceneKit */,
 				EDB8A3C82EEF7C0500B417DB /* CameraFrame+CGImage.swift */,
 				EDB8A3C92EEF7C0500B417DB /* HandTrackingStore.swift */,
+				EDCF72512EF0C0F300AD05F7 /* LeapTrackingCoordinator.swift */,
+				EDB8A3C72EEF7C0500B417DB /* SceneKit */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				EDB8A3D12EEF7C0500B417DB /* HandGestureState.swift in Sources */,
 				EDB8A3D22EEF7C0500B417DB /* LeapSession.swift in Sources */,
 				EDB8A3D32EEF7C0500B417DB /* HandPreviewViewController.swift in Sources */,
+				EDCF72522EF0C0FA00AD05F7 /* LeapTrackingCoordinator.swift in Sources */,
 				EDB8A3D42EEF7C0500B417DB /* Hand.swift in Sources */,
 				EDB8A3D52EEF7C0500B417DB /* HandStatsViewController.swift in Sources */,
 				EDB8A3D72EEF7C0500B417DB /* CameraFrame.swift in Sources */,
