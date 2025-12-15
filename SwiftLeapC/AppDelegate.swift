@@ -24,8 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             
     func applicationDidFinishLaunching(_ notification: Notification) {
-        print("Calling LeapSession.shared.start()")
-        LeapSession.shared.start()
+        LeapTrackingCoordinator.shared.start(enableImages: true)
         
         Task { @MainActor in
             HandTrackingStore.shared.start(session: LeapSession.shared)

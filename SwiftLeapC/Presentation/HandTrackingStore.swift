@@ -7,6 +7,7 @@
 
 import CoreGraphics
 import Combine
+import os.lock
 
 @MainActor
 final class HandTrackingStore: ObservableObject {
@@ -15,23 +16,30 @@ final class HandTrackingStore: ObservableObject {
     @Published private(set) var frame: HandFrame?
     @Published private(set) var cameraImage: CGImage?
     @Published private(set) var status: LeapSession.Status = .idle
-
-    /// SwiftUI-friendly derived text (NOT published; observe `status` instead)
-    var statusText: String { status.description }
-
+    
     private var frameTask: Task<Void, Never>?
     private var cameraTask: Task<Void, Never>?
     private var statusTask: Task<Void, Never>?
-
-    private init() {}
-
+    
+    // Thread-safe snapshot for render loops that may run off-main.
+    nonisolated private let frameSnapshotLock = OSAllocatedUnfairLock<HandFrame?>(initialState: nil)
+    
+    nonisolated func latestFrameSnapshot() -> HandFrame? {
+        frameSnapshotLock.withLock { $0 }
+    }
+    
+    private func publishFrame(_ f: HandFrame?) {
+        self.frame = f
+        frameSnapshotLock.withLock { $0 = f }
+    }
+    
     func start(session: LeapSession = .shared) {
         guard frameTask == nil, cameraTask == nil, statusTask == nil else { return }
 
         frameTask = Task { [weak self] in
             guard let self else { return }
             for await f in session.frames {
-                self.frame = f
+                self.publishFrame(f)  // was: self.frame = f
             }
         }
 
@@ -64,6 +72,8 @@ final class HandTrackingStore: ObservableObject {
         frameTask?.cancel(); frameTask = nil
         cameraTask?.cancel(); cameraTask = nil
         statusTask?.cancel(); statusTask = nil
+        
+        publishFrame(nil) // clear both published + snapshot
         status = .stopped
     }
 }
