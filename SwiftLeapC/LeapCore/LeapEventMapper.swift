@@ -20,7 +20,7 @@ enum LeapEventMapper {
         for i in 0 ..< event.nHands {
             let leapHand = event.pHands.advanced(by: Int(i)).pointee
             let hand = mapHand(leapHand)
-            switch hand.side {
+            switch hand.chirality {
             case .left:  left = hand
             case .right: right = hand
             }
@@ -68,7 +68,7 @@ enum LeapEventMapper {
     }
     
     static func mapHand(_ h: LEAP_HAND) -> Hand {
-        let side: HandSide = (h.type == eLeapHandType_Left) ? .left : .right
+        let chirality: Chirality = (h.type == eLeapHandType_Left) ? .left : .right
         let palm = h.palm.position
         let palmMM = SIMD3<Float>(palm.x, palm.y, palm.z)
         
@@ -78,7 +78,7 @@ enum LeapEventMapper {
         let digits: [Digit] = leapDigits.map { mapDigit($0) }
         
         return Hand(
-            side: side,
+            chirality: chirality,
             palmPositionMM: palmMM,
             pinchStrength: Float(h.pinch_strength),
             grabStrength: Float(h.grab_strength),
