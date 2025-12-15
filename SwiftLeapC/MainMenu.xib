@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="24506"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -116,10 +115,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <sceneView sceneName="Hand3DScene.scn" id="MwL-RN-hHp">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gT3-ht-taH" userLabel="HandRenderView">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    </sceneView>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OUm-YK-OKj" userLabel="HandStatsView">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -267,7 +266,7 @@
         <customObject id="420" customClass="NSFontManager"/>
         <viewController id="gWr-Xe-0SQ" customClass="HandPreviewViewController" customModule="Ultraleap_Hands" customModuleProvider="target">
             <connections>
-                <outlet property="handPreview" destination="MwL-RN-hHp" id="6TR-Ea-Y5L"/>
+                <outlet property="handPreview" destination="gT3-ht-taH" id="YSa-Ij-tvL"/>
             </connections>
         </viewController>
         <viewController title="StatsViee" id="sGg-rc-obp" userLabel="StatsView" customClass="HandStatsViewController" customModule="Ultraleap_Hands" customModuleProvider="target">

@@ -2,20 +2,20 @@
 //  SceneKitHandRenderer.swift
 //  SwiftLeapC
 //
-//  SceneKit-specific 3D hand rendering driver.
-//  Keeps SceneKit contained so we can swap to RealityKit later.
-//
+//  SceneKit-specific implementation of Hand3DRendererDriver.
+//  This file is the "quarantine zone" for SceneKit.
 //  Copyright © 2025 Antony Nasce. All rights reserved.
-//
 
 import SceneKit
 
-final class SceneKitHandRenderer: NSObject, SCNSceneRendererDelegate {
+final class SceneKitHandRenderer: NSObject, Hand3DRendererDriver, SCNSceneRendererDelegate {
 
-    private weak var scnView: SCNView?
+    private weak var containerView: NSView?
+    private var scnView: SCNView?
+
     private let store: HandTrackingStore
 
-    // Shared hand materials (one per hand). Changing diffuse updates all nodes using that material/geometry.
+    // Shared hand materials (one per hand)
     private let leftHandMaterial = SCNMaterial()
     private let rightHandMaterial = SCNMaterial()
 
@@ -50,8 +50,8 @@ final class SceneKitHandRenderer: NSObject, SCNSceneRendererDelegate {
     }()
 
     // Hand rigs
-    private var leftRig: HandRig!
-    private var rightRig: HandRig!
+    private var leftRig: HandRig?
+    private var rightRig: HandRig?
 
     private var rigConfig: HandRigConfig {
         HandRigConfig(
@@ -63,7 +63,6 @@ final class SceneKitHandRenderer: NSObject, SCNSceneRendererDelegate {
     }
 
     init(
-        scnView: SCNView,
         store: HandTrackingStore = .shared,
         leftHandColor: NSColor = .blue,
         rightHandColor: NSColor = .red,
@@ -74,7 +73,6 @@ final class SceneKitHandRenderer: NSObject, SCNSceneRendererDelegate {
         showPinkyMetacarpal: Bool = true,
         showExtendedFingerIndicators: Bool = true
     ) {
-        self.scnView = scnView
         self.store = store
         self.leftHandColor = leftHandColor
         self.rightHandColor = rightHandColor
@@ -86,55 +84,80 @@ final class SceneKitHandRenderer: NSObject, SCNSceneRendererDelegate {
         self.showExtendedFingerIndicators = showExtendedFingerIndicators
         super.init()
 
-        configureSceneAndView()
+        leftHandMaterial.diffuse.contents = leftHandColor
+        rightHandMaterial.diffuse.contents = rightHandColor
     }
 
     deinit {
-        scnView?.delegate = nil
+        detach()
     }
 
-    private func configureSceneAndView() {
-        guard let scnView else { return }
+    // MARK: - Hand3DRendererDriver
 
-        leftHandMaterial.diffuse.contents = leftHandColor
-        rightHandMaterial.diffuse.contents = rightHandColor
+    func attach(to containerView: NSView) {
+        detach() // ensure clean re-attach
 
-        // Use the scene from Interface Builder if available (Hand3DScene.scn),
-        // otherwise create a fresh one.
-        let scene: SCNScene
-        if let existing = scnView.scene {
-            scene = existing
-        } else {
-            print("No scene attached in IB, creating a new one.")
-            scene = SCNScene()
-            scnView.scene = scene
-        }
+        self.containerView = containerView
 
-        // Configure SCNView + delegate so renderer(updateAtTime:) will fire
+        let scnView = SCNView(frame: containerView.bounds)
+        scnView.translatesAutoresizingMaskIntoConstraints = false
+
+        containerView.addSubview(scnView)
+        NSLayoutConstraint.activate([
+            scnView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            scnView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            scnView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            scnView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+
+        self.scnView = scnView
+
+        // Scene
+        let scene = loadHandScene()
+        scnView.scene = scene
+
+        // View config (match your existing behavior)
         scnView.delegate = self
         scnView.allowsCameraControl = true
         scnView.showsStatistics = true
         scnView.autoenablesDefaultLighting = true
-
-        // Use this to toggle the hand preview on/off
         scnView.isPlaying = true
         scnView.loops = true
-        scnView.rendersContinuously = true // useful during development
+        scnView.rendersContinuously = true
 
-        // Build rigs + camera (same visuals, SceneKit isolated here)
-        (leftRig, rightRig) = HandRigFactory.buildRigs(
+        // Build rigs + camera
+        let rigs = HandRigFactory.buildRigs(
             in: scene,
             leftSphereGeo: leftSphereGeo,
             rightSphereGeo: rightSphereGeo,
             sphereRadius: sphereRadius,
             showPinchIndicators: showPinchIndicators
         )
-        HandRigFactory.addDefaultCamera(to: scene)
+        self.leftRig = rigs.0
+        self.rightRig = rigs.1
+
+        // Only add a default camera if the scene doesn't already contain one
+        if !sceneContainsCamera(scene) {
+            HandRigFactory.addDefaultCamera(to: scene)
+        }
+    }
+
+    func detach() {
+        scnView?.delegate = nil
+        scnView?.scene = nil
+        scnView?.removeFromSuperview()
+        scnView = nil
+
+        leftRig = nil
+        rightRig = nil
+        containerView = nil
     }
 
     // MARK: - SCNSceneRendererDelegate
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        guard let leftRig, let rightRig else { return }
+
         guard let frame = store.latestFrameSnapshot() else {
             leftRig.setHidden(true)
             rightRig.setHidden(true)
@@ -154,5 +177,28 @@ final class SceneKitHandRenderer: NSObject, SCNSceneRendererDelegate {
         } else {
             leftRig.setHidden(true)
         }
+    }
+
+    // MARK: - Helpers
+
+    private func loadHandScene() -> SCNScene {
+        // Prefer your existing Hand3DScene.scn if it exists in the app bundle
+        if let url = Bundle.main.url(forResource: "Hand3DScene", withExtension: "scn"),
+           let scene = try? SCNScene(url: url, options: nil) {
+            return scene
+        }
+        // Fallback (shouldn’t normally happen)
+        return SCNScene()
+    }
+
+    private func sceneContainsCamera(_ scene: SCNScene) -> Bool {
+        var found = false
+        scene.rootNode.enumerateChildNodes { node, stop in
+            if node.camera != nil {
+                found = true
+                stop.pointee = true
+            }
+        }
+        return found
     }
 }

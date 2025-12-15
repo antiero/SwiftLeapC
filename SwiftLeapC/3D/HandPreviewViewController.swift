@@ -2,13 +2,13 @@
 //  HandPreviewViewController.swift
 //  SwiftLeapC
 //
-//  Copyright © 2025 Antony Nasce. All rights reserved.
 
-import SceneKit
+import Cocoa
 
 final class HandPreviewViewController: NSViewController {
 
-    @IBOutlet weak var handPreview: SCNView!
+    // ✅ IMPORTANT: In Interface Builder, make this view an NSView (not SCNView).
+    @IBOutlet weak var handPreview: NSView!
 
     // Config toggles (kept as-is)
     var showPinchIndicators = true
@@ -23,14 +23,13 @@ final class HandPreviewViewController: NSViewController {
     // Scene scale / sizes
     let SPHERE_RADIUS: CGFloat = 0.01
 
-    private var rendererDriver: SceneKitHandRenderer?
+    private var rendererDriver: Hand3DRendererDriver?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // SceneKit rendering (isolated behind SceneKitHandRenderer)
-        rendererDriver = SceneKitHandRenderer(
-            scnView: handPreview,
+        // VC no longer imports/knows SceneKit. It just hosts a renderer driver.
+        let driver = SceneKitHandRenderer(
             store: .shared,
             leftHandColor: leftHandColor,
             rightHandColor: rightHandColor,
@@ -41,10 +40,11 @@ final class HandPreviewViewController: NSViewController {
             showPinkyMetacarpal: showPinkyMetacarpal,
             showExtendedFingerIndicators: showExtendedFingerIndicators
         )
+        self.rendererDriver = driver
+        driver.attach(to: handPreview)
     }
 
     deinit {
-        handPreview?.delegate = nil
-        handPreview?.scene = nil
+        rendererDriver?.detach()
     }
 }

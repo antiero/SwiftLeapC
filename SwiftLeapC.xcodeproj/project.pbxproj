@@ -32,6 +32,7 @@
 		EDB8A3E32EEF7C0500B417DB /* HandFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3BE2EEF7C0500B417DB /* HandFrame.swift */; };
 		EDCF72522EF0C0FA00AD05F7 /* LeapTrackingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF72512EF0C0F300AD05F7 /* LeapTrackingCoordinator.swift */; };
 		EDCF72542EF0C7DF00AD05F7 /* SceneKitHandRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF72532EF0C7D900AD05F7 /* SceneKitHandRenderer.swift */; };
+		EDCF72562EF0C94000AD05F7 /* Hand3DRendererDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF72552EF0C93B00AD05F7 /* Hand3DRendererDriver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -95,6 +96,7 @@
 		EDB8A3C92EEF7C0500B417DB /* HandTrackingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandTrackingStore.swift; sourceTree = "<group>"; };
 		EDCF72512EF0C0F300AD05F7 /* LeapTrackingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapTrackingCoordinator.swift; sourceTree = "<group>"; };
 		EDCF72532EF0C7D900AD05F7 /* SceneKitHandRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitHandRenderer.swift; sourceTree = "<group>"; };
+		EDCF72552EF0C93B00AD05F7 /* Hand3DRendererDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hand3DRendererDriver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,11 +174,12 @@
 		EDB8A3B72EEF7C0500B417DB /* 3D */ = {
 			isa = PBXGroup;
 			children = (
-				EDCF72532EF0C7D900AD05F7 /* SceneKitHandRenderer.swift */,
 				EDB8A3B32EEF7C0500B417DB /* Hand3DScene.scn */,
+				EDCF72552EF0C93B00AD05F7 /* Hand3DRendererDriver.swift */,
 				EDB8A3B42EEF7C0500B417DB /* HandPreviewViewController.swift */,
 				EDB8A3B52EEF7C0500B417DB /* HandRig.swift */,
 				EDB8A3B62EEF7C0500B417DB /* HandRigFactory.swift */,
+				EDCF72532EF0C7D900AD05F7 /* SceneKitHandRenderer.swift */,
 			);
 			path = 3D;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				EDCF72522EF0C0FA00AD05F7 /* LeapTrackingCoordinator.swift in Sources */,
 				EDB8A3D42EEF7C0500B417DB /* Hand.swift in Sources */,
 				EDB8A3D52EEF7C0500B417DB /* HandStatsViewController.swift in Sources */,
+				EDCF72562EF0C94000AD05F7 /* Hand3DRendererDriver.swift in Sources */,
 				EDB8A3D72EEF7C0500B417DB /* CameraFrame.swift in Sources */,
 				EDB8A3D82EEF7C0500B417DB /* CameraFrame+CGImage.swift in Sources */,
 				EDB8A3D92EEF7C0500B417DB /* HandTrackingStore.swift in Sources */,
