@@ -31,6 +31,7 @@
 		EDB8A3E12EEF7C0500B417DB /* HandRig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3B52EEF7C0500B417DB /* HandRig.swift */; };
 		EDB8A3E32EEF7C0500B417DB /* HandFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8A3BE2EEF7C0500B417DB /* HandFrame.swift */; };
 		EDCF72522EF0C0FA00AD05F7 /* LeapTrackingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF72512EF0C0F300AD05F7 /* LeapTrackingCoordinator.swift */; };
+		EDCF72542EF0C7DF00AD05F7 /* SceneKitHandRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF72532EF0C7D900AD05F7 /* SceneKitHandRenderer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -93,6 +94,7 @@
 		EDB8A3C82EEF7C0500B417DB /* CameraFrame+CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraFrame+CGImage.swift"; sourceTree = "<group>"; };
 		EDB8A3C92EEF7C0500B417DB /* HandTrackingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandTrackingStore.swift; sourceTree = "<group>"; };
 		EDCF72512EF0C0F300AD05F7 /* LeapTrackingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapTrackingCoordinator.swift; sourceTree = "<group>"; };
+		EDCF72532EF0C7D900AD05F7 /* SceneKitHandRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitHandRenderer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +172,7 @@
 		EDB8A3B72EEF7C0500B417DB /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				EDCF72532EF0C7D900AD05F7 /* SceneKitHandRenderer.swift */,
 				EDB8A3B32EEF7C0500B417DB /* Hand3DScene.scn */,
 				EDB8A3B42EEF7C0500B417DB /* HandPreviewViewController.swift */,
 				EDB8A3B52EEF7C0500B417DB /* HandRig.swift */,
@@ -329,6 +332,7 @@
 				EDB8A3DD2EEF7C0500B417DB /* LeapEventMapper.swift in Sources */,
 				EDB8A3DE2EEF7C0500B417DB /* HandRigFactory.swift in Sources */,
 				EDB8A3E02EEF7C0500B417DB /* SCNNode+CylinderDrawing.swift in Sources */,
+				EDCF72542EF0C7DF00AD05F7 /* SceneKitHandRenderer.swift in Sources */,
 				EDB8A3E12EEF7C0500B417DB /* HandRig.swift in Sources */,
 				EDB8A3E32EEF7C0500B417DB /* HandFrame.swift in Sources */,
 			);
