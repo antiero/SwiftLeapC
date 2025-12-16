@@ -1,9 +1,9 @@
-//
+//  TO REMOVE
 //  SceneKitHandRenderer.swift
 //  SwiftLeapC
 //
 //  SceneKit-specific implementation of Hand3DRendererDriver.
-//  This file is the "quarantine zone" for SceneKit.
+//  This file is in the "quarantine zone" for SceneKit.
 //  Copyright © 2025 Antony Nasce. All rights reserved.
 
 import SceneKit
@@ -62,8 +62,9 @@ final class SceneKitHandRenderer: NSObject, Hand3DRendererDriver, SCNSceneRender
         )
     }
 
+    @MainActor
     init(
-        store: HandTrackingStore = .shared,
+        store: HandTrackingStore,
         leftHandColor: NSColor = .blue,
         rightHandColor: NSColor = .red,
         sphereRadius: CGFloat = 0.01,

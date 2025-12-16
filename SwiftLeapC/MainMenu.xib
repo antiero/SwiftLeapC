@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
@@ -229,11 +228,11 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <switch toolTip="Toggle stats view on/off" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" state="on" translatesAutoresizingMaskIntoConstraints="NO" id="NwQ-sf-zHO" userLabel="ShowImageSwitch">
+                    <switch toolTip="Toggle stats view on/off" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="NwQ-sf-zHO" userLabel="ShowImageSwitch">
                         <rect key="frame" x="746" y="533" width="36" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <connections>
-                            <action selector="HandleImageSwitchChanged:" target="sGg-rc-obp" id="mwg-Tn-myE"/>
+                            <action selector="HandleImageSwitchChanged:" target="7D8-q9-DsG" id="fwa-Dj-UYu"/>
                         </connections>
                     </switch>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" id="f3z-uR-Rbx" userLabel="ImageLabel">
@@ -245,10 +244,10 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q2M-Oa-Uh7" userLabel="PreviewImage">
+                    <imageView focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q2M-Oa-Uh7" userLabel="PreviewImage">
                         <rect key="frame" x="0.0" y="347" width="256" height="256"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" selectable="YES" editable="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="groove" id="3DZ-lQ-DBC">
+                        <imageCell key="cell" selectable="YES" editable="YES" focusRingType="none" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="groove" id="3DZ-lQ-DBC">
                             <imageReference key="image" image="video" catalog="system" symbolScale="default"/>
                         </imageCell>
                     </imageView>
@@ -258,6 +257,7 @@
         </window>
         <customObject id="494" customClass="AppDelegate" customModule="Ultraleap_Hands" customModuleProvider="target">
             <connections>
+                <outlet property="cameraFeedViewController" destination="7D8-q9-DsG" id="7NS-C5-iza"/>
                 <outlet property="handPreviewController" destination="gWr-Xe-0SQ" id="Wej-HL-Yz2"/>
                 <outlet property="handStatsView" destination="sGg-rc-obp" id="Lph-TZ-Qhg"/>
                 <outlet property="window" destination="371" id="532"/>
@@ -271,7 +271,6 @@
         </viewController>
         <viewController title="StatsViee" id="sGg-rc-obp" userLabel="StatsView" customClass="HandStatsViewController" customModule="Ultraleap_Hands" customModuleProvider="target">
             <connections>
-                <outlet property="cameraImageView" destination="Q2M-Oa-Uh7" id="RWI-GJ-e7r"/>
                 <outlet property="leftGrabAmountTextField" destination="sYU-24-x3I" id="l6R-BO-Kvr"/>
                 <outlet property="leftGrabImage" destination="hxU-zS-igm" id="hLq-Vm-U6n"/>
                 <outlet property="leftGrabIndicator" destination="ZYA-qO-dfB" id="43E-GK-8bp"/>
@@ -284,9 +283,14 @@
                 <outlet property="rightPinchAmountTextField" destination="6y1-3U-Qt0" id="wiC-mf-zJz"/>
                 <outlet property="rightPinchImage" destination="2Kp-SY-jRe" id="qi3-Ud-bDz"/>
                 <outlet property="rightPinchIndicator" destination="c9m-Tt-ZaP" id="sXC-2U-gBt"/>
-                <outlet property="toggleImageViewSwitch" destination="NwQ-sf-zHO" id="s7n-I5-dMd"/>
                 <outlet property="toggleStatsViewSwitch" destination="xd6-zi-UN3" id="4Ev-tA-mEi"/>
                 <outlet property="view" destination="OUm-YK-OKj" id="aoC-4R-ddD"/>
+            </connections>
+        </viewController>
+        <viewController id="7D8-q9-DsG" customClass="CameraFeedViewController" customModule="Ultraleap_Hands" customModuleProvider="target">
+            <connections>
+                <outlet property="cameraImageView" destination="Q2M-Oa-Uh7" id="bJF-Us-wSG"/>
+                <outlet property="toggleImageViewSwitch" destination="NwQ-sf-zHO" id="zdV-3d-qav"/>
             </connections>
         </viewController>
     </objects>

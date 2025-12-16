@@ -14,6 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var handPreviewController: HandPreviewViewController!
     @IBOutlet weak var handStatsView: HandStatsViewController!
+    @IBOutlet weak var cameraFeedViewController: CameraFeedViewController!
 
     private var statusItem: NSStatusItem!
     lazy var showHideMenuItem: NSMenuItem = {

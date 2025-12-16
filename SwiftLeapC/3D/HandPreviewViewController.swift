@@ -6,8 +6,6 @@
 import Cocoa
 
 final class HandPreviewViewController: NSViewController {
-
-    // ✅ IMPORTANT: In Interface Builder, make this view an NSView (not SCNView).
     @IBOutlet weak var handPreview: NSView!
 
     // Config toggles (kept as-is)
@@ -20,7 +18,6 @@ final class HandPreviewViewController: NSViewController {
     var leftHandColor: NSColor = .blue
     var rightHandColor: NSColor = .red
 
-    // Scene scale / sizes
     let SPHERE_RADIUS: CGFloat = 0.01
 
     private var rendererDriver: Hand3DRendererDriver?
@@ -28,9 +25,8 @@ final class HandPreviewViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // VC no longer imports/knows SceneKit. It just hosts a renderer driver.
-        let driver = SceneKitHandRenderer(
-            store: .shared,
+        let driver = RealityKitHandRenderer(
+            store: HandTrackingStore.shared,
             leftHandColor: leftHandColor,
             rightHandColor: rightHandColor,
             sphereRadius: SPHERE_RADIUS,
@@ -40,7 +36,8 @@ final class HandPreviewViewController: NSViewController {
             showPinkyMetacarpal: showPinkyMetacarpal,
             showExtendedFingerIndicators: showExtendedFingerIndicators
         )
-        self.rendererDriver = driver
+
+        rendererDriver = driver
         driver.attach(to: handPreview)
     }
 

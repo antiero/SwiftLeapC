@@ -2,15 +2,13 @@
 //  HandStatsViewController.swift
 //  SwiftLeapC
 //
-//  AppKit UI fed by Domain models via HandTrackingStore.
-//  Copyright © 2025 Antony Nasce. All rights reserved.
 
 import AppKit
 import Combine
 
 final class HandStatsViewController: NSViewController {
 
-    // MARK: - Outlets (wired from Interface Builder for now)
+    // MARK: - Outlets (stats only)
 
     @IBOutlet weak var rightGrabImage: NSImageView!
     @IBOutlet weak var rightPinchImage: NSImageView!
@@ -27,10 +25,7 @@ final class HandStatsViewController: NSViewController {
     @IBOutlet weak var rightPinchAmountTextField: NSTextField!
     @IBOutlet weak var rightGrabAmountTextField: NSTextField!
 
-    @IBOutlet weak var cameraImageView: NSImageView!
     @IBOutlet weak var toggleStatsViewSwitch: NSSwitch!
-    @IBOutlet weak var toggleImageViewSwitch: NSSwitch!
-    
 
     // MARK: - Dependencies
 
@@ -56,10 +51,6 @@ final class HandStatsViewController: NSViewController {
         leftGrabIndicator.warningValue = Double(thresholds.grab)
         rightGrabIndicator.warningValue = Double(thresholds.grab)
 
-        // Render camera frames via CALayer contents (CGImage) to avoid NSImage snapshot churn.
-        cameraImageView.wantsLayer = true
-        cameraImageView.layer?.contentsGravity = .resizeAspect
-
         // Allow background colors on the small state images
         [leftPinchImage, rightPinchImage, leftGrabImage, rightGrabImage].forEach {
             $0?.wantsLayer = true
@@ -72,29 +63,7 @@ final class HandStatsViewController: NSViewController {
             .sink { [weak self] _ in self?.scheduleUIUpdate() }
             .store(in: &cancellables)
 
-        store.$cameraImage
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in self?.scheduleUIUpdate() }
-            .store(in: &cancellables)
-
-        store.$status
-            .receive(on: RunLoop.main)
-            .sink { [weak self] status in
-                guard let self else { return }
-                
-            // TODO: Add a label to the UI
-            //self.connectionStatusLabel.stringValue = status.description
-                
-            if status == .connectionLost {
-                    Task { @MainActor in self.showDisconnectedUI() }
-                }
-            }
-            .store(in: &cancellables)
-
         keyBoardMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: myKeyDownEvent)
-
-        // Initially hide the image preview
-        hideImageView()
     }
 
     // MARK: - UI update plumbing
@@ -119,7 +88,6 @@ final class HandStatsViewController: NSViewController {
             uiUpdateLock.unlock()
         }
 
-        // Don't bother to update if the view is not shown...
         if view.isHidden { return }
 
         let frame = store.frame
@@ -140,50 +108,20 @@ final class HandStatsViewController: NSViewController {
         rightPinchAmountTextField.stringValue = String(format: "%.2f", rightPinch)
         leftGrabAmountTextField.stringValue = String(format: "%.2f", leftGrab)
         rightGrabAmountTextField.stringValue = String(format: "%.2f", rightGrab)
-        
-        // TODO: hightlight the image indicators in a nice way when pinching/grabbing)
 
         leftPinchImage.layer?.backgroundColor = (leftState.isPinching ? NSColor.systemBlue : NSColor.clear).cgColor
         rightPinchImage.layer?.backgroundColor = (rightState.isPinching ? NSColor.systemRed : NSColor.clear).cgColor
         leftGrabImage.layer?.backgroundColor = (leftState.isGrabbing ? NSColor.systemBlue : NSColor.clear).cgColor
         rightGrabImage.layer?.backgroundColor = (rightState.isGrabbing ? NSColor.systemRed : NSColor.clear).cgColor
-
-        if let cgImage = store.cameraImage, !cameraImageView.isHidden {
-            cameraImageView.image = nil
-            cameraImageView.layer?.contents = cgImage
-        } else if cameraImageView.isHidden {
-            cameraImageView.layer?.contents = nil
-        } else {
-            cameraImageView.layer?.contents = nil
-            cameraImageView.image = NSImage(named: "AppIcon")
-        }
-    }
-
-    @MainActor
-    private func showDisconnectedUI() {
-        cameraImageView.layer?.contents = nil
-        cameraImageView.image = NSImage(systemSymbolName: "video", accessibilityDescription: "No camera connected")
-        hideImageView()
     }
 
     // MARK: - UI controls
-
-    private func hideImageView() {
-        cameraImageView.isHidden = true
-        toggleImageViewSwitch.state = .off
-    }
-
-    private func showImageView() {
-        cameraImageView.isHidden = false
-        toggleImageViewSwitch.state = .on
-    }
 
     private func toggleStatsView() {
         view.isHidden.toggle()
         toggleStatsViewSwitch.state = view.isHidden ? .off : .on
     }
 
-    // Detect each keyboard event
     private func myKeyDownEvent(event: NSEvent) -> NSEvent {
         if event.specialKey == .tab {
             toggleStatsView()
@@ -193,10 +131,6 @@ final class HandStatsViewController: NSViewController {
 
     @IBAction func HandleStatsSwitchChanged(_ sender: NSSwitch) {
         view.isHidden = (sender.state == .off)
-    }
-
-    @IBAction func HandleImageSwitchChanged(_ sender: NSSwitch) {
-        if sender.state == .on { showImageView() } else { hideImageView() }
     }
 
     deinit {
