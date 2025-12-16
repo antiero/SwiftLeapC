@@ -118,8 +118,9 @@ final class CameraFeedViewController: NSViewController {
             // Show placeholder using NSImageView’s normal path
             cameraLayer.contents = nil
             cameraLayer.isHidden = true
+            // TODO: Understand why this is a bad frame momentarily.
             print("img was nil, setting AppIcon")
-            cameraImageView.image = NSImage(named: "AppIcon")
+            //cameraImageView.image = NSImage(named: "AppIcon")
         }
     }
 
